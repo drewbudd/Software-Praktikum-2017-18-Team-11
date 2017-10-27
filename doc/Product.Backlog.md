@@ -45,7 +45,7 @@ Hier werden **alle** Anforderungen in Form von **User Stories** geordnet aufgeli
 
 - Aufwandsabschätzung: S
     - Die Daten können in einem .zip-Datei abgespeichert werden
-    - Die exportierte Datei kann importiert werden, sodass die exportierten Daten richtig gespeichert und dargestellt werden.
+    - Exportierte Dateien können importiert werden, sodass die exportierten Daten richtig gespeichert und dargestellt werden, sofern die Berechtigung besteht.
 
 ## Epic 2 *Schaden*
 
