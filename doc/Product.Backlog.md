@@ -4,6 +4,18 @@ Hier werden **alle** Anforderungen in Form von **User Stories** geordnet aufgeli
 
 ## Epic 1 *Felder*
 
+> Als *Benutzer* möchte ich *die Möglichkeit haben Felder auf einer Karte einzeichnen zu können, damit ich der Versicherung mitteilen kann, welche Felder ich zu versichern habe.*
+
+Das Ziel des Epics ist es den den Landwirten die Möglichkeit geben, seine Felder auf einer Karte einzeichnen, bearbeiten und an deren Gutachter zu übermitteln zu können.
+
+Der Landwirt hat zwei Möglichkeiten neue Felder einzeichnen zu können:
+1) GPS-Signal: Mittels GPS kann der Landwirt sein Feld ablaufen und das Feld wird automatisch in die Karte eingezeichnet.
+2) Touch: Der Landwirt kann mittels Touch die Eckpunkte seines Feldes auf der Karte setzen und die App berechnet daraus das Feld.
+
+Mittels einem Datenaustausch ist es dem Landwirt mögllich seine erstellten Felder zu exportieren, um diese dem Gutachter geben, sodass er immer die aktuellen Felder von dem Landwirt hat.
+
+Der Gutachter kann alle Felder von seinen Kunden (Landwirte) bearbeiten und ebenfalls neue Felder hinzufügen, falls er bei einem Landwirt ist.
+
 ### Feature 1.1 *Felderfassung*
 
 > Als *Benutzer*  möchte ich *ein neues Feld erstellen können, sodass ich alle Details über das Feld habe, um es den passenden Verträgen versicherungsgerecht zuordnen zu können.*
@@ -48,7 +60,7 @@ Hier werden **alle** Anforderungen in Form von **User Stories** geordnet aufgeli
 
 > Als *Benutzer* möchte ich *meine Felder exportieren können, sodass ein anderer Benutzer diese Felder importieren kann.*
 
-- Aufwandsabschätzung: S
+- Aufwandsabschätzung: M
 
 - Akzeptanztest:
     - Die Daten können in einem .zip-Datei abgespeichert werden.
@@ -56,17 +68,23 @@ Hier werden **alle** Anforderungen in Form von **User Stories** geordnet aufgeli
 
 ## Epic 2 *Schaden*
 
+> Als *Benutzer* möchte ich *einen Schaden erfassen können, sodass ich diesen der Versicherung melden kann*.
+
+Das Ziel ist es die wichtigsten Informationen eines Schaden erfassen, speichern und exportieren zu können, damit die Versicherung die Daten des Schadens als Versicherungsfall aufnehmen kann.
+
 ### Feature 2.1 *Schadensfallerfassung*
+
 > Als *Benutzer* möchte ich *Schadensfälle erfassen können*, damit ich diesen der Versicherung mitteilen kann.
 
-- Aufwandsabschätzung: S
+- Aufwandsabschätzung: M
 
 - Akzeptanztests:
     - Schadensfälle können mit der Angabe des Versicherungsobjekts (Name des Versicherungsnehmers, Fläche und Koordinaten des Objekts, Region (mind. Landkreis)), Schadensinformationen (Status des Schadens, Foto vom Schaden, Skalierung für Schadenshöhe, Schadensart, Schadensfläche, Schadensposition, Schadens-Koordinaten/-Polygon, Datum) und Name des Gutachters erfasst werden.
     - Die Erfassung von Schadensfällen/-Koordinaten verwendet tatsächliche Sensorwerte eines Positionssensors im Gerät.
 
 ### Feature 2.2 *Schadensfallvisualisierung*
-> Als *Benutzer* möchte ich meine zugänglichen Schadensfälle visualisiert haben, um diese von der Karte aus bearbeiten und ansehen zu können.
+
+> Als *Benutzer* möchte ich *meine zugänglichen Schadensfälle visualisiert haben, um diese von der Karte aus bearbeiten und ansehen zu können.*
 
 - Akzeptanztests:
     - Schadensfälle können während des Erfassens in der Kartenansicht (siehe Visuelle Darstellung der Schadensfälle) dargestellt werden.
@@ -76,7 +94,7 @@ Hier werden **alle** Anforderungen in Form von **User Stories** geordnet aufgeli
 
 > Als *Gutachter* möchte ich *Schadensfälle bearbeiten können, sodass Änderungen vorgenommen werden können.*
 
-- Aufwandsabschätzung: S
+- Aufwandsabschätzung: L
 
 - Akzeptanztests:
     - Schadensfälle sind nach dem vollständigen Schließen der App und Starten der App wieder im gleichen Zustand verfügbar.
@@ -89,7 +107,7 @@ Hier werden **alle** Anforderungen in Form von **User Stories** geordnet aufgeli
 
 > Als *Benutzer* möchte ich *meine Schadensfälle exportieren können, sodass ein anderer Benutzer diese importieren kann.*
 
-- Aufwandsabschätzung: S
+- Aufwandsabschätzung: M
 
 - Akzeptanztests:
     - Die Daten können in einer .zip-Datei abgespeichert werden.
@@ -97,11 +115,15 @@ Hier werden **alle** Anforderungen in Form von **User Stories** geordnet aufgeli
 
 ## Epic 3 *Benutzerverwaltung*
 
+> Als *Admin* möchte ich *die Kontrolle über die Benutzer haben und ihnen eine Rolle zuweisen können, damit jeder Benutzer nur die Funktionen zur Verfügung hat, welche er benötigt.*
+
+Diese App werden verschiedene Personas verwenden. Dadurch muss sicher gestellt werden, dass jede Rolle die passende Rechte bekommt und somit nur Zugriff auf die Funktionen bekommt, für die er berechtigt ist. 
+
 ### Feature 3.1 *Rollenzuweisung*
 
 > Als *Admin* möchte ich *jedem registrierten Benutzer eine Rolle zuweisen könnne, um seinen Zugriff auf Funktionen kontrollieren zu können.*
 
-- Aufwandsabschätzung: S
+- Aufwandsabschätzung: M
 
 - Akzeptanztests:
     - Jeder registrierte Benutzer wird einer bestimmten Rolle zugewiesen.
@@ -111,7 +133,7 @@ Hier werden **alle** Anforderungen in Form von **User Stories** geordnet aufgeli
 
 > Als *Admin* möchte ich *jeder Rolle Funktionen zuweisen, um eine klare Abgrenzung zwischen den Profilen herzustellen, sodass kein Missbrauch von Rechten möglich ist.*
 
-- Aufwandsabschätzung: S
+- Aufwandsabschätzung: M
 
 - Akzeptanztests:
     - Jede Rolle kann auf seine freigegebenen Funktionen zugreifen.
