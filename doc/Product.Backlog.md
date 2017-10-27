@@ -12,7 +12,7 @@ Der Landwirt hat zwei Möglichkeiten neue Felder einzeichnen zu können:
 1) GPS-Signal: Mittels GPS kann der Landwirt sein Feld ablaufen und das Feld wird automatisch in die Karte eingezeichnet.
 2) Touch: Der Landwirt kann mittels Touch die Eckpunkte seines Feldes auf der Karte setzen und die App berechnet daraus das Feld.
 
-Mittels einem Datenaustausch ist es dem Landwirt mögllich seine erstellten Felder zu exportieren, um diese dem Gutachter geben, sodass er immer die aktuellen Felder von dem Landwirt hat.
+Mittels einem Datenaustausch ist es dem Landwirt möglich seine erstellten Felder zu exportieren, um diese dem Gutachter geben, sodass er immer die aktuellen Felder von dem Landwirt hat.
 
 Der Gutachter kann alle Felder von seinen Kunden (Landwirte) bearbeiten und ebenfalls neue Felder hinzufügen, falls er bei einem Landwirt ist.
 
@@ -56,7 +56,7 @@ Der Gutachter kann alle Felder von seinen Kunden (Landwirte) bearbeiten und eben
     - Felder können nach gelöscht werden.
     - Felder können nach Feldart, Größe, Besitzer, Vertrag gefiltert werden.
 
-### Featrue 1.4 *Datenaustausch*
+### Feature 1.4 *Datenaustausch*
 
 > Als *Benutzer* möchte ich *meine Felder exportieren können, sodass ein anderer Benutzer diese Felder importieren kann.*
 
@@ -65,6 +65,7 @@ Der Gutachter kann alle Felder von seinen Kunden (Landwirte) bearbeiten und eben
 - Akzeptanztest:
     - Die Daten können in einem .zip-Datei abgespeichert werden.
     - Die exportierte Datei kann importiert werden, sodass die exportierten Daten richtig gespeichert und dargestellt werden, sofern die Berechtigung gegeben ist.
+    - Die importierte Datei soll mit existierender Daten verglichen wird, sodass schon vorhandene Daten aktualisiert werden können.
 
 ## Epic 2 *Schaden*
 
@@ -85,6 +86,8 @@ Das Ziel ist es die wichtigsten Informationen eines Schaden erfassen, speichern 
 ### Feature 2.2 *Schadensfallvisualisierung*
 
 > Als *Benutzer* möchte ich *meine zugänglichen Schadensfälle visualisiert haben, um diese von der Karte aus bearbeiten und ansehen zu können.*
+
+- Aufwandsabschätzung: XL
 
 - Akzeptanztests:
     - Schadensfälle können während des Erfassens in der Kartenansicht (siehe Visuelle Darstellung der Schadensfälle) dargestellt werden.
@@ -112,6 +115,7 @@ Das Ziel ist es die wichtigsten Informationen eines Schaden erfassen, speichern 
 - Akzeptanztests:
     - Die Daten können in einer .zip-Datei abgespeichert werden.
     - Die exportierte Datei kann importiert werden, sodass die exportierten Daten richtig gespeichert und dargestellt werden, sofern die Berechtigung gegeben ist.
+    - Die importierte Datei soll mit existierender Daten verglichen wird, sodass schon vorhandene Daten aktualisiert werden können.
 
 ## Epic 3 *Benutzerverwaltung*
 
