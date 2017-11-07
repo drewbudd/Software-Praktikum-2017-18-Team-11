@@ -4,13 +4,22 @@ Hier werden **alle** Anforderungen in Form von **User Stories** geordnet aufgeli
 
 ## Epic 1 *Felder*
 
-> Als *Benutzer* möchte ich *die Möglichkeit haben Felder auf einer Karte einzeichnen zu können, damit ich der Versicherung mitteilen kann, welche Felder ich zu versichern habe.*
+> Als *Benutzer* möchte ich *die Möglichkeit haben Felder auf einer Karte einzeichnen zu können, damit ich der Versicherung mitteilen kann, welche Felder zu versichern sind.*
 
-Das Ziel des Epics ist es den den Landwirten die Möglichkeit geben, seine Felder auf einer Karte einzeichnen, bearbeiten und an deren Gutachter zu übermitteln zu können.
+Das Ziel des Epics ist es den Landwirten folgende Möglichkeiten zu geben:
+- seine Felder auf einer Karte einzeichnen
+- seine Felder zu bearbeiten
+- seine Felder an andere Gutachter übermitteln
 
 Der Landwirt hat zwei Möglichkeiten neue Felder einzeichnen zu können:
 1) GPS-Signal: Mittels GPS kann der Landwirt sein Feld ablaufen und das Feld wird automatisch in die Karte eingezeichnet.
 2) Touch: Der Landwirt kann mittels Touch die Eckpunkte seines Feldes auf der Karte setzen und die App berechnet daraus das Feld.
+
+In der Feldverwaltung ist es möglich:
+
+    - eine Liste mit den bestehenden Felder zu haben
+    - Felder zu bearbeiten
+    - Felder zu löschen
 
 Mittels einem Datenaustausch ist es dem Landwirt möglich seine erstellten Felder zu exportieren, um diese dem Gutachter geben, sodass er immer die aktuellen Felder von dem Landwirt hat.
 
@@ -18,7 +27,7 @@ Der Gutachter kann alle Felder von seinen Kunden (Landwirte) bearbeiten und eben
 
 ### Feature 1.1 *Felderfassung*
 
-> Als *Benutzer*  möchte ich *ein neues Feld erstellen können, sodass ich alle Details über das Feld habe, um es den passenden Verträgen versicherungsgerecht zuordnen zu können.*
+> Als *Benutzer*  möchte ich *ein neues Feld erstellen können, sodass ich alle Details über das Feld eingeben kann, um es den passenden Verträgen versicherungsgerecht zuordnen zu können.*
 
 - Aufwandsabschätzung: M
 
@@ -27,8 +36,8 @@ Der Gutachter kann alle Felder von seinen Kunden (Landwirte) bearbeiten und eben
      <!-- -->
     - Feldinformationen: Feldkoordinaten, Feldart, Verträge, Erstellungsdatum.
     - Das neue Feld kann per GPS erfassst werden.
-    - Das neue Feld können per Touch erfasst werden.
-    - Das neue Felder kann mehreren Verträgen zugeordnet werden.
+    - Das neue Feld kann per Touch erfasst werden.
+    - Das neue Feld kann mehreren Verträgen zugeordnet werden.
 
 ### Feature 1.2 *Feldervisualierung*
 
@@ -40,30 +49,30 @@ Der Gutachter kann alle Felder von seinen Kunden (Landwirte) bearbeiten und eben
     - Schadensfälle können in einer Kartenansicht dargestellt werden.
     - Die Kartenansicht des Schadens zeigt Polygone der versicherten Objekte.
     - Die Kartenansicht des Schadens zeigt den Schaden als Polygon/Fläche innerhalb der versicherten Objekte.
-    - Die Kartenansicht inkl. der Schadensdarstellung ermöglicht mehrere Maßstäbe.
+    - Die Kartenansicht inkl. der Schadensdarstellung ermöglicht mehrere Maßstäbe. Die Karte lässt sich zoomen.
     - Die Ansicht der Polygone ist ohne Internetverbindung möglich.
 
 ### Feature 1.3 *Felderverwaltung*
 
-> Als *Benutzer* möchte ich *meine zugänglichen Felder verwalten können, sodass ich eine Übersicht zu meinen bisher erfassten Felder habe.*
+> Als *Benutzer* möchte ich *meine zugänglichen Felder verwalten können, sodass ich eine Übersicht zu meinen bisher erfassten Felder habe, Felder aktualisieren und löschen kann.*
 
 - Aufwandsabschätzung: M
 
 - Akzeptanztest:
-    - In der Verwaltung werden die zugänglichen Felder in einer Liste dargestellt.
-    - Die Verwaltung ist ohne Internetverbindung.
+    - In der Verwaltung werden die dir zugänglichen Felder in einer Liste dargestellt.
+    - Die Verwaltung ist ohne Internetverbindung mögich.
     - Felder können bearbeitet werden.
     - Felder können nach gelöscht werden.
     - Felder können nach Feldart, Größe, Besitzer, Vertrag gefiltert werden.
 
 ### Feature 1.4 *Datenaustausch*
 
-> Als *Benutzer* möchte ich *meine Felder exportieren können, sodass ein anderer Benutzer diese Felder importieren kann.*
+> Als *Benutzer* möchte ich *meine Felder exportieren können, sodass ein anderer Gutachter diese Felder importieren kann.*
 
 - Aufwandsabschätzung: M
 
 - Akzeptanztest:
-    - Die Daten können in einem .zip-Datei abgespeichert werden.
+    - Die Daten können in eine komprimierte Datei abgespeichert werden.
     - Die exportierte Datei kann importiert werden, sodass die exportierten Daten richtig gespeichert und dargestellt werden, sofern die Berechtigung gegeben ist.
     - Die importierte Datei soll mit existierender Daten verglichen wird, sodass schon vorhandene Daten aktualisiert werden können.
 
@@ -71,7 +80,12 @@ Der Gutachter kann alle Felder von seinen Kunden (Landwirte) bearbeiten und eben
 
 > Als *Benutzer* möchte ich *einen Schaden erfassen können, sodass ich diesen der Versicherung melden kann*.
 
-Das Ziel ist es die wichtigsten Informationen eines Schaden erfassen, speichern und exportieren zu können, damit die Versicherung die Daten des Schadens als Versicherungsfall aufnehmen kann.
+Das Ziel ist es die wichtigsten Informationen eines Schadens zu erfassen. Dazu gehört:
+
+    - Den Schaden erfassen
+    - Den Schaden speichern
+    - Den Schaden exportieren
+Damit die Versicherung die Daten des Schadens als Versicherungsfall aufnehmen kann.
 
 ### Feature 2.1 *Schadensfallerfassung*
 
@@ -108,12 +122,12 @@ Das Ziel ist es die wichtigsten Informationen eines Schaden erfassen, speichern 
 
 ### Feature 2.4 *Datenaustausch*
 
-> Als *Benutzer* möchte ich *meine Schadensfälle exportieren können, sodass ein anderer Benutzer diese importieren kann.*
+> Als *Benutzer* möchte ich *meine Schadensfälle exportieren können, sodass ein anderer Gutachter diese importieren kann.*
 
 - Aufwandsabschätzung: M
 
 - Akzeptanztests:
-    - Die Daten können in einer .zip-Datei abgespeichert werden.
+    - Die Daten können in einer komprimierte Datei abgespeichert werden.
     - Die exportierte Datei kann importiert werden, sodass die exportierten Daten richtig gespeichert und dargestellt werden, sofern die Berechtigung gegeben ist.
     - Die importierte Datei soll mit existierender Daten verglichen wird, sodass schon vorhandene Daten aktualisiert werden können.
 
@@ -125,7 +139,7 @@ Diese App werden verschiedene Personas verwenden. Dadurch muss sicher gestellt w
 
 ### Feature 3.1 *Rollenzuweisung*
 
-> Als *Admin* möchte ich *jedem registrierten Benutzer eine Rolle zuweisen könnne, um seinen Zugriff auf Funktionen kontrollieren zu können.*
+> Als *Admin* möchte ich *jedem registrierten Benutzer eine Rolle zuweisen können, um seinen Zugriff auf Funktionen kontrollieren zu können.*
 
 - Aufwandsabschätzung: M
 
