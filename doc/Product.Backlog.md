@@ -139,7 +139,7 @@ Diese App werden verschiedene Personas verwenden. Dadurch muss sicher gestellt w
 
 ### Feature 3.1 *Rollenzuweisung*
 
-> Als *Admin* möchte ich *jedem registrierten Benutzer eine Rolle zuweisen können, um seinen Zugriff auf Funktionen kontrollieren zu können.*
+> Als registrierter *Benutzer* möchte ich *einer Rolle zugewiesen bekommen, indem ich ein Benutzername und Passwort bekommen, um auf meine erlaubten Funktionen zugreifen zu können.*
 
 - Aufwandsabschätzung: M
 
@@ -149,7 +149,7 @@ Diese App werden verschiedene Personas verwenden. Dadurch muss sicher gestellt w
 
 ### Feature 3.2 *Funktionszuweisung zur Rolle*
 
-> Als *Admin* möchte ich *jeder Rolle Funktionen zuweisen, um eine klare Abgrenzung zwischen den Profilen herzustellen, sodass kein Missbrauch von Rechten möglich ist.*
+> Als *Benutzer* möchte ich *meiner Rolle Funktionen zugewiesen bekommen, um eine klare Abgrenzung zwischen den Profilen herzustellen, sodass kein Missbrauch von Rechten möglich ist.*
 
 - Aufwandsabschätzung: M
 
