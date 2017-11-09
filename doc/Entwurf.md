@@ -45,7 +45,15 @@ Gubaer at the German language Wikipedia [GFDL (http://www.gnu.org/copyleft/fdl.h
 
 # GUI-Skizze
 
-![GUI-Skizze von Jan-Peter Ostberg, CC-BY-SA 4.0](sketches/GUI-Skizze.png)
+![Feature 1.1 & 1.2](Entwurf/Feature 1.1 & 1.2.png)
+
+![Feature 1.3](Entwurf/Feature 1.3.png)
+
+![Feature 2.1 & 2.2](Entwurf/Feature 2.1 & 2.2.png)
+
+![Feature 2.3](Entwurf/Feature 2.3.png)
+
+![Feature 1.4 & 2.4](Entwurf/Feature 1.4 & 2.4.png)
 
 GUI-Skizze von Jan-Peter Ostberg, CC-BY-SA 4.0
 
