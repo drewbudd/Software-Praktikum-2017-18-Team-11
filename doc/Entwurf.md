@@ -1,22 +1,37 @@
 # Einführung
 
-*Dieser Entwurf legt die prinzipielle Lösungsstruktur fest und enthält alles, was man benötigt, um einem Außenstehenden den prinzipiellen Aufbau der App erklären zu können.* (**keep it simple**)
+Dieser Entwurf legt unsere Lösungsstruktur fest und enthält alles, was wir benötigen, um einen Überblich über die ganze App zu bekommen.
 
-**TODO:** Beschreibung des grundlegenden Aufbaus.
+Unsere App ist in vier große Teile aufgebaut:
+- View
+- Viewmodel
+- Model
+- App-Services
 
-**TODO:** Verweis auf Standards wie zum Beispiel verwendete Entwurfsmuster o.ä.
+![Gubaer at the German language Wikipedia [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons](images/General-AppStructure.png)
+
+## Verwendete Entwurfsmuster:
+### View-Viewmodel-Model ###
+MVVM wird in diesem Projekt verwendet, da dadurch sichergestellt wird, dass die App unabhängig von der GUI getestet werden kann.
+
+### Polymorphie
+Die Polymorphie wird für das Konstrukt für die AppServices ausgenutzt. Dadurch gibt es die Möglichkeit die verschiedenen Services über das Interface "AppService" zugreifen zu können.
 
 # Komponentendiagramm
 
-![Gubaer at the German language Wikipedia [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons](images/Komponentendiagramm.png)
+**TODO:** Komponentendiagramm der eigenen und externen Komponenten der App erstellen. EINFÜGEN
 
-Gubaer at the German language Wikipedia [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons.
+## Services
 
-**TODO:** Komponentendiagramm der eigenen und externen Komponenten der App erstellen.
+### Beschreibung
+In der Komponente werden alle Services bereitgestellt, die die App verwendet und benutzt.
 
-## Komponente 1
+### Bereitgestellte Interfaces
+AppService
+DataService
+CacheService
+MapService
 
-**TODO:** Beschreibung der Komponente inklusive seiner verwendeten und bereitgestellten Schnittstellen
 
 ## Komponente 2
 
@@ -24,7 +39,11 @@ Gubaer at the German language Wikipedia [GFDL (http://www.gnu.org/copyleft/fdl.h
 
 ## Externe Komponente 1
 
-**TODO:** Beschreibung der **externen** Komponente/Bibliothek und wie diese verwendet werden soll.
+### Mapbox
+Es wird die Bibliothek Mapbox für die Funktionen bereitgestellt:
+- Kartenmaterial
+- Funktionen Punkte in die Karte zu wählen
+- weitere Funktionen
 
 # Klassendiagramm
 
@@ -36,9 +55,24 @@ Gubaer at the German language Wikipedia [GFDL (http://www.gnu.org/copyleft/fdl.h
 
 ## Beschreibung der wichtigen Klassenhierarchie 1
 
-**TODO:** Die wichtigen Klassen und ihre Hierarchie beschreiben.
+### AppServices
+Alle benötigten Services erben am Ende vom Interface AppService. Damit ist es möglich mittels einem Dictionary auf die benötigten AppServices zugreifen zu können.
 
 ## Beschreibung der wichtigen Klasse 2
+### DataService 
+Im DataService werden alle Daten, die gespeichert und geladen werden müssen. 
+
+### MapService
+Im MapService werden alle benötigten Funktionen von der Library MapBox bereitgestellt.
+
+### Role
+Die Klasse Role und deren Subklassen Gutachter und Landwirt stellen die Benutzer dar. Sie beschreiben für die Rollen, welche Funktionen sie benutzen können.
+z.B.: 
+- Gutachter:
+    - Zugriff auf Felder von allen Landwirte
+
+- Landwirt:
+    - Zugriff nur auf seine eigene Felder
 
 ## Beschreibung der wichtigen Klasse 3
 
