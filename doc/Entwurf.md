@@ -79,8 +79,24 @@ z.B.:
 
 # GUI-Skizze
 
-![GUI-Skizze von Jan-Peter Ostberg, CC-BY-SA 4.0](sketches/GUI-Skizze.png)
-
-GUI-Skizze von Jan-Peter Ostberg, CC-BY-SA 4.0
-
 **TODO:** Eigene möglichst handschriftliche GUI-Skizzen erstellen und beschreiben.
+
+![Feature 1.1 & 1.2](Entwurf/Feature 1.1 & 1.2.png)
+
+Feature 1.1 & 1.2
+
+![Feature 1.3](Entwurf/Feature 1.3.png)
+
+Feature 1.3
+
+![Feature 2.1 & 2.2](Entwurf/Feature 2.1 & 2.2.png)
+
+Feature 2.1 & 2.2
+
+![Feature 2.3](Entwurf/Feature 2.3.png)
+
+Feature 2.3
+
+![Feature 1.4 & 2.4](Entwurf/Feature 1.4 & 2.4.png)
+
+Feature 1.4 & 2.4
