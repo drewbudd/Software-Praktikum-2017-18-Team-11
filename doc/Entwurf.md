@@ -25,9 +25,9 @@ Im Package Service werden über AppRegistry Services bereitgestellt, die von der
 ## Services
 
 ### Beschreibung
-Die Komponente Services stellt die bereitgestellten Service als Unterkomponente bereit. Dazu gehört zum Beispiel der Map-Service.
+Die Komponente Services stellt die bereitgestellten Services als Unterkomponente bereit. Dazu gehört zum Beispiel der Map-Service.
 
-Das Ziel ist es, dass einfach weitere Services hinzugefügt werden können, aber auch austauschbar. Z.B.:, wenn man verschiedene Libraries für eine Karte bereitstellen möchte. Zusätzlich wird das drei Schichtenmodell gewährleistet.
+Das Ziel ist es, dass einfach weitere Services hinzugefügt und ausgetauscht werden können, z.B. wenn man verschiedene Libraries für eine Karte bereitstellen möchte. Zusätzlich wird das drei Schichtenmodell gewährleistet.
 
 ### Bereitgestellte Interfaces
     -ServiceProvider
@@ -112,7 +112,7 @@ In diesem Service werden alle Daten gespeichert, welche benutzerspezifisch sind:
 - Benutzerpräferenzen wie  z.B.: automatisch anmelden.
 
 ### DataStorageService
-Dieser Service ist das Bindeglied für die lokale Datenhaltung. Dadurch ist es möglich die Art des speichern einfach beeinflussen zu können.
+Dieser Service ist das Bindeglied für die lokale Datenhaltung. Dadurch ist es möglich die Art des Speicherns einfacher beeinflussen zu können.
 Arten der Speicherung:
 - Datenbank
 - XML
