@@ -83,7 +83,7 @@ z.B.:
 
 Feature 1.1 & 1.2 : Felderfassung und Feldvisualisierung
 
-Beim Enkpunkthinzüfugen, kann man entweder per Touch oder GPS (durch Touch auf ![GPS Icon](images\GPS Icon.png)) einen Punkt hinzufügen.
+Beim Enkpunkthinzüfugen, kann man entweder per Touch oder GPS (durch Touch auf ![GPS Icon](images/GPS Icon.png)) einen Punkt hinzufügen.
 
 ![Feature 1.3](Entwurf/Feature 1.3.png)
 
@@ -95,7 +95,7 @@ Durch Touch auf ein Feld oder Navigation-Menu kommt man zur mehr Informationen v
 
 Feature 2.1 & 2.2 : Schadensfallerfassung & Schadensfallvisualisierung
 
-Beim Hinzufügen von Schadensposition, kann man Entweder per Touch oder GPS (durch Touch auf ![GPS Icon](images\GPS Icon.png)) die Position bestimmen.  Beim Hinzufügen von Fotos ist man durch ein Intent zum Camera-App weitergeleitet.
+Beim Hinzufügen von Schadensposition, kann man Entweder per Touch oder GPS (durch Touch auf ![GPS Icon](images/GPS Icon.png) ) die Position bestimmen.  Beim Hinzufügen von Fotos ist man durch ein Intent zum Camera-App weitergeleitet.
 
 ![Feature 2.3](Entwurf/Feature 2.3.png)
 
