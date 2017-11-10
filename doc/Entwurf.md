@@ -133,7 +133,7 @@ Startansicht: Login
 
 ![Login](Entwurf/Loginpage.png)
 
-Die Loginpage wird angezeigt, wenn man die App startet. Nachdem Login ist es die folgenden Features nutzen zu können.
+Die Loginpage wird angezeigt, wenn man die App startet. Nach dem Login können folgende Features genutzt werden.
 
 ![Feature 1.1 & 1.2](Entwurf/Feature1112.png)
 
