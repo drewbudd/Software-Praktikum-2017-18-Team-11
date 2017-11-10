@@ -25,9 +25,9 @@ Im Package Service werden über AppRegistry Services bereitgestellt, die von der
 ## Services
 
 ### Beschreibung
-Die Komponente Services stellt die bereitgestellten Service als Unterkomponente bereit. Dazu gehört zum Beispiel der Map-Service.
+Die Komponente Services stellt die bereitgestellten Services als Unterkomponente bereit. Dazu gehört zum Beispiel der Map-Service.
 
-Das Ziel ist es, dass einfach weitere Services hinzugefügt werden können, aber auch austauschbar. Z.B.:, wenn man verschiedene Libraries für eine Karte bereitstellen möchte. Zusätzlich wird das drei Schichtenmodell gewährleistet.
+Das Ziel ist es, dass einfach weitere Services hinzugefügt und ausgetauscht werden können, z.B. wenn man verschiedene Libraries für eine Karte bereitstellen möchte. Zusätzlich wird das drei Schichtenmodell gewährleistet.
 
 ### Bereitgestellte Interfaces
     -ServiceProvider
@@ -112,7 +112,7 @@ In diesem Service werden alle Daten gespeichert, welche benutzerspezifisch sind:
 - Benutzerpräferenzen wie  z.B.: automatisch anmelden.
 
 ### DataStorageService
-Dieser Service ist das Bindeglied für die lokale Datenhaltung. Dadurch ist es möglich die Art des speichern einfach beeinflussen zu können.
+Dieser Service ist das Bindeglied für die lokale Datenhaltung. Dadurch ist es möglich die Art des Speicherns einfacher beeinflussen zu können.
 Arten der Speicherung:
 - Datenbank
 - XML
@@ -142,31 +142,33 @@ Die Loginpage wird angezeigt, wenn man die App startet. Nach dem Login können f
 
 Feature 1.1 & 1.2 : Felderfassung und Feldvisualisierung
 
-Beim Eckpunkt hinzufügen, kann man entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png)) einen Punkt hinzufügen.
+Das Hinzufügen eines Eckpunktes kann entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png)) realisiert werden.
 
 ![Feature 1.3](Entwurf/Feature13.png)
 
 Feature 1.3 : Felderverwaltung
 
-Durch tappen auf ein Feld oder Navigation-Menu werden weitere Informationen angezeigt:
+Durch Drücken auf ein Feld oder ein Button im Menüpunkt, werden weitere Informationen angezeigt:
 - Details über das Feld
 - Schadensfälle, die zum Feld gehören
-Die Felder werden mit verschiedenen Farben dargestellt, dies hilft dem Benutzer die Informationen schneller zuzuordnen
+
+Die Felder werden mit verschiedenen Farben dargestellt. Dies hilft dem Benutzer die Informationen schneller zuzuordnen.
 
 ![Feature 2.1 & 2.2](Entwurf/Feature2122.png)
 
 Feature 2.1 & 2.2 : Schadensfallerfassung & Schadensfallvisualisierung
 
-Beim Hinzufügen von Schadensposition, kann man Entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png) ) die Position bestimmen.  Beim Hinzufügen von Fotos ist man durch ein Intent zum Camera-App weitergeleitet.
+Das Hinzufügen der Schadensposition kann entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png) ) realisiert werden.  
+Beim Hinzufügen von Fotos wird man durch ein Intent zur Kamera-App weitergeleitet.
 
 ![Feature 2.3](Entwurf/Feature23.png)
 
 Feature 2.3 : Schadensfallverwaltung
 
-Durch Touch auf ein Schadenmarker oder Navigation-Menu kommt man zur mehr Informationen von den aktiven und schon bearbeiteten Schadensfällen.  Farben zeigt aktuelle Status.
+Durch Drücken auf eine Schadensmarkierung oder ein Button im Menüpunkt, kommt man zu mehr Informationen von den aktiven bzw. auch zu den schon bearbeiteten Schadensfällen. Die Farbe zeigt den aktuellen Status.
 
 ![Feature 1.4 & 2.4](Entwurf/Feature1424.png)
 
 Feature 1.4 & 2.4 : Datenaustausch
 
-Beim Exportieren ist es möglich auf dem Gerät zu speichern oder direct per E-Mail schicken.  Beim importieren soll die Datei schon im Gerätspeicher sein.
+Man hat die Möglichkeit die Dateien zu exportieren oder sie direkt per Email zu versenden. Zusätzlich kann man auch Dateien importieren.
