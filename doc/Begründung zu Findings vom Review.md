@@ -1,5 +1,0 @@
-# Begründung zu nicht bearbeiteten „Findings“ aus dem ReviewProtokoll:
-
-- Das "Finding 1" betraf die "Definition of Done" und zwar, dass der Teil mit dem "Pair Prorgramming" gelöscht werden soll, mit der Begründung, dass falls kein "Pair Programming" stattfand, dass man es nicht "nachholen" könne und der Task nicht als beendet gilt. Jedoch steht bei der "Definition of Done" explizit "Pair Programming" ODER "Code Review", daher ist dies kein Fehler, sondern wurde vom Gutachter falsch verstanden und die anderen Gutachter haben sich nicht dazu geäußert, daher wurde dieser Befund aufgrund eines Missverständnises aufgeschrieben. 
-- Das "Finding" 10 betrifft die critical features und sollten daher unseres Erachtens nach nicht geändert werden.
--  Zu „Finding“ 11: In der User Story steht „Gutachter“, daher muss man das nicht im Akzeptanztest explizit anzugeben.
