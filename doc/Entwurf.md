@@ -1,6 +1,6 @@
 # Einführung
 
-Dieser Entwurf legt unsere Lösungsstruktur fest und enthält alles, was wir benötigen, um einen Überblich über die ganze App zu bekommen.
+Dieser Entwurf legt unsere Lösungsstruktur fest und enthält alles, was wir benötigen, um einen Überblick über die ganze App zu bekommen.
 
 Unsere App ist in vier große Teile aufgebaut:
 - View
@@ -16,7 +16,7 @@ Wir haben die App so aufgebaut, damit es möglich ist verschiedene Features glei
 MVVM wird in diesem Projekt verwendet, da dadurch sichergestellt wird, dass die App unabhängig von der GUI getestet werden kann.
 
 ### Service-Provider
-Im Package Service werden über AppRegistry Services bereitgestellt, die von der ganzen App aus zugreifbar sind. Dadurch ist es möglich gespeicherte Daten von einem Ort zu holen und zu speichern.
+Im Package Service werden über AppRegistry Services bereitgestellt, die von der ganzen App aus zugreifbar sind. Dadurch ist es möglich gespeicherte Daten von einem Ort zu holen.
 
 # Komponentendiagramm
 
@@ -25,9 +25,9 @@ Im Package Service werden über AppRegistry Services bereitgestellt, die von der
 ## Services
 
 ### Beschreibung
-Die Komponente Services beinhaltet die Unterkomponente und stellt alle Services bereit, die die App verwendet. Zum Beispiel der Map-Service stellt alle Funktionen von der Library (u.A z.B. MapBox und die Berechnung der Felder, Schäden) bereit.
+Die Komponente Services stellt die bereitgestellten Service als Unterkomponente bereit. Dazu gehört zum Beispiel der Map-Service.
 
-Das Ziel ist es, dass die Anzahl Services einfach erweiterbar sind und austauschbar. Z.b, wenn man verschiedene Libraries für eine Karte bereitstellen möchte. Zusätzlich wird das drei Schichtenmodell gewährleistet.
+Das Ziel ist es, dass einfach weitere Services hinzugefügt werden können, aber auch austauschbar. Z.B.:, wenn man verschiedene Libraries für eine Karte bereitstellen möchte. Zusätzlich wird das drei Schichtenmodell gewährleistet.
 
 ### Bereitgestellte Interfaces
     -ServiceProvider
@@ -57,7 +57,7 @@ In diesem Kapitel werden die Klassen in Packages gegliedert.
 
 ### Beschreibung
 
-Im Package Setup werden nur die Services initialisiert. Von dort werden die Viewmodels die Services zugreifen und verwenden.
+Im Package Setup werden nur die Services initialisiert. Die Viewmodels können von der Klasse aus, auf die verschiedenen Services zugreifen.
 
 ## View
 In diesem Package werden alle Views bereitsgestellt. In userem Fall entspricht dies unseren Activities.
@@ -86,48 +86,51 @@ Alle benötigten Services erben am Ende vom Interface AppService. Damit ist es m
 ![](Entwurf/Klassendiagrammv0.4doneServices.png)
 
 ### MapService
-Im MapService hat folgende Funktion:
-- wird die Map-Bibliothek bereitstellen
+Der MapService hat u.A. folgende Funktionen:
+- Map-Bibliothek bereitstellen
 - Felder berechnen
 - Schäden berechnen
 - Mapdaten aktualisieren
-- die Funktionen speichern
+- Funktionen speichern
+
+Es ist die zentrale Komponente alle Features zu realisieren, die mit der Karte arbeiten.
 
 ### DataService
-Im Dataservice werden alle Daten gespeichert und bereitgestellt dazu gehören:
+Im Dataservice werden alle weiteren Daten bereitgestellt. Dazu gehören:
 - Nutzerprofile
 - Verträge
 - Angemeldeter Benutzer
 
-Im Prinzip werden hier alle Daten abgerufen, die nichts mit der Karte zu tun hat.
+Im Prinzip werden hier alle Daten abgerufen, die nichts mit der Karte zu tun hat und wichtig sind zu speichern.
 
 ### CacheService
-Im CacheService werden Daten gespeichert, die Zwischengespeichert werden sollen. Dazu gehört z.b.:
-- Heruntergeladene Karten für die Offline Nutzung
+Im CacheService werden Daten abgelegt, welche Zwischengespeichert werden sollen. Dazu gehört z.b.:
+- Heruntergeladene Karten, um einen schnelleren Zugriff zu erlauben
 
 ### ConfigService
 In diesem Service werden alle Daten gespeichert, welche benutzerspezifisch sind:
-- Benutzerpräferenzen wie automatisch anmelden.
+- Benutzerpräferenzen wie  z.B.: automatisch anmelden.
 
 ### DataStorageService
-Dieser Service ist das Bindeglied für die lokale Datenhaltung. Dadurch ist es möglich die Art des speichern einfach beeinflussen zu können, Arten:
+Dieser Service ist das Bindeglied für die lokale Datenhaltung. Dadurch ist es möglich die Art des speichern einfach beeinflussen zu können.
+Arten der Speicherung:
 - Datenbank
 - XML
 - Textdateien
 
 Zusätzlich werden dort die Export- und Import- Funktionen bereitgestellt.
+Jeder andere Service greift auf diesen zu, um Daten persistent zu speichern.
 
 ## User
-Die Klasse User und deren Subklassen Gutachter und Landwirt stellen die Benutzer dar. Sie beschreiben für die Rollen, welche Funktionen sie benutzen können.
-z.B.: 
+Die Klasse User und deren Subklassen Gutachter und Landwirt stellen die Benutzer dar. Sie beschreiben welche Funktionen die rollen benutzen können.
+Z.B.: 
 - Gutachter:
-    - Zugriff auf Felder von allen Landwirte
+    - Zugriff auf Felder von allen Landwirten
 
 - Landwirt:
-    - Zugriff nur auf seine eigene Felder
+    - Zugriff nur auf seine eigenen Feldern
 
 # GUI-Skizze
-
 
 Startansicht: Login
 
@@ -139,13 +142,16 @@ Die Loginpage wird angezeigt, wenn man die App startet. Nach dem Login können f
 
 Feature 1.1 & 1.2 : Felderfassung und Feldvisualisierung
 
-Beim Enkpunkthinzüfugen, kann man entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png)) einen Punkt hinzufügen.
+Beim Eckpunkt hinzufügen, kann man entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png)) einen Punkt hinzufügen.
 
 ![Feature 1.3](Entwurf/Feature13.png)
 
 Feature 1.3 : Felderverwaltung
 
-Durch Touch auf ein Feld oder Navigation-Menu kommt man zur mehr Informationen von den Feldern und den gehörenden Schadensfällen.  Farben hilft der Nutzer die Informationen schneller erfassen.
+Durch tappen auf ein Feld oder Navigation-Menu werden weitere Informationen angezeigt:
+- Details über das Feld
+- Schadensfälle, die zum Feld gehören
+Die Felder werden mit verschiedenen Farben dargestellt, dies hilft dem Benutzer die Informationen schneller zuzuordnen
 
 ![Feature 2.1 & 2.2](Entwurf/Feature2122.png)
 
