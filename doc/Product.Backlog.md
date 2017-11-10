@@ -27,13 +27,12 @@ Der Gutachter kann alle Felder von seinen Kunden (Landwirte) bearbeiten und eben
 
 ### Feature 1.1 *Felderfassung*
 
-> Als *Benutzer*  möchte ich *ein neues Feld erstellen können, sodass ich alle Details über das Feld eingeben kann, um es den passenden Verträgen versicherungsgerecht zuordnen zu können.*
+> Als *Benutzer*  möchte ich *ein neues Feld erstellen können, um es den passenden Verträgen versicherungsgerecht zuordnen zu können.*
 
 - Aufwandsabschätzung: M
 
 - Akzeptanztest:
     - Das neue Feld kann mit der Angabe der Koordinaten oder der Koordinaten der ausgewählten Eckpunkten zu einem Polygon verbunden, und mit den Feldinformationen erstellt werden.
-     <!-- -->
     - Feldinformationen: Feldkoordinaten, Feldart, Verträge, Erstellungsdatum.
     - Das neue Feld kann per GPS erfassst werden.
     - Das neue Feld kann per Touch erfasst werden.
@@ -41,15 +40,16 @@ Der Gutachter kann alle Felder von seinen Kunden (Landwirte) bearbeiten und eben
 
 ### Feature 1.2 *Feldervisualierung*
 
-> Als *Benutzer* möchte ich, *dass Schadensfälle, auch während der Erfassung, auf einer Karte angezeigt werden können.*
+> Als *Benutzer* möchte ich, *meine zugänglichen Felder visualisiert haben, um diese von der Karte aus bearbeiten und ansehen zu können.*
 
 - Aufwandsabschätzung: XL
 
 - Akzeptanztest:
-    - Schadensfälle können in einer Kartenansicht dargestellt werden.
-    - Die Kartenansicht des Schadens zeigt Polygone der versicherten Objekte.
-    - Die Kartenansicht des Schadens zeigt den Schaden als Polygon/Fläche innerhalb der versicherten Objekte.
-    - Die Kartenansicht inkl. der Schadensdarstellung ermöglicht mehrere Maßstäbe. Die Karte lässt sich zoomen.
+    - Felder können während des Erfassens in der Kartenansicht dargestellt werden.
+    - Felder können während des Bearbeitung in der Kartenansicht dargestellt werden.
+    - Felder können in einer Kartenansicht dargestellt werden.
+    - Die Kartenansicht des Feldes zeigt die versicherten Objekte als Polygone.
+    - Die Kartenansicht inkl. der Felddarstellung ermöglicht mehrere Maßstäbe. Die Karte lässt sich zoomen.
     - Die Ansicht der Polygone ist ohne Internetverbindung möglich.
 
 ### Feature 1.3 *Felderverwaltung*
@@ -104,8 +104,13 @@ Damit die Versicherung die Daten des Schadens als Versicherungsfall aufnehmen ka
 - Aufwandsabschätzung: XL
 
 - Akzeptanztests:
-    - Schadensfälle können während des Erfassens in der Kartenansicht (siehe Visuelle Darstellung der Schadensfälle) dargestellt werden.
-    - Schadensfälle können während des Bearbeitung in der Kartenansicht (siehe Visuelle Darstellung der Schadensfälle) dargestellt werden.
+    - Schadensfälle können während des Erfassens in der Kartenansicht dargestellt werden.
+    - Schadensfälle können während des Bearbeitung in der Kartenansicht dargestellt werden.
+    - Schadensfälle können in einer Kartenansicht dargestellt werden.
+    - Die Kartenansicht des Schadens zeigt Polygone der versicherten Objekte.
+    - Die Kartenansicht des Schadens zeigt den Schaden als Polygon/Fläche innerhalb der versicherten Objekte.
+    - Die Kartenansicht inkl. der Schadensdarstellung ermöglicht mehrere Maßstäbe. Die Karte lässt sich zoomen.
+    - Die Ansicht der Polygone ist ohne Internetverbindung möglich.
 
 ### Feature 2.3 *Schadensfallverwaltung*
 

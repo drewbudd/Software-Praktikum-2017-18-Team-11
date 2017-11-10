@@ -8,102 +8,158 @@ Unsere App ist in vier große Teile aufgebaut:
 - Model
 - App-Services
 
-![Gubaer at the German language Wikipedia [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons](images/General-AppStructure.png)
+Wir haben die App so aufgebaut, damit es möglich ist verschiedene Features gleichzeigt programmieren zu können. Somit kann jedes Team-Mitglied unabhängig von anderen arbeiten.
+![Appaufbau](images/General-AppStructure.png)
 
 ## Verwendete Entwurfsmuster:
-### View-Viewmodel-Model ###
+### Model View View-Model ###
 MVVM wird in diesem Projekt verwendet, da dadurch sichergestellt wird, dass die App unabhängig von der GUI getestet werden kann.
 
-### Polymorphie
-Die Polymorphie wird für das Konstrukt für die AppServices ausgenutzt. Dadurch gibt es die Möglichkeit die verschiedenen Services über das Interface "AppService" zugreifen zu können.
+### Service-Provider
+Im Package Service werden über AppRegistry Services bereitgestellt, die von der ganzen App aus zugreifbar sind. Dadurch ist es möglich gespeicherte Daten von einem Ort zu holen und zu speichern.
 
 # Komponentendiagramm
 
-**TODO:** Komponentendiagramm der eigenen und externen Komponenten der App erstellen. EINFÜGEN
+![Komponentendiagramm](Entwurf/cd1.jpg)
 
 ## Services
 
 ### Beschreibung
-In der Komponente werden alle Services bereitgestellt, die die App verwendet und benutzt.
+Die Komponente Services beinhaltet die Unterkomponente und stellt alle Services bereit, die die App verwendet. Zum Beispiel der Map-Service stellt alle Funktionen von der Library (u.A z.B. MapBox und die Berechnung der Felder, Schäden) bereit.
+
+Das Ziel ist es, dass die Anzahl Services einfach erweiterbar sind und austauschbar. Z.b, wenn man verschiedene Libraries für eine Karte bereitstellen möchte. Zusätzlich wird das drei Schichtenmodell gewährleistet.
 
 ### Bereitgestellte Interfaces
-AppService
-DataService
-CacheService
-MapService
+    -ServiceProvider
+    -DataServiceProvider
+    -CacheServiceProvider
+    -MapServiceProvider
+    -MapBoxProvider
+    -SetupProvider
 
+## View
 
-## Komponente 2
+In der View werden alle seperaten Views hinzugefügt.
 
-**TODO:** Beschreibung der Komponente inklusive seiner verwendeten und bereitgestellten Schnittstellen
+## Viewmodel
 
-## Externe Komponente 1
+In dieser Komponente werden alle Klassen drin sein, welche die Logik für die View bereitstellt.
 
-### Mapbox
-Es wird die Bibliothek Mapbox für die Funktionen bereitgestellt:
-- Kartenmaterial
-- Funktionen Punkte in die Karte zu wählen
-- weitere Funktionen
+## Setup
+
+In der Komponente Setup werden die Services und andere Einstellungen für die spätere Verwendung vorbereitet.
 
 # Klassendiagramm
+In diesem Kapitel werden die Klassen in Packages gegliedert.
+## Setup
 
-![Gubaer at the German language Wikipedia [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons](images/Klassendiagramm.png)
+![test](Entwurf/Klassendiagrammv0.4doneSetup.png)
 
-Gubaer at the German language Wikipedia [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons
+### Beschreibung
 
-**TODO:** Klassendiagramm der Aufteilung der eigenen Komponenten in Klassen darstellen.
+Im Package Setup werden nur die Services initialisiert. Von dort werden die Viewmodels die Services zugreifen und verwenden.
 
-## Beschreibung der wichtigen Klassenhierarchie 1
+## View
+In diesem Package werden alle Views bereitsgestellt. In userem Fall entspricht dies unseren Activities.
+![test](Entwurf/Klassendiagrammv0.4doneView.png)
 
-### AppServices
+## Viewmodel
+In dem Package Viewmodel wird die Logik der Views bereitgestellt.
+![test](Entwurf/Klassendiagrammv0.4doneViewModel.png)
+
+
+## Model
+
+In diesem Package werden alle Models bereitgestellt.
+Grundsätzlich haben wir 3 "Hauptmodels"
+ - User
+ - Field
+ - DamageEvent
+
+![Model](Entwurf/Klassendiagrammv0.4doneModel.png)
+
+Diese benötigen die Helfer-Models siehe Diagramm.
+
+## Services
 Alle benötigten Services erben am Ende vom Interface AppService. Damit ist es möglich mittels einem Dictionary auf die benötigten AppServices zugreifen zu können.
 
-## Beschreibung der wichtigen Klasse 2
-### DataService
-Im DataService werden alle Daten, die gespeichert und geladen werden müssen.
+![](Entwurf/Klassendiagrammv0.4doneServices.png)
 
 ### MapService
-Im MapService werden alle benötigten Funktionen von der Library MapBox bereitgestellt.
+Im MapService hat folgende Funktion:
+- wird die Map-Bibliothek bereitstellen
+- Felder berechnen
+- Schäden berechnen
+- Mapdaten aktualisieren
+- die Funktionen speichern
 
-### Role
-Die Klasse Role und deren Subklassen Gutachter und Landwirt stellen die Benutzer dar. Sie beschreiben für die Rollen, welche Funktionen sie benutzen können.
-z.B.:
+### DataService
+Im Dataservice werden alle Daten gespeichert und bereitgestellt dazu gehören:
+- Nutzerprofile
+- Verträge
+- Angemeldeter Benutzer
+
+Im Prinzip werden hier alle Daten abgerufen, die nichts mit der Karte zu tun hat.
+
+### CacheService
+Im CacheService werden Daten gespeichert, die Zwischengespeichert werden sollen. Dazu gehört z.b.:
+- Heruntergeladene Karten für die Offline Nutzung
+
+### ConfigService
+In diesem Service werden alle Daten gespeichert, welche benutzerspezifisch sind:
+- Benutzerpräferenzen wie automatisch anmelden.
+
+### DataStorageService
+Dieser Service ist das Bindeglied für die lokale Datenhaltung. Dadurch ist es möglich die Art des speichern einfach beeinflussen zu können, Arten:
+- Datenbank
+- XML
+- Textdateien
+
+Zusätzlich werden dort die Export- und Import- Funktionen bereitgestellt.
+
+## User
+Die Klasse User und deren Subklassen Gutachter und Landwirt stellen die Benutzer dar. Sie beschreiben für die Rollen, welche Funktionen sie benutzen können.
+z.B.: 
 - Gutachter:
     - Zugriff auf Felder von allen Landwirte
 
 - Landwirt:
     - Zugriff nur auf seine eigene Felder
 
-## Beschreibung der wichtigen Klasse 3
-
-
 # GUI-Skizze
 
-![Feature 1.1 & 1.2](Entwurf/Feature 1.1 & 1.2.png)
+
+Startansicht: Login
+
+![Login](Entwurf/Loginpage.png)
+
+Die Loginpage wird angezeigt, wenn man die App startet. Nachdem Login ist es die folgenden Features nutzen zu können.
+
+![Feature 1.1 & 1.2](Entwurf/Feature1112.png)
 
 Feature 1.1 & 1.2 : Felderfassung und Feldvisualisierung
 
-Beim Enkpunkthinzüfugen, kann man entweder per Touch oder GPS (durch Touch auf ![GPS Icon](images/GPS Icon.png)) einen Punkt hinzufügen.
+Beim Enkpunkthinzüfugen, kann man entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png)) einen Punkt hinzufügen.
 
-![Feature 1.3](Entwurf/Feature 1.3.png)
+![Feature 1.3](Entwurf/Feature13.png)
 
 Feature 1.3 : Felderverwaltung
 
 Durch Touch auf ein Feld oder Navigation-Menu kommt man zur mehr Informationen von den Feldern und den gehörenden Schadensfällen.  Farben hilft der Nutzer die Informationen schneller erfassen.
 
-![Feature 2.1 & 2.2](Entwurf/Feature 2.1 & 2.2.png)
+![Feature 2.1 & 2.2](Entwurf/Feature2122.png)
 
 Feature 2.1 & 2.2 : Schadensfallerfassung & Schadensfallvisualisierung
 
-Beim Hinzufügen von Schadensposition, kann man Entweder per Touch oder GPS (durch Touch auf ![GPS Icon](images/GPS Icon.png) ) die Position bestimmen.  Beim Hinzufügen von Fotos ist man durch ein Intent zum Camera-App weitergeleitet.
+Beim Hinzufügen von Schadensposition, kann man Entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png) ) die Position bestimmen.  Beim Hinzufügen von Fotos ist man durch ein Intent zum Camera-App weitergeleitet.
 
-![Feature 2.3](Entwurf/Feature 2.3.png)
+![Feature 2.3](Entwurf/Feature23.png)
 
 Feature 2.3 : Schadensfallverwaltung
 
 Durch Touch auf ein Schadenmarker oder Navigation-Menu kommt man zur mehr Informationen von den aktiven und schon bearbeiteten Schadensfällen.  Farben zeigt aktuelle Status.
 
-![Feature 1.4 & 2.4](Entwurf/Feature 1.4 & 2.4.png)
+![Feature 1.4 & 2.4](Entwurf/Feature1424.png)
 
 Feature 1.4 & 2.4 : Datenaustausch
 
