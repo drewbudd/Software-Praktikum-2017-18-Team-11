@@ -45,24 +45,32 @@ Gubaer at the German language Wikipedia [GFDL (http://www.gnu.org/copyleft/fdl.h
 
 # GUI-Skizze
 
-**TODO:** Eigene möglichst handschriftliche GUI-Skizzen erstellen und beschreiben.
-
 ![Feature 1.1 & 1.2](Entwurf/Feature 1.1 & 1.2.png)
 
-Feature 1.1 & 1.2
+Feature 1.1 & 1.2 : Felderfassung und Feldvisualisierung
+
+Beim Enkpunkthinzüfugen, kann man entweder per Touch oder GPS (durch Touch auf ![](images\GPS Icon.png)) einen Punkt hinzufügen.
 
 ![Feature 1.3](Entwurf/Feature 1.3.png)
 
-Feature 1.3
+Feature 1.3 : Felderverwaltung
+
+Durch Touch auf ein Feld oder Navigation-Menu kommt man zur mehr Informationen von den Feldern und den gehörenden Schadensfällen.  Farben hilft der Nutzer die Informationen schneller erfassen.
 
 ![Feature 2.1 & 2.2](Entwurf/Feature 2.1 & 2.2.png)
 
-Feature 2.1 & 2.2
+Feature 2.1 & 2.2 : Schadensfallerfassung & Schadensfallvisualisierung
+
+Beim Hinzufügen von Schadensposition, kann man Entweder per Touch oder GPS (durch Touch auf ![](images\GPS Icon.png)) die Position bestimmen.  Beim Hinzufügen von Fotos ist man durch ein Intent zum Camera-App weitergeleitet.
 
 ![Feature 2.3](Entwurf/Feature 2.3.png)
 
-Feature 2.3
+Feature 2.3 : Schadensfallverwaltung
+
+Durch Touch auf ein Schadenmarker oder Navigation-Menu kommt man zur mehr Informationen von den aktiven und schon bearbeiteten Schadensfällen.  Farben zeigt aktuelle Status.
 
 ![Feature 1.4 & 2.4](Entwurf/Feature 1.4 & 2.4.png)
 
-Feature 1.4 & 2.4
+Feature 1.4 & 2.4 : Datenaustausch
+
+Beim Exportieren ist es möglich auf dem Gerät zu speichern oder direct per E-Mail schicken.  Beim importieren soll die Datei schon im Gerätspeicher sein.
