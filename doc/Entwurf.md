@@ -142,7 +142,7 @@ Die Loginpage wird angezeigt, wenn man die App startet. Nach dem Login können f
 
 Feature 1.1 & 1.2 : Felderfassung und Feldvisualisierung
 
-Das Hinzufügen eines Eckpunktes, kann entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png)) realisiert werden.
+Das Hinzufügen eines Eckpunktes kann entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png)) realisiert werden.
 
 ![Feature 1.3](Entwurf/Feature13.png)
 
@@ -158,19 +158,17 @@ Die Felder werden mit verschiedenen Farben dargestellt. Dies hilft dem Benutzer 
 
 Feature 2.1 & 2.2 : Schadensfallerfassung & Schadensfallvisualisierung
 
-Das Hinzufügen der Schadensposition, kann entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png) ) realisiert werden.  
+Das Hinzufügen der Schadensposition kann entweder per Touch oder GPS (durch Touch auf ![GPS Icon](Entwurf/GPSIcon.png) ) realisiert werden.  
 Beim Hinzufügen von Fotos wird man durch ein Intent zur Kamera-App weitergeleitet.
 
 ![Feature 2.3](Entwurf/Feature23.png)
 
 Feature 2.3 : Schadensfallverwaltung
 
-Durch Drücken auf eine Schadensmarkierung oder ein Button im Menüpunkt, kommt man zu mehr Informationen von den aktiven bzw. auch zu den schon bearbeiteten Schadensfällen.  
-Die Farbe zeigt den aktuellen Status.
+Durch Drücken auf eine Schadensmarkierung oder ein Button im Menüpunkt, kommt man zu mehr Informationen von den aktiven bzw. auch zu den schon bearbeiteten Schadensfällen. Die Farbe zeigt den aktuellen Status.
 
 ![Feature 1.4 & 2.4](Entwurf/Feature1424.png)
 
 Feature 1.4 & 2.4 : Datenaustausch
 
-Man hat die Möglichkeit die Dateien zu exportieren oder sie direkt per Email zu versenden.
-Zusätzlich kann man auch Dateien importieren.
+Man hat die Möglichkeit die Dateien zu exportieren oder sie direkt per Email zu versenden. Zusätzlich kann man auch Dateien importieren.
