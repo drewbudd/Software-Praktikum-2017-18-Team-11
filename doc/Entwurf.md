@@ -134,7 +134,7 @@ Z.B.:
 
 Startansicht: Login
 
-![Login](Entwurf/Loginpage.png)
+![Login](Entwurf/Login.png)
 
 Die Loginpage wird angezeigt, wenn man die App startet. Nach dem Login können folgende Features genutzt werden.
 
