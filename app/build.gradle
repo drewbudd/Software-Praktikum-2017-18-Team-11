@@ -6,7 +6,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "de.uni_stuttgart.informatik.sopra.sopraapp"
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -31,14 +31,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.1.0'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:1.0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
-    testCompile "org.mockito:mockito-core:+"
-    androidTestCompile "org.mockito:mockito-android:+"
+    testCompile 'org.mockito:mockito-core:+'
+    androidTestCompile 'org.mockito:mockito-android:+'
     androidTestCompile 'com.android.support:support-annotations:26.1.0'
 }
