@@ -10,8 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.Setup;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.rights.Permissions;
 
 public class MainActivity extends AppCompatActivity {
 

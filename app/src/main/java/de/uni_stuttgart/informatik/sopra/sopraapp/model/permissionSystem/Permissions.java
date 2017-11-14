@@ -1,4 +1,4 @@
-package de.uni_stuttgart.informatik.sopra.sopraapp.model.rights;
+package de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem;
 
 /**
  * @author Stefan Zindl
