@@ -12,6 +12,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRol
  * Usermodel
  */
 
+
 public class User {
 
     private String name;
