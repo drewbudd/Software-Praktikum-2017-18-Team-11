@@ -1,7 +1,5 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.model;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapElement;
-
 /**
  * @author Stefan Zindl
  * @since 2017/11/14
@@ -9,5 +7,5 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapEleme
  * FieldModel
  */
 
-public class Field implements OnMapElement {
+public class Field {
 }

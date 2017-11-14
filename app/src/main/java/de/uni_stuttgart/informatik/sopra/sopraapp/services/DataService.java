@@ -18,10 +18,7 @@ public class DataService {
     List<User> allUsers = new ArrayList<>();
 
     private DataService(){
-        // safety singleton pattern
-        if(this.instance == null) {
-            instance = new DataService();
-        }
+        instance = new DataService();
     }
 
     private User currentLoggedInUser;

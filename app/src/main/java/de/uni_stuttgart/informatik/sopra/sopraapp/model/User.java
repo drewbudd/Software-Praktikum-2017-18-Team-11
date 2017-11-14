@@ -1,9 +1,10 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.Permissions;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.rights.Permissions;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.rights.UserRole;
 
 /**
  * @author Stefan Zindl
@@ -12,18 +13,11 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRol
  * Usermodel
  */
 
-
 public class User {
 
     private String name;
     private UserRole currentUserRole;
     private ArrayList<Permissions> userPermissions = new ArrayList<>();
-    private ArrayList<Field> fields = new ArrayList<>();
-    private ArrayList<Contract> contracts = new ArrayList<>();
-
-    public User(String username, String password){
-
-    }
 
     /**
      * userRole has to be initizize.
@@ -53,7 +47,6 @@ public class User {
      */
     private void addLandwirtRigihts(){
         this.userPermissions.add(Permissions.VIEWOWNFIELDS);
-
         this.userPermissions.add(Permissions.EDITOWNFIELDS);
 
     }
@@ -65,9 +58,6 @@ public class User {
      */
     private void addGutatchterRights(){
         addLandwirtRigihts();
-        this.userPermissions.add(Permissions.VIEWOTHERFIELDS);
-
-        this.userPermissions.add(Permissions.EDITOTHERFIELDS);
     }
 
     public String getName() {

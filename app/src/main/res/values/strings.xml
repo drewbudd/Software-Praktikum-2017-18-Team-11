@@ -16,8 +16,4 @@
         completions."
     </string>
     <string name="prompt_username">Username</string>
-    <string name="title_activity_map">MapActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
 </resources>

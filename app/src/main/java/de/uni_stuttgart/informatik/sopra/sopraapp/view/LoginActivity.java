@@ -33,8 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.controller.LoginController;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -66,8 +64,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    private LoginController loginController = new LoginController(this);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +89,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                loginController.login(new User(mUsernameView.getText().toString(),mPasswordView.getText().toString()));
             }
         });
 
