@@ -1,4 +1,4 @@
-package de.uni_stuttgart.informatik.sopra.sopraapp;
+package de.uni_stuttgart.informatik.sopra.sopraapp.view;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,16 +9,20 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.Setup;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.rights.Permissions;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -26,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        /*
+        TODO: implement, just for testing
+        if( Setup.dataService.getCurrentLoggedInUser().
+                hasPermissionFor(Permissions.VIEWOTHERFIELDS)){
+
+        }*/
     }
 
     @Override

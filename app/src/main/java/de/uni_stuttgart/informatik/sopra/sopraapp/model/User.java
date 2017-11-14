@@ -1,0 +1,80 @@
+package de.uni_stuttgart.informatik.sopra.sopraapp.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.rights.Permissions;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.rights.UserRole;
+
+/**
+ * @author Stefan Zindl
+ * @since 2017/11/14
+ *
+ * Usermodel
+ */
+
+public class User {
+
+    private String name;
+    private UserRole currentUserRole;
+    private ArrayList<Permissions> userPermissions = new ArrayList<>();
+
+    /**
+     * userRole has to be initizize.
+     * @param userRole UserRole
+     */
+    public User(UserRole userRole){
+        this.initRights();
+        this.currentUserRole = userRole;
+    }
+
+    /**
+     * initialize Rights for each Role
+     */
+    private void initRights(){
+       switch (currentUserRole){
+           case LANDWIRT:
+               addLandwirtRigihts();
+               break;
+           case GUTACHTER:
+               addGutatchterRights();
+               break;
+       }
+    }
+
+    /**
+     * adds the rights for the Landwirt
+     */
+    private void addLandwirtRigihts(){
+        this.userPermissions.add(Permissions.VIEWOWNFIELDS);
+        this.userPermissions.add(Permissions.EDITOWNFIELDS);
+
+    }
+
+    /**
+    * Gutachter permissions:
+     *  includes permissions from Landwirt
+     *  and additional permissions
+     */
+    private void addGutatchterRights(){
+        addLandwirtRigihts();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * checks if the user has a given permission.
+     * @param right Permissions
+     * @return boolean return true if the user has the permission
+     */
+    public boolean hasPermissionFor(Permissions right){
+        return userPermissions.contains(right);
+    }
+
+}
