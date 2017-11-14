@@ -1,10 +1,14 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.controller;
 
+import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.Setup;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.MapActivity;
 
 /**
  * @author Stefan Zindl
@@ -16,12 +20,19 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 public class LoginController {
 
 
+    LoginActivity parentActivity;
+
+    public LoginController(LoginActivity parentActivity){
+        this.parentActivity = parentActivity;
+    }
+
     /**
      * logges User in the app.
      * @param loggingInUser User
      */
     public void login(User loggingInUser){
-        // TODO: implement go to nextPage
+        Intent loggedInActivity = new Intent(parentActivity, MapActivity.class);
+        parentActivity.startActivity(loggedInActivity);
     }
 
     /**
