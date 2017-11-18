@@ -15,7 +15,6 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MainActivity;
 
 public class MainController {
 
-    public static final int MY_PERMISSIONS_REQUEST_COARSE_LOCALTION = 101;
     MainActivity mainActivity;
     public static final int MY_PERMISSIONS_REQUEST_FINE_LOCALTION = 100;
 
@@ -24,8 +23,7 @@ public class MainController {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, MY_PERMISSIONS_REQUEST_FINE_LOCALTION);
-
+            checkPermission();
         }
     }
 
@@ -33,15 +31,15 @@ public class MainController {
     /**
      * check permission for Location
      */
-    public void checkPermission(String permission, int reqeustCode) {
+    private void checkPermission() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(mainActivity,
-                String.valueOf(permission))
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity,
-                    String.valueOf(permission))) {
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
 
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
@@ -52,8 +50,8 @@ public class MainController {
                 // No explanation needed, we can request the permission.
 
                 ActivityCompat.requestPermissions(mainActivity,
-                        new String[]{String.valueOf(permission)},
-                        reqeustCode);
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCALTION);
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
@@ -63,8 +61,4 @@ public class MainController {
 
     }
 
-    public boolean hasPermission() {
-
-        return true;
-    }
 }
