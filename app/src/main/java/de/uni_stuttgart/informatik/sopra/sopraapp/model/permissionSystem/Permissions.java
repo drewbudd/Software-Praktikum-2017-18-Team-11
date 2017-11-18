@@ -9,10 +9,19 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem;
 
 public enum Permissions {
 
-    VIEWOWNFIELDS,
-    VIEWOTHERFIELDS,
-    EDITOWNFIELDS,
-    EDITOTHERFIELDS,
+    VIEW_OWN_FIELDS,
+    VIEW_OWN_DAMAGEEVENTS,
+
+    VIEW_OTHER_FIELDS,
+    VIEW_OTHER_DAMAGEEVENTS,
+
+
+    EDIT_OWN_FIELDS,
+    EDIT_OTHER_FIELDS,
+
+    CREATE_OWN_DAMAGEEVENTS,
+    CREATE_FOREIGN_DAMAGEEVENTS,
+    EDIT_OWN_DAMAGEEVENTS
 
     // TODO: Add all permissions
 }

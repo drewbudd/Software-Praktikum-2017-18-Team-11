@@ -1,6 +1,7 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.Permissions;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
@@ -17,12 +18,14 @@ public class User {
 
     private String name;
     private UserRole currentUserRole;
+    private String password;
     private ArrayList<Permissions> userPermissions = new ArrayList<>();
     private ArrayList<Field> fields = new ArrayList<>();
     private ArrayList<Contract> contracts = new ArrayList<>();
 
     public User(String username, String password){
-
+        this.name = username;
+        this.password = password;
     }
 
     /**
@@ -52,9 +55,11 @@ public class User {
      * adds the rights for the Landwirt
      */
     private void addLandwirtRigihts(){
-        this.userPermissions.add(Permissions.VIEWOWNFIELDS);
-
-        this.userPermissions.add(Permissions.EDITOWNFIELDS);
+        this.addGutatchterRights();
+        this.userPermissions.add(Permissions.VIEW_OWN_DAMAGEEVENTS);
+        this.userPermissions.remove(Permissions.EDIT_OWN_DAMAGEEVENTS);
+        this.userPermissions.add(Permissions.VIEW_OWN_FIELDS);
+        this.userPermissions.add(Permissions.EDIT_OWN_FIELDS);
 
     }
 
@@ -64,10 +69,7 @@ public class User {
      *  and additional permissions
      */
     private void addGutatchterRights(){
-        addLandwirtRigihts();
-        this.userPermissions.add(Permissions.VIEWOTHERFIELDS);
-
-        this.userPermissions.add(Permissions.EDITOTHERFIELDS);
+        this.userPermissions.addAll(Arrays.asList(Permissions.values()));
     }
 
     public String getName() {
@@ -87,4 +89,11 @@ public class User {
         return userPermissions.contains(right);
     }
 
+    public void setUserRole(UserRole currentUserRole) {
+        this.currentUserRole = currentUserRole;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

@@ -13,14 +13,13 @@ public class ConfigService {
     /**
      * instance of the configService
      */
-    public static ConfigService instance;
+    public static ConfigService instance = null;
 
-
-    private ConfigService(){
-
-        // Safaty singelton pattern
-        if(instance == null){
+    public static ConfigService getInstance() {
+        if (instance == null) {
             instance = new ConfigService();
         }
+        return instance;
     }
+
 }

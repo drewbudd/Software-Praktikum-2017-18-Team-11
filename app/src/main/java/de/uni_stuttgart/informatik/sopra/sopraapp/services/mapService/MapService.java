@@ -14,18 +14,18 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
 
 public class MapService {
 
-    public static MapService instance;
+    public static MapService instance = null;
 
     private ArrayList<Field> fieldsOnMap = new ArrayList<>();
     private ArrayList<DamageEvent> damagesOnMap = new ArrayList<>();
 
-    /**
-     *
-     */
-    private MapService(){
-        if(this.instance != null){
+
+    public static MapService getInstance() {
+        if (instance == null) {
             instance = new MapService();
         }
+        return instance;
     }
+
 
 }

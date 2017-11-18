@@ -3,6 +3,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.uni_stuttgart.informatik.sopra.sopraapp.Setup;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 
 /**
@@ -14,14 +15,22 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 
 public class DataService {
 
-    public static DataService instance;
+    public static DataService instance = null;
     List<User> allUsers = new ArrayList<>();
 
     private DataService(){
         // safety singleton pattern
-        if(this.instance == null) {
+
+
+        loadUsers();
+    }
+
+
+    public static DataService getInstance() {
+        if (instance == null) {
             instance = new DataService();
         }
+        return instance;
     }
 
     private User currentLoggedInUser;
@@ -34,12 +43,18 @@ public class DataService {
         this.currentLoggedInUser = currentLoggedInUser;
     }
 
-    public boolean loginUser(User user){
-        return true;
+    public boolean loginUser(User loggingInUser) {
+        for (User user : allUsers) {
+            if (loggingInUser.getName().equals(user.getName()) &&
+                    loggingInUser.getPassword().equals(user.getPassword())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void loadUsers(){
-
+        allUsers.addAll(Setup.dataStorageService.getStubUsers());
     }
 
     public void saveUsers(List<User> users){

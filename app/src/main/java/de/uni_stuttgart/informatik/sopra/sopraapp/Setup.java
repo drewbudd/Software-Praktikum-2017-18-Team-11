@@ -2,6 +2,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.ConfigService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataStorageService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 
 /**
@@ -17,9 +18,11 @@ public class Setup {
     /**
      *
      */
-    public static DataService dataService = DataService.instance;
-    public static ConfigService configService = ConfigService.instance;
-    public static MapService mapService = MapService.instance;
+    public static DataStorageService dataStorageService = DataStorageService.getInstance();
+    public static DataService dataService = DataService.getInstance();
+    public static ConfigService configService = ConfigService.getInstance();
+    public static MapService mapService = MapService.getInstance();
+
 
     public void initializeApp(){
 
