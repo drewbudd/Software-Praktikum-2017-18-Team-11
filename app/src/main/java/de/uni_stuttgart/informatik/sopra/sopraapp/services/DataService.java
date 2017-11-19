@@ -47,6 +47,7 @@ public class DataService {
         for (User user : allUsers) {
             if (loggingInUser.getName().equals(user.getName()) &&
                     loggingInUser.getPassword().equals(user.getPassword())) {
+                this.currentLoggedInUser = user;
                 return true;
             }
         }

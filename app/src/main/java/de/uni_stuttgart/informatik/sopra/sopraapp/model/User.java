@@ -96,4 +96,8 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public UserRole getCurrentUserRole() {
+        return currentUserRole;
+    }
 }
