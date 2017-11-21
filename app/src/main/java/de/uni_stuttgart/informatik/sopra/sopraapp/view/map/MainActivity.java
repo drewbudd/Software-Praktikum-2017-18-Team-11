@@ -1,38 +1,49 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
-import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 
-import com.mapbox.mapboxsdk.maps.MapFragment;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.maps.MapView;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.Setup;
 import de.uni_stuttgart.informatik.sopra.sopraapp.controller.MainController;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 
-public class MainActivity extends Activity implements MainMenuFragment.OnFragmentInteractionListener, MappedFragment.OnFragmentInteractionListener {
+public class MainActivity extends Activity implements MappedFragment.OnFragmentInteractionListener, LocationListener {
 
     MainController mainController;
-    private Button gutachterButton;
-    private Button landwirtButton;
+
+    MarkerOptions myPosition = new MarkerOptions();
+    private MapView mapView;
+
+    private LocationManager locationManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_map2);
 
         mainController = new MainController(this);
 
         User u = Setup.dataService.getCurrentLoggedInUser();
+
+
+        // TODO: change accessToken
+        Mapbox.getInstance(this, "pk.eyJ1IjoiemluZGxzbiIsImEiOiJjajlzbmY4aDg0NXF6MzNwZzBmNTBuN3MzIn0.jTKwbr6lki_d531dDpGI_w");
+        mapView = findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         /* Unterscheidung GUtachter <-> Landwirt
         switch (Setup.dataService.getCurrentLoggedInUser().getCurrentUserRole()){
@@ -78,5 +89,35 @@ public class MainActivity extends Activity implements MainMenuFragment.OnFragmen
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+
+    public MainController getMainController() {
+        return mainController;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

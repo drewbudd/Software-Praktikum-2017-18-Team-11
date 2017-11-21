@@ -61,4 +61,8 @@ public class MainController {
 
     }
 
+    public boolean hasPermission() {
+
+        return true;
+    }
 }
