@@ -33,6 +33,7 @@ public class DataStorageService {
 
     private void addStubUsers() {
         this.stubUser.add(new User("aa", "a"));
+
         this.stubUser.add(new User("admin2", "admin"));
         this.stubUser.add(new User("", ""));
 

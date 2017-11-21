@@ -5,6 +5,8 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.Setup;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEventArt;
 
 /**
  * @author Stefan Zindl
@@ -17,12 +19,16 @@ public class DataService {
 
     public static DataService instance = null;
     List<User> allUsers = new ArrayList<>();
+    List<DamageEvent> allDamageEvents = new ArrayList<>();
 
     private DataService(){
         // safety singleton pattern
 
 
         loadUsers();
+        allDamageEvents.add(new DamageEvent(DamageEventArt.WIND));
+        allDamageEvents.get(0).setOwner(getCurrentLoggedInUser());
+
     }
 
 
@@ -60,5 +66,18 @@ public class DataService {
 
     public void saveUsers(List<User> users){
         this.allUsers = users;
+    }
+
+
+    public void updateDamageEvent(DamageEvent old, DamageEvent updated) {
+        // TODO implement
+    }
+
+    public void deleteDamageEvent(DamageEvent damageEvent) {
+
+    }
+
+    public List<DamageEvent> getAllDamageEvents() {
+        return this.allDamageEvents;
     }
 }

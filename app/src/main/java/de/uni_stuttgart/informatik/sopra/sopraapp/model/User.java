@@ -3,6 +3,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.Permissions;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
 

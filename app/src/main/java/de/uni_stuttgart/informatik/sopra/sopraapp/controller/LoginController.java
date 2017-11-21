@@ -29,6 +29,8 @@ public class LoginController {
      * @param loggingInUser User
      */
     public void login() {
+
+        Setup.dataService.setCurrentLoggedInUser(this.currentLoggingUser);
         Intent loggedInActivity = new Intent(parentActivity, MainActivity.class);
         parentActivity.startActivity(loggedInActivity);
     }
@@ -42,7 +44,7 @@ public class LoginController {
      */
     public boolean checkLoginData(User loggingInUser){
         if(Setup.dataService.loginUser(loggingInUser)){
-            currentLoggingUser = loggingInUser;
+            this.currentLoggingUser = loggingInUser;
             return true;
         }
         return  false;

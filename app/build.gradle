@@ -45,6 +45,5 @@ dependencies {
     compile('com.mapbox.mapboxsdk:mapbox-android-sdk:5.2.0@aar') {
         transitive = true
     }
-
-
+    implementation 'com.android.support:cardview-v7:27.0.1'
 }

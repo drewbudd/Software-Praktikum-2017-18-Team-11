@@ -2,8 +2,8 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService;
 
 import java.util.ArrayList;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 
 /**
  * @author Stefan Zindl

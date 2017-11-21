@@ -1,4 +1,4 @@
-package de.uni_stuttgart.informatik.sopra.sopraapp.model;
+package de.uni_stuttgart.informatik.sopra.sopraapp.model.fields;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapElement;
 
