@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.controller.LoginController;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 import static org.junit.Assert.assertTrue;
 
@@ -20,7 +20,7 @@ public class LoginControllerUnitTest {
 
     @Before
     public void init() {
-        loginController = new LoginController(new LoginActivity());
+        loginController = new LoginController(new App());
     }
 
     @Test

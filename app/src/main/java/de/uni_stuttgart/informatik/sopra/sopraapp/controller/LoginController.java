@@ -1,10 +1,10 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.controller;
 
 import android.content.Intent;
+import android.util.Log;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.Setup;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MainActivity;
 
 /**
@@ -17,10 +17,10 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MainActivity;
 public class LoginController {
 
 
-    LoginActivity parentActivity;
+    App parentActivity;
     private User currentLoggingUser;
 
-    public LoginController(LoginActivity parentActivity){
+    public LoginController(App parentActivity) {
         this.parentActivity = parentActivity;
     }
 
@@ -30,9 +30,12 @@ public class LoginController {
      */
     public void login() {
 
-        Setup.dataService.setCurrentLoggedInUser(this.currentLoggingUser);
+        App.dataService.setCurrentLoggedInUser(this.currentLoggingUser);
         Intent loggedInActivity = new Intent(parentActivity, MainActivity.class);
         parentActivity.startActivity(loggedInActivity);
+
+        Log.v("change positon", "");
+
     }
 
     /**
@@ -43,7 +46,7 @@ public class LoginController {
      * @return
      */
     public boolean checkLoginData(User loggingInUser){
-        if(Setup.dataService.loginUser(loggingInUser)){
+        if (App.dataService.loginUser(loggingInUser)) {
             this.currentLoggingUser = loggingInUser;
             return true;
         }

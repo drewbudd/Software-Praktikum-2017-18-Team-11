@@ -27,5 +27,13 @@ public class MapService {
         return instance;
     }
 
+    public void createNewField() {
+
+    }
+
+    public void addMarker() {
+
+    }
+
 
 }

@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.Setup;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * @author Stefan Zindl
@@ -54,7 +54,7 @@ public class DamageEventAdapter extends RecyclerView.Adapter<DamageEventAdapter.
 
         holder.associateDamageEvent = event;
 
-        holder.inscuredPerson.setText(Setup.dataService.getCurrentLoggedInUser().getName());
+        holder.inscuredPerson.setText(App.dataService.getCurrentLoggedInUser().getName());
 
     }
 

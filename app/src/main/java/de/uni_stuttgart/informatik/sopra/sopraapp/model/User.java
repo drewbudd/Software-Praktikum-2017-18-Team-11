@@ -1,5 +1,7 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.model;
 
+import android.arch.persistence.room.Entity;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,12 +16,14 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRol
  * Usermodel
  */
 
-
+@Entity
 public class User {
+
 
     private String name;
     private UserRole currentUserRole;
     private String password;
+
     private ArrayList<Permissions> userPermissions = new ArrayList<>();
     private ArrayList<Field> fields = new ArrayList<>();
     private ArrayList<Contract> contracts = new ArrayList<>();

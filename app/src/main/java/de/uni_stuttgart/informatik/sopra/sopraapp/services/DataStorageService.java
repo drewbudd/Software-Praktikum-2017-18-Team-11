@@ -1,5 +1,7 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +24,15 @@ public class DataStorageService {
 
     private DataStorageService() {
         addStubUsers();
+
     }
 
-    public static DataStorageService getInstance() {
+    public static DataStorageService getInstance(Context applicationContext) {
         if (instance == null) {
             instance = new DataStorageService();
+
         }
+        //AppDatabase appDatabase = Room.databaseBuilder(applicationContext, AppDatabase.class,"app-database").build();
         return instance;
     }
 

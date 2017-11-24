@@ -3,10 +3,11 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.Setup;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEventArt;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * @author Stefan Zindl
@@ -18,8 +19,12 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEventA
 public class DataService {
 
     public static DataService instance = null;
-    List<User> allUsers = new ArrayList<>();
+    private List<User> allUsers = new ArrayList<>();
+    private User currentLoggedInUser;
+    private List<Field> allFields = new ArrayList<>();
+
     List<DamageEvent> allDamageEvents = new ArrayList<>();
+
 
     private DataService(){
         // safety singleton pattern
@@ -28,9 +33,10 @@ public class DataService {
         loadUsers();
         allDamageEvents.add(new DamageEvent(DamageEventArt.WIND));
         allDamageEvents.get(0).setOwner(getCurrentLoggedInUser());
+        allDamageEvents.add(new DamageEvent(DamageEventArt.WIND));
+        allDamageEvents.get(1).setOwner(getCurrentLoggedInUser());
 
     }
-
 
     public static DataService getInstance() {
         if (instance == null) {
@@ -38,8 +44,6 @@ public class DataService {
         }
         return instance;
     }
-
-    private User currentLoggedInUser;
 
     public User getCurrentLoggedInUser() {
         return currentLoggedInUser;
@@ -61,7 +65,7 @@ public class DataService {
     }
 
     public void loadUsers(){
-        allUsers.addAll(Setup.dataStorageService.getStubUsers());
+        allUsers.addAll(App.dataStorageService.getStubUsers());
     }
 
     public void saveUsers(List<User> users){

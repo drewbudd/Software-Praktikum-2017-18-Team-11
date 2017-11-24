@@ -1,27 +1,45 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
+import android.location.LocationProvider;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.annotations.Polygon;
+import com.mapbox.mapboxsdk.annotations.PolygonOptions;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.Setup;
 import de.uni_stuttgart.informatik.sopra.sopraapp.controller.MainController;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.DamageEventOverviewActivity;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.DamageHistoryActivity;
 
-public class MainActivity extends Activity implements MappedFragment.OnFragmentInteractionListener, LocationListener {
+public class MainActivity extends Activity implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     MainController mainController;
 
@@ -29,16 +47,37 @@ public class MainActivity extends Activity implements MappedFragment.OnFragmentI
     private MapView mapView;
 
     private LocationManager locationManager;
-
+    private LocationListener listener;
+    private double latitude = 0;
+    private LocationProvider provider;
+    private String bestProvider;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map2);
 
-        mainController = new MainController(this);
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
 
-        User u = Setup.dataService.getCurrentLoggedInUser();
+        mainController = new MainController(this);
+        User u = App.dataService.getCurrentLoggedInUser();
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+
+        bestProvider = locationManager.getBestProvider(criteria, true);
+        if (bestProvider != null) {
+            Log.v("provider", "Upload image location: " + bestProvider);
+        } else {
+            Log.v("provider", "Upload image location: No provider Found");
+        }
 
 
         // TODO: change accessToken
@@ -46,26 +85,49 @@ public class MainActivity extends Activity implements MappedFragment.OnFragmentI
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        final List<LatLng> polygons = new ArrayList<>();
+        polygons.add(new LatLng(-10, 10));
+        polygons.add(new LatLng(-20, 10));
+        polygons.add(new LatLng(10, 20));
+        polygons.add(new LatLng(-10, 20));
 
-        /* Unterscheidung GUtachter <-> Landwirt
-        switch (Setup.dataService.getCurrentLoggedInUser().getCurrentUserRole()){
+        mapView.addOnMapChangedListener(new MapView.OnMapChangedListener() {
+            @Override
+            public void onMapChanged(int i) {
 
-            case LANDWIRT:
-                landwirtButton.setVisibility(View.VISIBLE);
+            }
+        });
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(final MapboxMap mapboxMap) {
+                final PolygonOptions polygonOptions = new PolygonOptions();
+                polygonOptions.addAll(polygons);
+                Polygon newPolygon = mapboxMap.addPolygon(polygonOptions);
+                newPolygon.setFillColor(Color.RED);
 
-                break;
-            case GUTACHTER:
-                gutachterButton.setVisibility(View.VISIBLE);
-                break;
-        } */
+                mapboxMap.setOnMapClickListener(new MapboxMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(@NonNull LatLng latLng) {
+                        polygonOptions.add(latLng);
+                        mapboxMap.addMarker(new MarkerOptions().setPosition(latLng));
+                    }
+                });
+            }
+        });
 
 
-    }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
 
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
     }
 
@@ -78,6 +140,18 @@ public class MainActivity extends Activity implements MappedFragment.OnFragmentI
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
+
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 
@@ -86,9 +160,10 @@ public class MainActivity extends Activity implements MappedFragment.OnFragmentI
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
+
+
                 return;
             }
-
             // other 'case' lines to check for other
             // permissions this app might request
         }
@@ -101,12 +176,17 @@ public class MainActivity extends Activity implements MappedFragment.OnFragmentI
     @Override
     public void onStart() {
         super.onStart();
+    }
 
+    public void openDamageEventOverview(View view) {
+
+        Intent newDamageIntent = new Intent(this, DamageHistoryActivity.class);
+        startActivity(newDamageIntent);
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
+        Log.v("recent location:", location.getLatitude() + "");
     }
 
     @Override
@@ -124,9 +204,18 @@ public class MainActivity extends Activity implements MappedFragment.OnFragmentI
 
     }
 
-    public void openDamageEventOverview(View view) {
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
 
-        Intent newDamageIntent = new Intent(this, DamageEventOverviewActivity.class);
-        startActivity(newDamageIntent);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
