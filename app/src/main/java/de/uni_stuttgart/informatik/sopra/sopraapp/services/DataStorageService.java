@@ -95,4 +95,8 @@ public class DataStorageService {
         return null;
     }
 
+    public List<Field> getAllFieldsFromEveryUser() {
+
+        return null;
+    }
 }

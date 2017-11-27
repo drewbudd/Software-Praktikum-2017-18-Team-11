@@ -38,6 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.FieldType;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +54,7 @@ public class MapFragment extends Fragment implements
         View.OnClickListener,
         OnMapReadyCallback,
         MapView.OnMapChangedListener,
-        MapboxMap.OnMapClickListener {
+        MapboxMap.OnMapClickListener, MapboxMap.OnPolygonClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -72,6 +75,7 @@ public class MapFragment extends Fragment implements
 
 
     private MapEditingStatus currentStatus = MapEditingStatus.DEFAULT;
+    private List<Field> allSavedFields = new ArrayList<>();
 
 
     public MapFragment() {
@@ -119,6 +123,8 @@ public class MapFragment extends Fragment implements
         fab = rootView.findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
+        allSavedFields = App.dataService.loadFields();
+
         return rootView;
     }
 
@@ -151,7 +157,6 @@ public class MapFragment extends Fragment implements
         Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
 
-
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
@@ -159,9 +164,13 @@ public class MapFragment extends Fragment implements
                 polygonOptions.addAll(currentMarkerPositions);
                 Polygon newPolygon = mapboxMap.addPolygon(polygonOptions);
                 newPolygon.setFillColor(Color.RED);
+                // TODO: name, type from other fragment
+                Field field = new Field(FieldType.CORN);
+                field.setMarkerPosition(currentMarkerPositions);
+                App.dataService.saveField(field);
+                currentMarkerPositions.clear();
             }
         });
-
     }
 
     final String TAG = "TAG";
@@ -173,6 +182,7 @@ public class MapFragment extends Fragment implements
 
         mapboxMap.setOnMapClickListener(mapFragment);
 
+        /* Campus coordinates*/
         mapboxMap.setCameraPosition(new CameraPosition.Builder()
                 .target(new LatLng(48.74641, 9.10623))
                 .zoom(11).build());
@@ -292,6 +302,12 @@ public class MapFragment extends Fragment implements
 
     }
 
+    @Override
+    public void onPolygonClick(@NonNull Polygon polygon) {
+
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -317,6 +333,7 @@ public class MapFragment extends Fragment implements
         mapView.onCreate(savedInstanceState);
         mapView.addOnMapChangedListener(this);
         mapView.getMapAsync(this);
+        mapboxMapGlobal.setOnPolygonClickListener(this);
 
         if (!isNetworkAvailable()) {
             // Get the region bounds and zoom and move the camera.

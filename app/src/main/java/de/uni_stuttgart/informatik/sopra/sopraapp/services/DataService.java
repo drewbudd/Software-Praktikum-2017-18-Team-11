@@ -88,4 +88,17 @@ public class DataService {
     public List<DamageEvent> getAllDamageEvents() {
         return this.allDamageEvents;
     }
+
+    /**
+     * @return
+     */
+    public List<Field> loadFields() {
+
+        switch (currentLoggedInUser.getCurrentUserRole()) {
+            case GUTACHTER:
+                return App.dataStorageService.getAllFieldsFromEveryUser();
+            default:
+                return App.dataStorageService.getAllFieldsBy(getCurrentLoggedInUser());
+        }
+    }
 }
