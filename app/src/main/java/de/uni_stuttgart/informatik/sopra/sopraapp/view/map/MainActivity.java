@@ -60,14 +60,6 @@ public class MainActivity extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map2);
 
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-
         mainController = new MainController(this);
         User u = App.dataService.getCurrentLoggedInUser();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

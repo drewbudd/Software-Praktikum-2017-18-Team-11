@@ -5,6 +5,7 @@ import android.util.Log;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MainActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
@@ -31,7 +32,7 @@ public class LoginController {
     public void login() {
 
         App.dataService.setCurrentLoggedInUser(this.currentLoggingUser);
-        Intent loggedInActivity = new Intent(parentActivity, MapActivity.class);
+        Intent loggedInActivity = new Intent(parentActivity, MainActivity.class);
         parentActivity.startActivity(loggedInActivity);
 
         Log.v("change positon", "");
