@@ -6,7 +6,7 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MainActivity;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * @author Stefan Zindl
@@ -15,10 +15,10 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MainActivity;
 
 public class MainController {
 
-    MainActivity mainActivity;
+    MapActivity mainActivity;
     public static final int MY_PERMISSIONS_REQUEST_FINE_LOCALTION = 100;
 
-    public MainController(MainActivity activity) {
+    public MainController(MapActivity activity) {
         this.mainActivity = activity;
 
 

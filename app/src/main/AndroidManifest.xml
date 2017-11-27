@@ -24,17 +24,12 @@
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.map.MainActivity"
-            android:label="@string/title_activity_map" />
         <activity android:name=".view.DamageHistoryActivity" />
-        <activity
-            android:name=".view.map.MapActivity"
-            android:label="@string/title_activity_map"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".view.map.MapActivity"></activity>
     </application>
 
 </manifest>
