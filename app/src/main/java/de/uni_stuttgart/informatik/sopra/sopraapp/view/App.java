@@ -39,6 +39,8 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataStorageService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**
  * A login screen that offers login via email/password.
@@ -49,6 +51,8 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    private static final int REQUEST_WRITE = 0;
+    private static final int REQUEST_READ = 0;
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -136,6 +140,38 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
                     });
         } else {
             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
+        }
+
+
+        if (checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        if (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
+            Snackbar.make(mUsernameView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                        @Override
+                        @TargetApi(Build.VERSION_CODES.M)
+                        public void onClick(View v) {
+                            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE);
+                        }
+                    });
+        } else {
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE);
+        }
+        if (checkSelfPermission(READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE)) {
+            Snackbar.make(mUsernameView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                        @Override
+                        @TargetApi(Build.VERSION_CODES.M)
+                        public void onClick(View v) {
+                            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_READ);
+                        }
+                    });
+        } else {
+            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_READ);
         }
         return false;
     }
