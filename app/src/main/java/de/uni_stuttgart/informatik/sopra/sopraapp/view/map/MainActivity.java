@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,8 +22,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
-import com.mapbox.mapboxsdk.annotations.Polygon;
-import com.mapbox.mapboxsdk.annotations.PolygonOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -39,7 +36,10 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.DamageHistoryActivity;
 
-public class MainActivity extends Activity implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends Activity implements
+        LocationListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
 
     MainController mainController;
 
@@ -52,6 +52,8 @@ public class MainActivity extends Activity implements LocationListener, GoogleAp
     private LocationProvider provider;
     private String bestProvider;
     private GoogleApiClient mGoogleApiClient;
+
+    private List<LatLng> temprarySavedMarkerLatLng = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,17 +99,22 @@ public class MainActivity extends Activity implements LocationListener, GoogleAp
 
             }
         });
+
+        mapView.getMapAsync(this);
+        /*
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(final MapboxMap mapboxMap) {
                 final PolygonOptions polygonOptions = new PolygonOptions();
                 polygonOptions.addAll(polygons);
+
                 Polygon newPolygon = mapboxMap.addPolygon(polygonOptions);
                 newPolygon.setFillColor(Color.RED);
 
                 mapboxMap.setOnMapClickListener(new MapboxMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(@NonNull LatLng latLng) {
+                        temprarySavedMarkerLatLng.add(latLng);
                         polygonOptions.add(latLng);
                         mapboxMap.addMarker(new MarkerOptions().setPosition(latLng));
                     }
@@ -128,7 +135,7 @@ public class MainActivity extends Activity implements LocationListener, GoogleAp
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
 
-
+        */
     }
 
     @Override
@@ -216,6 +223,17 @@ public class MainActivity extends Activity implements LocationListener, GoogleAp
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+
+    /**
+     * add all things on the map
+     *
+     * @param mapView
+     */
+    @Override
+    public void onMapReady(MapboxMap mapView) {
 
     }
 }

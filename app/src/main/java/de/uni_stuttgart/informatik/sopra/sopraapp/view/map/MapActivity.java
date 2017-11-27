@@ -1,5 +1,6 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,12 +10,12 @@ import android.view.View;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity implements MapFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map3);
+        setContentView(R.layout.activity_map);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -28,4 +29,8 @@ public class MapActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

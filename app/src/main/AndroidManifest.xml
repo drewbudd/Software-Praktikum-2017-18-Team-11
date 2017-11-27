@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
@@ -32,10 +31,6 @@
         <activity
             android:name=".view.map.MainActivity"
             android:label="@string/title_activity_map" />
-        <activity
-            android:name=".view.CreateNewFieldActivity"
-            android:label="@string/title_activity_create_new_field"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.DamageHistoryActivity" />
         <activity
             android:name=".view.map.MapActivity"

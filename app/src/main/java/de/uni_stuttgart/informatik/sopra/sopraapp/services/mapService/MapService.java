@@ -1,5 +1,7 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService;
 
+import com.mapbox.mapboxsdk.geometry.LatLng;
+
 import java.util.ArrayList;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
@@ -27,11 +29,12 @@ public class MapService {
         return instance;
     }
 
-    public void createNewField() {
+
+    public void saveNewField() {
 
     }
 
-    public void addMarker() {
+    public void PositionToJson(LatLng position) {
 
     }
 

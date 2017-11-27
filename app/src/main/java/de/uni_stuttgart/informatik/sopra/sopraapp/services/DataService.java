@@ -81,6 +81,10 @@ public class DataService {
 
     }
 
+    public void saveField(Field newField) {
+        this.allFields.add(newField);
+    }
+
     public List<DamageEvent> getAllDamageEvents() {
         return this.allDamageEvents;
     }

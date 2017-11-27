@@ -2,10 +2,16 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 
 import android.content.Context;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
 
 /**
@@ -20,11 +26,17 @@ public class DataStorageService {
 
     public static DataStorageService instance = null;
     private List<User> stubUser = new ArrayList<>();
+    private List<Field> allFields = new ArrayList<>();
+    private Connection connection;
 
 
     private DataStorageService() {
         addStubUsers();
-
+        try {
+            DriverManager.getConnection("jdbc:derby:AppDB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static DataStorageService getInstance(Context applicationContext) {
@@ -55,6 +67,32 @@ public class DataStorageService {
      */
     public List<User> getStubUsers() {
         return stubUser;
+    }
+
+    public List getAllFieldsBy(User user) {
+        Statement s = null;
+        try {
+            s = connection.createStatement();
+
+            String sql = "SELECT * FROM Field ";
+            switch (user.getCurrentUserRole()) {
+
+                case LANDWIRT:
+                    sql += "WHERE owner ==" + user.getName();
+                    break;
+                case GUTACHTER:
+                    break;
+            }
+            ResultSet result = s.executeQuery(sql);
+            while (result.next()) {
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

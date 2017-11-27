@@ -1,7 +1,5 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.model;
 
-import android.arch.persistence.room.Entity;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,7 +14,6 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRol
  * Usermodel
  */
 
-@Entity
 public class User {
 
 
