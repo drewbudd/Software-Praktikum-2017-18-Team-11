@@ -3,6 +3,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -16,6 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.annotations.Polygon;
+import com.mapbox.mapboxsdk.annotations.PolygonOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
@@ -148,13 +152,25 @@ public class MapFragment extends Fragment implements
                 .setAction("Action", null).show();
 
 
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(MapboxMap mapboxMap) {
+                PolygonOptions polygonOptions = new PolygonOptions();
+                polygonOptions.addAll(currentMarkerPositions);
+                Polygon newPolygon = mapboxMap.addPolygon(polygonOptions);
+                newPolygon.setFillColor(Color.RED);
+            }
+        });
+
     }
 
     final String TAG = "TAG";
 
-
+    private MapboxMap mapboxMapGlobal;
     @Override
     public void onMapReady(final MapboxMap mapboxMap) {
+        mapboxMapGlobal = mapboxMap;
+
         mapboxMap.setOnMapClickListener(mapFragment);
 
         mapboxMap.setCameraPosition(new CameraPosition.Builder()
@@ -255,6 +271,7 @@ public class MapFragment extends Fragment implements
 
             case CREATE_FIELD:
                 this.currentMarkerPositions.add(point);
+                mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                 break;
             case CREATE_DAMAGE:
                 break;
