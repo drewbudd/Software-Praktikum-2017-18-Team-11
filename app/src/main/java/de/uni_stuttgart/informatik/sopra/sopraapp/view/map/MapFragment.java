@@ -48,7 +48,6 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MapFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link MapFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -63,6 +62,9 @@ public class MapFragment extends Fragment implements
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int REQUEST_LOCATION_COURSE = 42;
+    private static final int REQUEST_LOCATION_FINE = 7;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -76,6 +78,7 @@ public class MapFragment extends Fragment implements
     FloatingActionButton fab;
     private MapFragment mapFragment;
     private OfflineRegion[] offlineRegions;
+
 
     private MapEditingStatus currentStatus = MapEditingStatus.DEFAULT;
     private List<Field> allSavedFields = new ArrayList<>();
@@ -140,11 +143,14 @@ public class MapFragment extends Fragment implements
 
         fab = rootView.findViewById(R.id.fab);
         fab.setOnClickListener(this);
+        // locationManager = (LocationManager) mapFragment.getActivity().getSystemService(getContext().LOCATION_SERVICE);
 
 //        allSavedFields = App.dataService.loadFields();
 
+
         return rootView;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -334,8 +340,9 @@ public class MapFragment extends Fragment implements
 
     @Override
     public void onLocationChanged(Location location) {
-
+        Log.v("location", location.getLatitude() + "");
     }
+
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
