@@ -70,6 +70,10 @@ public class MapFragment extends Fragment implements
     private List<LatLng> currentMarkerPositions;
 
     FloatingActionButton fab;
+    FloatingActionButton fab1;
+    FloatingActionButton fab2;
+    FloatingActionButton fab3;
+    private boolean isFABOpen;
     private MapFragment mapFragment;
     private OfflineRegion[] offlineRegions;
 
@@ -121,11 +125,45 @@ public class MapFragment extends Fragment implements
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
         fab = rootView.findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+
+        fab1 = rootView.findViewById(R.id.fab1);
+        fab2 = rootView.findViewById(R.id.fab2);
+        fab3 = rootView.findViewById(R.id.fab3);
+
+        isFABOpen = false;
+
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
+        fab3.setOnClickListener(this);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isFABOpen) {
+                    showFABMenu();
+                } else {
+                    closeFABMenu();
+                }
+            }
+        });
 
 //        allSavedFields = App.dataService.loadFields();
 
         return rootView;
+    }
+
+    private void showFABMenu() {
+        isFABOpen = true;
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155));
+    }
+
+    private void closeFABMenu() {
+        isFABOpen = false;
+        fab1.animate().translationY(0);
+        fab2.animate().translationY(0);
+        fab3.animate().translationY(0);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
