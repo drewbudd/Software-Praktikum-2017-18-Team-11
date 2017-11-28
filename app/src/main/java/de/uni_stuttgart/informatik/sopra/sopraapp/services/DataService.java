@@ -29,7 +29,6 @@ public class DataService {
     private DataService(){
         // safety singleton pattern
 
-
         loadUsers();
         allDamageEvents.add(new DamageEvent(DamageEventArt.WIND));
         allDamageEvents.get(0).setOwner(getCurrentLoggedInUser());

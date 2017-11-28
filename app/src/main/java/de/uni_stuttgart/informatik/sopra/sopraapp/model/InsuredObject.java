@@ -7,6 +7,8 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
 /**
  * @author Stefan Zindl
  * @since 2017/11/21
+ *
+ *
  */
 
 public class InsuredObject {

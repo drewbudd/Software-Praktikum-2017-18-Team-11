@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -40,6 +42,7 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.FieldType;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.AppModus;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
@@ -54,7 +57,8 @@ public class MapFragment extends Fragment implements
         View.OnClickListener,
         OnMapReadyCallback,
         MapView.OnMapChangedListener,
-        MapboxMap.OnMapClickListener {
+        MapboxMap.OnMapClickListener, MapboxMap.OnPolygonClickListener,
+        LocationListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -73,10 +77,9 @@ public class MapFragment extends Fragment implements
     private MapFragment mapFragment;
     private OfflineRegion[] offlineRegions;
 
-
     private MapEditingStatus currentStatus = MapEditingStatus.DEFAULT;
     private List<Field> allSavedFields = new ArrayList<>();
-
+    private AppModus currentModus = AppModus.OFFLINE;
 
     public MapFragment() {
         // Required empty public constructor
@@ -111,6 +114,21 @@ public class MapFragment extends Fragment implements
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        if (!isNetworkAvailable()) {
+            this.currentModus = AppModus.OFFLINE;
+            initOfflineModus();
+        } else {
+            this.currentModus = AppModus.ONLINE;
+            initOnlineModus();
+        }
+
+
+    }
+
+    private void initOnlineModus() {
+    }
+
+    private void initOfflineModus() {
 
     }
 
@@ -164,6 +182,7 @@ public class MapFragment extends Fragment implements
                 polygonOptions.addAll(currentMarkerPositions);
                 Polygon newPolygon = mapboxMap.addPolygon(polygonOptions);
                 newPolygon.setFillColor(Color.RED);
+
                 // TODO: name, type from other fragment
                 Field field = new Field(FieldType.CORN);
                 field.setMarkerPosition(currentMarkerPositions);
@@ -181,6 +200,7 @@ public class MapFragment extends Fragment implements
         mapboxMapGlobal = mapboxMap;
 
         mapboxMap.setOnMapClickListener(mapFragment);
+        mapboxMap.setOnPolygonClickListener(mapFragment);
 
         /* Campus coordinates*/
         mapboxMap.setCameraPosition(new CameraPosition.Builder()
@@ -302,6 +322,36 @@ public class MapFragment extends Fragment implements
 
     }
 
+    public void newDamage(View view) {
+
+
+    }
+
+    @Override
+    public void onPolygonClick(@NonNull Polygon polygon) {
+        PolygonOptions polygonOptions = new PolygonOptions();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -330,6 +380,8 @@ public class MapFragment extends Fragment implements
         mapView.getMapAsync(this);
 //        mapboxMapGlobal.setOnPolygonClickListener(this);
 
+        // Fixme doesnt work offline right now
+        /*
         if (!isNetworkAvailable()) {
             // Get the region bounds and zoom and move the camera.
             LatLngBounds bounds = offlineRegions[0].getDefinition().getBounds();
@@ -343,7 +395,7 @@ public class MapFragment extends Fragment implements
                     .build();
 
 // Move camera to new position
-        }
+        } */
 
     }
 
