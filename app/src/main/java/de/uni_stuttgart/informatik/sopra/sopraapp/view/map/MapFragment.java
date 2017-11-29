@@ -1,11 +1,14 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -13,6 +16,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,6 +80,9 @@ public class MapFragment extends Fragment implements
     private View rootView;
     private List<LatLng> currentMarkerPositions;
 
+    private LocationManager locationManager;
+
+
     FloatingActionButton fab;
     private MapFragment mapFragment;
     private OfflineRegion[] offlineRegions;
@@ -125,7 +133,31 @@ public class MapFragment extends Fragment implements
             initOnlineModus();
         }
 
+        askPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION_FINE);
+        askPermission(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_LOCATION_COURSE);
 
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, mapFragment);
+
+
+    }
+
+    private void askPermission(String accessCoarseLocation, int requestLocationCourse) {
+        if (ContextCompat.checkSelfPermission(getActivity(), accessCoarseLocation) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{accessCoarseLocation}, requestLocationCourse);
+        }
     }
 
     private void initOnlineModus() {
@@ -359,6 +391,10 @@ public class MapFragment extends Fragment implements
 
     }
 
+
+    public LocationListener getLocationListener() {
+        return this;
+    }
 
     /**
      * This interface must be implemented by activities that contain this

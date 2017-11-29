@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mapfragment_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapFragment"

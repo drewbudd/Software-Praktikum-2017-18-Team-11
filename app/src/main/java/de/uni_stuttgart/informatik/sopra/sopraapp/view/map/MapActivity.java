@@ -1,6 +1,5 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -26,30 +25,22 @@ public class MapActivity extends AppCompatActivity implements
     private static final int REQUEST_LOCATION_GPS = 102;
     private static final int REQUEST_LOCATION_HARDWARE = 103;
 
+    private MapFragment mapFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        askPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION_FINE);
-        askPermission(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_LOCATION_COURSE);
-        askPermission(Manifest.permission.LOCATION_HARDWARE, REQUEST_LOCATION_HARDWARE);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, this);
-
         setContentView(R.layout.activity_map);
+        // askPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION_FINE);
+        //askPermission(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_LOCATION_COURSE);
+        //askPermission(Manifest.permission.LOCATION_HARDWARE, REQUEST_LOCATION_HARDWARE);
+
+
+        //      locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, mapFragment);
+
+
 
     }
 
