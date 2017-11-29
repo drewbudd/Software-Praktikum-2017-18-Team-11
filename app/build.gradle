@@ -51,5 +51,9 @@ dependencies {
     implementation 'com.android.support:design:27.0.1'
     compile 'com.google.android.gms:play-services-location:11.6.0'
     compile 'com.google.android.gms:play-services-maps:11.6.0'
+    repositories {
+        mavenCentral()
+    }
+    compile 'com.sothree.slidinguppanel:library:3.4.0'
 
 }
