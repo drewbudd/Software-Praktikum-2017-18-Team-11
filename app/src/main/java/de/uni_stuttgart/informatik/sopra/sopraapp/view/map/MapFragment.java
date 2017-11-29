@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.widget.LinearLayout;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
@@ -70,9 +72,9 @@ public class MapFragment extends Fragment implements
     private List<LatLng> currentMarkerPositions;
 
     FloatingActionButton fab;
-    FloatingActionButton fab1;
-    FloatingActionButton fab2;
-    FloatingActionButton fab3;
+    LinearLayout fab1;
+    LinearLayout fab2;
+    LinearLayout fab3;
     private boolean isFABOpen;
     private MapFragment mapFragment;
     private OfflineRegion[] offlineRegions;
@@ -126,15 +128,15 @@ public class MapFragment extends Fragment implements
 
         fab = rootView.findViewById(R.id.fab);
 
-        fab1 = rootView.findViewById(R.id.fab1);
-        fab2 = rootView.findViewById(R.id.fab2);
-        fab3 = rootView.findViewById(R.id.fab3);
+        fab1 = rootView.findViewById(R.id.fab1_and_label);
+        fab2 = rootView.findViewById(R.id.fab2_and_label);
+        fab3 = rootView.findViewById(R.id.fab3_and_label);
 
         isFABOpen = false;
 
-        fab1.setOnClickListener(this);
-        fab2.setOnClickListener(this);
-        fab3.setOnClickListener(this);
+        rootView.findViewById(R.id.fab1).setOnClickListener(this);
+        rootView.findViewById(R.id.fab2).setOnClickListener(this);
+        rootView.findViewById(R.id.fab3).setOnClickListener(this);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,9 +156,12 @@ public class MapFragment extends Fragment implements
 
     private void showFABMenu() {
         isFABOpen = true;
-        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155));
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55)).setDuration(200);
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105)).setDuration(400);
+        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155)).setDuration(600);
+        rootView.findViewById(R.id.fab1_label).animate().alpha(1.0f).setDuration(300);
+        rootView.findViewById(R.id.fab2_label).animate().alpha(1.0f).setDuration(600);
+        rootView.findViewById(R.id.fab3_label).animate().alpha(1.0f).setDuration(900);
     }
 
     private void closeFABMenu() {
@@ -164,6 +169,9 @@ public class MapFragment extends Fragment implements
         fab1.animate().translationY(0);
         fab2.animate().translationY(0);
         fab3.animate().translationY(0);
+        rootView.findViewById(R.id.fab1_label).animate().alpha(0.0f).setDuration(200);
+        rootView.findViewById(R.id.fab2_label).animate().alpha(0.0f).setDuration(200);
+        rootView.findViewById(R.id.fab3_label).animate().alpha(0.0f).setDuration(200);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
