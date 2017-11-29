@@ -331,18 +331,13 @@ public class MapFragment extends Fragment implements
             this.currentStatus = MapEditingStatus.CREATED_DAMAGE_DONE;
         } else {
             this.currentStatus = MapEditingStatus.CREATE_DAMAGE;
-
         }
-
-
 
     }
 
     @Override
     public void onPolygonClick(@NonNull Polygon polygon) {
         this.onPolygonClicked = true;
-
-
 
     }
 
@@ -399,6 +394,8 @@ public class MapFragment extends Fragment implements
         mapView.onCreate(savedInstanceState);
         mapView.addOnMapChangedListener(this);
         mapView.getMapAsync(this);
+
+
 //        mapboxMapGlobal.setOnPolygonClickListener(this);
 
         // Fixme doesnt work offline right now
