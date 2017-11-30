@@ -75,10 +75,11 @@ public class ManageServiceFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                com.sothree.slidinguppanel.SlidingUpPanelLayout slidingLayout = getActivity().findViewById(R.id.sliding_layout);
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
                 switch(tab.getPosition()) {
                     case 1:
-                        com.sothree.slidinguppanel.SlidingUpPanelLayout slidingLayout = getActivity().findViewById(R.id.sliding_layout);
-                        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+
                         break;
                     default:
                         // do nothing
@@ -92,7 +93,12 @@ public class ManageServiceFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                com.sothree.slidinguppanel.SlidingUpPanelLayout slidingLayout = getActivity().findViewById(R.id.sliding_layout);
+                if (slidingLayout.getPanelState() != SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                    slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                } else {
+                    slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+                }
             }
         });
 
