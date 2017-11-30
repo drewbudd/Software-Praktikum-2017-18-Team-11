@@ -21,6 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/manageServiceFragment"
-        android:name="de.uni_stuttgart.informatik.sopra.sopraapp.view.map.ManageServiceFragment" />
+        android:name="de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ManageServiceFragment" />
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
