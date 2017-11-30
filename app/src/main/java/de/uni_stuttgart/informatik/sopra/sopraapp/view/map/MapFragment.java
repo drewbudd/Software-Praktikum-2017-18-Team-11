@@ -292,6 +292,8 @@ public class MapFragment extends Fragment implements
 
     @Override
     public void onMapChanged(int change) {
+
+
     }
 
     @Override

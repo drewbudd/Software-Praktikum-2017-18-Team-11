@@ -4,7 +4,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.ArrayList;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 
 /**
@@ -19,7 +19,7 @@ public class MapService {
     public static MapService instance = null;
 
     private ArrayList<Field> fieldsOnMap = new ArrayList<>();
-    private ArrayList<DamageEvent> damagesOnMap = new ArrayList<>();
+    private ArrayList<Damage> damagesOnMap = new ArrayList<>();
 
 
     public static MapService getInstance() {

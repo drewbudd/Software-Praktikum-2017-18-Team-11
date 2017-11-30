@@ -1,6 +1,12 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Debug;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +18,9 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.FieldType;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * @author Stefan Zindl
@@ -25,39 +33,46 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRol
 public class DataStorageService {
 
     public static DataStorageService instance = null;
+
     private List<User> stubUser = new ArrayList<>();
     private List<Field> allFields = new ArrayList<>();
-    private Connection connection;
-
 
     private DataStorageService() {
-        addStubUsers();
-        try {
-            DriverManager.getConnection("jdbc:derby:AppDB");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            addStubUsers();
+            addStubFields();
     }
 
+    /**
+     * Adds stub fields
+     */
+    private void addStubFields() {
+        this.allFields.add(new Field(FieldType.CORN));
+        this.allFields.add(new Field(FieldType.CORN));
+        this.allFields.add(new Field(FieldType.CORN));
+        this.allFields.add(new Field(FieldType.CORN));
+        this.allFields.add(new Field(FieldType.CORN));
+    }
+
+    /**
+     * creates an Singelton Pattern from DataStorageService
+     * @param applicationContext
+     * @return
+     */
     public static DataStorageService getInstance(Context applicationContext) {
         if (instance == null) {
             instance = new DataStorageService();
 
         }
-        //AppDatabase appDatabase = Room.databaseBuilder(applicationContext, AppDatabase.class,"app-database").build();
         return instance;
     }
 
     private void addStubUsers() {
         this.stubUser.add(new User("aa", "a"));
-
         this.stubUser.add(new User("admin2", "admin"));
-        this.stubUser.add(new User("", ""));
 
         stubUser.get(0).setUserRole(UserRole.LANDWIRT);
         stubUser.get(1).setUserRole(UserRole.GUTACHTER);
         stubUser.get(2).setUserRole(UserRole.LANDWIRT);
-
     }
 
     /**
@@ -69,34 +84,50 @@ public class DataStorageService {
         return stubUser;
     }
 
-    public List getAllFieldsBy(User user) {
-        Statement s = null;
-        try {
-            s = connection.createStatement();
-
-            String sql = "SELECT * FROM Field ";
-            switch (user.getCurrentUserRole()) {
-
-                case LANDWIRT:
-                    sql += "WHERE owner ==" + user.getName();
-                    break;
-                case GUTACHTER:
-                    break;
-            }
-            ResultSet result = s.executeQuery(sql);
-            while (result.next()) {
-
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
+    /**
+     * load all saved Fields form Storage
+     * using SharedPreferences
+     * @return
+     */
     public List<Field> getAllFieldsFromEveryUser() {
 
-        return null;
+        Gson gsonHandler = new Gson();
+        String fieldsAsJSon = null;
+        SharedPreferences loadFields = null;
+        try {
+            SharedPreferences sharedPreferences = App.getCurrentContext().getSharedPreferences("App_STORAGE",App.getCurrentContext().MODE_PRIVATE);
+            fieldsAsJSon = sharedPreferences.getString("allFields", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<Field> allFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<List<Field>>(){}.getType());
+        return  allFields;
+    }
+
+    /**
+     * saves all Fields using SharedPreferences
+     * @param allFields
+     */
+    public void saveAllFields(List<Field> allFields){
+        Gson gsonHandler = new Gson();
+        String allFieldsAsJSon = gsonHandler.toJson(allFields);
+        SharedPreferences saveFields = null;
+        try {
+            saveFields = getContext().getSharedPreferences("App_STORAGE", getContext().getApplicationContext().MODE_PRIVATE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SharedPreferences.Editor editor = saveFields.edit();
+        editor.putString("allFields",allFieldsAsJSon);
+    }
+
+    /**
+     * get the current ApplicationContext
+     * @return
+     * @throws Exception
+     */
+    public static Application getContext() throws Exception {
+        return (Application) Class.forName("android.app.AppGlobals")
+                .getMethod("getInitialApplication").invoke(null, (Object[]) null);
     }
 }

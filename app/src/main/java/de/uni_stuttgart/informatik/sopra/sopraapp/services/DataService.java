@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEventArt;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
@@ -23,17 +23,17 @@ public class DataService {
     private User currentLoggedInUser;
     private List<Field> allFields = new ArrayList<>();
 
-    List<DamageEvent> allDamageEvents = new ArrayList<>();
+    List<Damage> allDamages = new ArrayList<>();
 
 
     private DataService(){
         // safety singleton pattern
 
         loadUsers();
-        allDamageEvents.add(new DamageEvent(DamageEventArt.WIND));
-        allDamageEvents.get(0).setOwner(getCurrentLoggedInUser());
-        allDamageEvents.add(new DamageEvent(DamageEventArt.WIND));
-        allDamageEvents.get(1).setOwner(getCurrentLoggedInUser());
+        allDamages.add(new Damage(DamageEventArt.WIND));
+        allDamages.get(0).setOwner(getCurrentLoggedInUser());
+        allDamages.add(new Damage(DamageEventArt.WIND));
+        allDamages.get(1).setOwner(getCurrentLoggedInUser());
 
     }
 
@@ -72,11 +72,11 @@ public class DataService {
     }
 
 
-    public void updateDamageEvent(DamageEvent old, DamageEvent updated) {
+    public void updateDamageEvent(Damage old, Damage updated) {
         // TODO implement
     }
 
-    public void deleteDamageEvent(DamageEvent damageEvent) {
+    public void deleteDamageEvent(Damage damage) {
 
     }
 
@@ -84,8 +84,8 @@ public class DataService {
         this.allFields.add(newField);
     }
 
-    public List<DamageEvent> getAllDamageEvents() {
-        return this.allDamageEvents;
+    public List<Damage> getAllDamages() {
+        return this.allDamages;
     }
 
     /**
@@ -97,7 +97,7 @@ public class DataService {
             case GUTACHTER:
                 return App.dataStorageService.getAllFieldsFromEveryUser();
             default:
-                return App.dataStorageService.getAllFieldsBy(getCurrentLoggedInUser());
+                return App.dataStorageService.getAllFieldsFromEveryUser();
         }
     }
 }
