@@ -3,16 +3,10 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Debug;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +66,6 @@ public class DataStorageService {
 
         stubUser.get(0).setUserRole(UserRole.LANDWIRT);
         stubUser.get(1).setUserRole(UserRole.GUTACHTER);
-        stubUser.get(2).setUserRole(UserRole.LANDWIRT);
     }
 
     /**
@@ -95,7 +88,7 @@ public class DataStorageService {
         String fieldsAsJSon = null;
         SharedPreferences loadFields = null;
         try {
-            SharedPreferences sharedPreferences = App.getCurrentContext().getSharedPreferences("App_STORAGE",App.getCurrentContext().MODE_PRIVATE);
+            SharedPreferences sharedPreferences = App.getCurrentContext().getSharedPreferences("App_STORAGE", Context.MODE_PRIVATE);
             fieldsAsJSon = sharedPreferences.getString("allFields", "");
         } catch (Exception e) {
             e.printStackTrace();
