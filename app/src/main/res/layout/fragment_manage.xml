@@ -12,21 +12,25 @@
         android:layout_height="@dimen/tabSize">
 
         <android.support.design.widget.TabItem
+            android:id="@+id/fields_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tab_fields" />
 
         <android.support.design.widget.TabItem
+            android:id="@+id/damages_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tab_damage" />
 
         <android.support.design.widget.TabItem
+            android:id="@+id/contracts_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tab_contracts" />
 
         <android.support.design.widget.TabItem
+            android:id="@+id/search_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tab_search" />
