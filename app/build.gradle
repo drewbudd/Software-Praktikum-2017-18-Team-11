@@ -35,7 +35,9 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
     testCompile 'org.mockito:mockito-core:+'
     androidTestCompile 'org.mockito:mockito-android:+'
@@ -55,5 +57,7 @@ dependencies {
         mavenCentral()
     }
     compile 'com.sothree.slidinguppanel:library:3.4.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+
 
 }

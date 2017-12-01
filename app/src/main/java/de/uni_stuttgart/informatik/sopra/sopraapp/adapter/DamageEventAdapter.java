@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
@@ -28,12 +28,12 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 public class DamageEventAdapter extends RecyclerView.Adapter<DamageEventAdapter.ViewHolder> {
 
 
-    private List<DamageEvent> damageEvents;
+    private List<Damage> damages;
     private List<ViewHolder> views = new ArrayList<>();
     private Context context;
 
-    public DamageEventAdapter(Context context, List<DamageEvent> events) {
-        this.damageEvents = events;
+    public DamageEventAdapter(Context context, List<Damage> events) {
+        this.damages = events;
         this.context = context;
     }
 
@@ -49,10 +49,10 @@ public class DamageEventAdapter extends RecyclerView.Adapter<DamageEventAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        DamageEvent event = damageEvents.get(position);
+        Damage event = damages.get(position);
         String insuranceHolder;
 
-        holder.associateDamageEvent = event;
+        holder.associateDamage = event;
 
         holder.inscuredPerson.setText(App.dataService.getCurrentLoggedInUser().getName());
 
@@ -60,14 +60,14 @@ public class DamageEventAdapter extends RecyclerView.Adapter<DamageEventAdapter.
 
     @Override
     public int getItemCount() {
-        return this.damageEvents.size();
+        return this.damages.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public CardView card;
         public TextView inscuredPerson;
-        public DamageEvent associateDamageEvent;
+        public Damage associateDamage;
 
         public ViewHolder(View itemView) {
             super(itemView);

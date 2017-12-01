@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.content.pm.PackageManager;
@@ -73,8 +74,14 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     public static ConfigService configService;
     public static MapService mapService;
 
+    private static Context context;
+
 
     private LoginController loginController = new LoginController(this);
+
+    public static Context getCurrentContext(){
+        return context;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +92,9 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
         dataService = DataService.getInstance();
         configService = ConfigService.getInstance();
         mapService = MapService.getInstance();
+
+        context = getApplicationContext();
+
 
         // Set up the login form.
         mUsernameView = findViewById(R.id.username);
@@ -329,6 +339,17 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mUsernameView.setAdapter(adapter);
+    }
+
+    public void startGutachter(View view) {
+        this.mPasswordView.setText("a");
+        this.mUsernameView.setText("admin2");
+
+    }
+
+    public void startLandwart(View view) {
+        this.mPasswordView.setText("a");
+        this.mUsernameView.setText("aa");
     }
 
 
