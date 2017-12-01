@@ -16,10 +16,17 @@
     <string name="prompt_username">Username</string>
     <string name="title_activity_map">MapActivity</string>
 
+    <!-- Strings related to  -->
+    <string name="tab_fields">Fields</string>
+    <string name="tab_damage">Damage Reports</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_contracts">Contracts</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_create_new_field">CreateNewFieldActivity</string>
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

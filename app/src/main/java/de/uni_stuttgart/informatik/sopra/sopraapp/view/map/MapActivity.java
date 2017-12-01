@@ -1,5 +1,6 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,10 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.DamagesFragment;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.FieldsFragment;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ManageServiceFragment;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.SearchFragment;
 
 public class MapActivity extends AppCompatActivity implements
-        MapFragment.OnFragmentInteractionListener,
-        ManageServiceFragment.OnFragmentInteractionListener,
+        MapFragment.OnFragmentInteractionListener, 
+        ManageServiceFragment.OnFragmentInteractionListener, 
+        ContractsFragment.OnFragmentInteractionListener, 
+        DamagesFragment.OnFragmentInteractionListener, 
+        FieldsFragment.OnFragmentInteractionListener, 
+        SearchFragment.OnFragmentInteractionListener,
         LocationListener {
 
 

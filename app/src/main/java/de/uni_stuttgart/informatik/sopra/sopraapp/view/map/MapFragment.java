@@ -23,6 +23,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.widget.LinearLayout;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
@@ -87,6 +89,10 @@ public class MapFragment extends Fragment implements
 
 
     FloatingActionButton fab;
+    LinearLayout fab1;
+    LinearLayout fab2;
+    LinearLayout fab3;
+    private boolean isFABOpen;
     private MapFragment mapFragment;
     private OfflineRegion[] offlineRegions;
 
@@ -187,7 +193,27 @@ public class MapFragment extends Fragment implements
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
         fab = rootView.findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+
+        fab1 = rootView.findViewById(R.id.fab1_and_label);
+        fab2 = rootView.findViewById(R.id.fab2_and_label);
+        fab3 = rootView.findViewById(R.id.fab3_and_label);
+
+        isFABOpen = false;
+
+        rootView.findViewById(R.id.fab1).setOnClickListener(this);
+        rootView.findViewById(R.id.fab2).setOnClickListener(this);
+        rootView.findViewById(R.id.fab3).setOnClickListener(this);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isFABOpen) {
+                    showFABMenu();
+                } else {
+                    closeFABMenu();
+                }
+            }
+        });
 
         newDamage = rootView.findViewById(R.id.newDamage);
         newDamage.setOnClickListener(new View.OnClickListener() {
@@ -203,6 +229,25 @@ public class MapFragment extends Fragment implements
         return rootView;
     }
 
+    private void showFABMenu() {
+        isFABOpen = true;
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55)).setDuration(200);
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105)).setDuration(400);
+        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155)).setDuration(600);
+        rootView.findViewById(R.id.fab1_label).animate().alpha(1.0f).setDuration(300);
+        rootView.findViewById(R.id.fab2_label).animate().alpha(1.0f).setDuration(600);
+        rootView.findViewById(R.id.fab3_label).animate().alpha(1.0f).setDuration(900);
+    }
+
+    private void closeFABMenu() {
+        isFABOpen = false;
+        fab1.animate().translationY(0);
+        fab2.animate().translationY(0);
+        fab3.animate().translationY(0);
+        rootView.findViewById(R.id.fab1_label).animate().alpha(0.0f).setDuration(200);
+        rootView.findViewById(R.id.fab2_label).animate().alpha(0.0f).setDuration(200);
+        rootView.findViewById(R.id.fab3_label).animate().alpha(0.0f).setDuration(200);
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
