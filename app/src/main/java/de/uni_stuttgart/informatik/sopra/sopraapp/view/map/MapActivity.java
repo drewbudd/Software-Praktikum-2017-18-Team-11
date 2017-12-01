@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.DamagesFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.FieldsFragment;
@@ -26,6 +27,7 @@ public class MapActivity extends AppCompatActivity implements
         DamagesFragment.OnFragmentInteractionListener, 
         FieldsFragment.OnFragmentInteractionListener, 
         SearchFragment.OnFragmentInteractionListener,
+        BlankFragment.OnFragmentInteractionListener,
         LocationListener {
 
 

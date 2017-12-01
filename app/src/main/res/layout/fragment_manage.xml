@@ -37,8 +37,8 @@
     </android.support.design.widget.TabLayout>
 
     <fragment
-        android:id="@+id/fragment"
-        android:name="de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.FieldsFragment"
+        android:id="@+id/info_fragment"
+        android:name="de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
