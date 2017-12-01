@@ -8,7 +8,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEvent;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapElement;
 
 /**
@@ -22,7 +22,7 @@ public class Field implements OnMapElement {
 
 
     private FieldType fieldType;
-    private List<DamageEvent> damages;
+    private List<Damage> damages;
     private List<LatLng> markerPosition = new ArrayList<>();
     private Color color;
 
@@ -34,7 +34,7 @@ public class Field implements OnMapElement {
     /**
      * @param damage
      */
-    public void addDamage(DamageEvent damage) {
+    public void addDamage(Damage damage) {
         this.damages.add(damage);
     }
 
@@ -47,11 +47,11 @@ public class Field implements OnMapElement {
         this.fieldType = fieldType;
     }
 
-    public List<DamageEvent> getDamages() {
+    public List<Damage> getDamages() {
         return damages;
     }
 
-    public void setDamages(List<DamageEvent> damages) {
+    public void setDamages(List<Damage> damages) {
         this.damages = damages;
     }
 

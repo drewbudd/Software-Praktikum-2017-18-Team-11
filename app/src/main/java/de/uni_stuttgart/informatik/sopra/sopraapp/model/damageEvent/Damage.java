@@ -6,15 +6,17 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapEleme
 /**
  * @author Stefan Zindl
  * @since 2017/11/14
+ *
+ * Represents a Damage.
  */
 
-public class DamageEvent implements OnMapElement{
+public class Damage implements OnMapElement{
 
     private DamageEventArt art;
     private DamageEventStatus currentStatus;
     private User owner;
 
-    public DamageEvent(DamageEventArt art){
+    public Damage(DamageEventArt art){
         this.currentStatus = DamageEventStatus.CREATED;
         this.art = art;
     }

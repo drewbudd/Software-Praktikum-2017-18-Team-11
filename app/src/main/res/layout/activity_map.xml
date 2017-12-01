@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity"
-    android:orientation="vertical">
+    android:gravity="bottom"
+    sothree:umanoPanelHeight="64dp"
+    sothree:umanoShadowHeight="4dp"
+    sothree:umanoAnchorPoint="0.6">
 
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapFragment"
         android:id="@+id/map_fragment"
-        android:layout_weight="1" />
+        android:gravity="center" />
 
     <fragment
-        android:layout_weight="2"
+        android:gravity="center|top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/manageServiceFragment"
-        android:name="de.uni_stuttgart.informatik.sopra.sopraapp.view.map.ManageServiceFragment" />
+        android:name="de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ManageServiceFragment" />
 
-</LinearLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

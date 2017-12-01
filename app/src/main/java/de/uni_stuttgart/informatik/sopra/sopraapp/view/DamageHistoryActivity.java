@@ -18,9 +18,9 @@ public class DamageHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_ovactvity);
 
-        recyclerView = findViewById(R.id.damageEvents);
+        recyclerView = findViewById(R.id.damages);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
-        recyclerView.setAdapter(new DamageEventAdapter(this, App.dataService.getAllDamageEvents()));
+        recyclerView.setAdapter(new DamageEventAdapter(this, App.dataService.getAllDamages()));
 
     }
 }
