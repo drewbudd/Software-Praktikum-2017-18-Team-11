@@ -4,16 +4,16 @@ Dieser Entwurf legt unsere Lösungsstruktur fest und enthält alles, was wir ben
 
 Unsere App ist in vier große Teile aufgebaut:
 - View
-- Viewmodel
+- Controller
 - Model
 - App-Services
 
 Wir haben die App so aufgebaut, damit es möglich ist verschiedene Features gleichzeigt programmieren zu können. Somit kann jedes Team-Mitglied unabhängig von anderen arbeiten.
-![Appaufbau](images/General-AppStructure.png)
+![Appaufbau](images/appStructure.png)
 
 ## Verwendete Entwurfsmuster:
-### Model View View-Model ###
-MVVM wird in diesem Projekt verwendet, da dadurch sichergestellt wird, dass die App unabhängig von der GUI getestet werden kann.
+### MVC ###
+Wir benutzen das Entwurfsmuster MVC, da wir die Aufgaben unabhängig von anderen Gruppenmitgliedern arbeiten können.
 
 ### Service-Provider
 Im Package Service werden über AppRegistry Services bereitgestellt, die von der ganzen App aus zugreifbar sind. Dadurch ist es möglich gespeicherte Daten von einem Ort zu holen.
@@ -23,7 +23,7 @@ Im Package Service werden über AppRegistry Services bereitgestellt, die von der
 ![Komponentendiagramm](Entwurf/cd1.jpg)
 
 ## Services
-
+Im ersten Phase unserer Impementierung haben wir die Struktur unserer Services vereinfacht, da es für diesen Zustand und Umfang unserer App Sinn macht. Nichts desto trotz möchten wir diese Struktur in unserem Entwurf beibehalten, da wir diese Struktur umsetzen möchten, sobard die App eine gewisse Größe erreicht hat und es uns dadurch Unabhängigkeit verschafft.
 ### Beschreibung
 Die Komponente Services stellt die bereitgestellten Services als Unterkomponente bereit. Dazu gehört zum Beispiel der Map-Service.
 
@@ -39,21 +39,14 @@ Das Ziel ist es, dass einfach weitere Services hinzugefügt und ausgetauscht wer
 
 ## View
 
-In der View werden alle seperaten Views hinzugefügt.
+In der View werden alle seperaten Views hinzugefügt. Im LoginView haben wir das Setup integriert, da manche services einen Context benötigten und es so sinnvoll ist.
 
-## Viewmodel
+## Controller
 
-In dieser Komponente werden alle Klassen drin sein, welche die Logik für die View bereitstellt.
-
-## Setup
-
-In der Komponente Setup werden die Services und andere Einstellungen für die spätere Verwendung vorbereitet.
+In dieser Komponente werden alle Klassen drin sein, welche die Logik für die View bereitstellt und Zusätlich das Bindeglied zu den Services und Models, welche in der View dargestellt werden.
 
 # Klassendiagramm
 In diesem Kapitel werden die Klassen in Packages gegliedert.
-## Setup
-
-![test](Entwurf/Klassendiagrammv0.4doneSetup.png)
 
 ### Beschreibung
 
@@ -93,7 +86,8 @@ Der MapService hat u.A. folgende Funktionen:
 - Mapdaten aktualisieren
 - Funktionen speichern
 
-Es ist die zentrale Komponente alle Features zu realisieren, die mit der Karte arbeiten.
+
+Es ist die zentrale Komponente alle Features zu realisieren, die mit der Karte arbeiten. Dieser Service wird noch im weiteren Verlauf aufgebaut, und somit die MapActivity refaktort.
 
 ### DataService
 Im Dataservice werden alle weiteren Daten bereitgestellt. Dazu gehören:
@@ -125,10 +119,10 @@ Jeder andere Service greift auf diesen zu, um Daten persistent zu speichern.
 Die Klasse User und deren Subklassen Gutachter und Landwirt stellen die Benutzer dar. Sie beschreiben welche Funktionen die rollen benutzen können.
 Z.B.: 
 - Gutachter:
-    - Zugriff auf Felder von allen Landwirten
+- Zugriff auf Felder von allen Landwirten
 
 - Landwirt:
-    - Zugriff nur auf seine eigenen Feldern
+- Zugriff nur auf seine eigenen Feldern
 
 # GUI-Skizze
 
