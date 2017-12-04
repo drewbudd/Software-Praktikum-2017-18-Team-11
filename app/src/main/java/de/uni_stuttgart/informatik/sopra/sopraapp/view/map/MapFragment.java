@@ -2,6 +2,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
 import android.Manifest;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -18,13 +19,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.LinearLayout;
 
 import com.mapbox.mapboxsdk.Mapbox;
@@ -53,8 +52,8 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.FieldType;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.AppModus;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.fragments.AddDamageDialog;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.fragments.AddFieldDialog;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddDamageDialog;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddFieldDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,40 +74,31 @@ public class MapFragment extends Fragment implements
     private static final String ARG_PARAM2 = "param2";
     private static final int REQUEST_LOCATION_COURSE = 42;
     private static final int REQUEST_LOCATION_FINE = 7;
-
-
+    final String TAG = "TAG";
+    FloatingActionButton fab;
+    LinearLayout fab1;
+    LinearLayout fab2;
+    LinearLayout fab3;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
     private MapView mapView;
     private View rootView;
     private List<LatLng> currentMarkerFieldPositions;
     private List<LatLng> currentDamageMarkerPosition;
     private List<LatLng> currentBorderPoints = new ArrayList<>();
-
     private LocationManager locationManager;
-
-
-    FloatingActionButton fab;
-    LinearLayout fab1;
-    LinearLayout fab2;
-    LinearLayout fab3;
     private boolean isFABOpen;
     private MapFragment mapFragment;
     private OfflineRegion[] offlineRegions;
-
-
-    private MapEditingStatus currentStatus = MapEditingStatus.DEFAULT;
-
+    public static MapEditingStatus currentMapEditingStatus = MapEditingStatus.DEFAULT;
     private List<Field> allSavedFields = new ArrayList<>();
-
-
     private AppModus currentModus = AppModus.OFFLINE;
     private boolean onPolygonClicked = false;
     private FloatingActionButton newDamage;
     private NewAreaMode currentMODE = NewAreaMode.GPS;
+    private MapboxMap mapboxMapGlobal;
 
     public MapFragment() {
         // Required empty public constructor
@@ -203,7 +193,19 @@ public class MapFragment extends Fragment implements
 
         isFABOpen = false;
 
-        rootView.findViewById(R.id.fab1).setOnClickListener(this);
+        rootView.findViewById(R.id.fab1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentMapEditingStatus == MapEditingStatus.DEFAULT) {
+                    currentMapEditingStatus = MapEditingStatus.START_CREATE_FIELD_COORDINATES;
+                } else if (currentMapEditingStatus == MapEditingStatus.START_CREATE_FIELD_COORDINATES) {
+                    currentMapEditingStatus = MapEditingStatus.END_CREATE_FIELD_COORDINATES;
+                    FragmentManager fm = getActivity().getFragmentManager();
+                    AddFieldDialog addFieldDialogFragment = AddFieldDialog.newInstance("Some Title");
+                    addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
+                }
+            }
+        });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,8 +221,13 @@ public class MapFragment extends Fragment implements
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                switch (currentMapEditingStatus){
+                    case DEFAULT:
+                }
+
                 FragmentManager fm = getActivity().getFragmentManager();
-                AddDamageDialog addDamageDialogFragment = AddDamageDialog.newInstance("Some Title");
+                AddDamageDialog addDamageDialogFragment = AddDamageDialog.newInstance("Add Damge");
                 addDamageDialogFragment.show(fm, "dialog_fragment_add_damage");
             }
         });
@@ -238,13 +245,9 @@ public class MapFragment extends Fragment implements
         newDamage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newDamage(v);
+                //newDamage(v);
             }
         });
-        // locationManager = (LocationManager) mapFragment.getActivity().getSystemService(getContext().LOCATION_SERVICE);
-
-//        allSavedFields = App.dataService.loadFields();
-
         return rootView;
     }
 
@@ -302,7 +305,7 @@ public class MapFragment extends Fragment implements
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
 
-                if (currentStatus == MapEditingStatus.CREATED_DAMAGE_DONE) {
+                if (currentMapEditingStatus == MapEditingStatus.CREATED_DAMAGE_DONE) {
                     PolygonOptions polygonOptions = new PolygonOptions();
                     polygonOptions.addAll(currentDamageMarkerPosition);
                     Polygon newPolygon = mapboxMap.addPolygon(polygonOptions);
@@ -330,9 +333,6 @@ public class MapFragment extends Fragment implements
         });
     }
 
-    final String TAG = "TAG";
-
-    private MapboxMap mapboxMapGlobal;
     @Override
     public void onMapReady(final MapboxMap mapboxMap) {
         mapboxMapGlobal = mapboxMap;
@@ -344,7 +344,6 @@ public class MapFragment extends Fragment implements
         mapboxMap.setCameraPosition(new CameraPosition.Builder()
                 .target(new LatLng(48.74641, 9.10623))
                 .zoom(15).build());
-
 
 
     }
@@ -362,8 +361,12 @@ public class MapFragment extends Fragment implements
 
     @Override
     public void onMapClick(@NonNull LatLng point) {
-        switch (currentStatus) {
-
+        switch (currentMapEditingStatus) {
+            case START_CREATE_FIELD_COORDINATES:
+                this.currentMarkerFieldPositions.add(point);
+                mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
+                break;
+            /*
             case CREATE_FIELD:
                 this.currentMarkerFieldPositions.add(point);
                 mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
@@ -381,8 +384,10 @@ public class MapFragment extends Fragment implements
             case CREATED_DAMAGE_DONE:
                 break;
             case DEFAULT:
-                this.currentStatus = MapEditingStatus.CREATE_FIELD;
+                this.currentMapEditingStatus = MapEditingStatus.CREATE_FIELD;
                 break;
+        }
+        */
         }
 
     }
@@ -392,13 +397,11 @@ public class MapFragment extends Fragment implements
     }
 
     public void newDamage(View view) {
-
-        if (currentStatus == MapEditingStatus.CREATE_DAMAGE) {
-            this.currentStatus = MapEditingStatus.CREATED_DAMAGE_DONE;
+        if (currentMapEditingStatus == MapEditingStatus.CREATE_DAMAGE) {
+            this.currentMapEditingStatus = MapEditingStatus.CREATED_DAMAGE_DONE;
         } else {
-            this.currentStatus = MapEditingStatus.CREATE_DAMAGE;
+            this.currentMapEditingStatus = MapEditingStatus.CREATE_DAMAGE;
         }
-
     }
 
     @Override
@@ -433,21 +436,6 @@ public class MapFragment extends Fragment implements
 
     public LocationListener getLocationListener() {
         return this;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 
     @Override
@@ -573,6 +561,21 @@ public class MapFragment extends Fragment implements
                 });
 
 
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
 

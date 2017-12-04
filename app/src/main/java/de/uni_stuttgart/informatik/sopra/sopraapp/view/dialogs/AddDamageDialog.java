@@ -1,4 +1,4 @@
-package de.uni_stuttgart.informatik.sopra.sopraapp.view.fragments;
+package de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs;
 
 import android.app.DialogFragment;
 import android.os.Bundle;

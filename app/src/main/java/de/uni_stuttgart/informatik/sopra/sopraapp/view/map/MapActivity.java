@@ -36,7 +36,6 @@ public class MapActivity extends AppCompatActivity implements
     private static final int REQUEST_LOCATION_COURSE = 101;
     private static final int REQUEST_LOCATION_GPS = 102;
     private static final int REQUEST_LOCATION_HARDWARE = 103;
-
     private MapFragment mapFragment;
 
     @Override

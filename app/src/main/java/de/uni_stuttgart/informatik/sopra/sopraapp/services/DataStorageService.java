@@ -32,8 +32,8 @@ public class DataStorageService {
     private List<Field> allFields = new ArrayList<>();
 
     private DataStorageService() {
-            addStubUsers();
-            addStubFields();
+        addStubUsers();
+        addStubFields();
     }
 
     /**

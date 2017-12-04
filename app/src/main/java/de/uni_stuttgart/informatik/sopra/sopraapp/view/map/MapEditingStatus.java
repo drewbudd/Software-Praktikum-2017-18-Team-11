@@ -7,11 +7,16 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
 public enum MapEditingStatus {
 
-    CREATE_FIELD,
+    START_CREATE_FIELD_COORDINATES,
+    END_CREATE_FIELD_COORDINATES,
+    CREATE_FIELD_DONE,
+
+    CREATED_DAMAGE_DONE,
+    CREATED_FIELD_DONE,
     CREATE_DAMAGE,
     MODIFY_FIELD,
-    CREATED_FIELD_DONE,
-    CREATED_DAMAGE_DONE,
+
+
     DEFAULT
 
 }
