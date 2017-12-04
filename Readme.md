@@ -1,4 +1,4 @@
-# FSKEA - Landwirte bringen es auf den Punkt
+# FSKEA - Einfach. Genau. Papierlos. Jeder Landwirt wird es lieben!
 
 ![Screenshot of CyanogenMod 12 / 12.1 homescreen by Florian838, CC BY-SA 3.0](doc/images/app-screenshot.png)  
 Unsere FSKE-App beim Start
