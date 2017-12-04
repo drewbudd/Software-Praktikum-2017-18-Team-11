@@ -106,9 +106,8 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 
 | Stefan Zindl | st148777@stud.uni-stuttgart.de |
 | --- | --- |
-| Aimn    | st@stud.uni-stuttgart.de |
-| --- | --- |
-| Andrew | stxxx@stud.uni-stuttgart.de
+| Aimn Ahmen | st@stud.uni-stuttgart.de |
+| Andrew Almaguer    | stxxx@stud.uni-stuttgart.de
 
 ### Betreuer
 | Verena Käfer |
