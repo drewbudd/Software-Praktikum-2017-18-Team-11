@@ -1,6 +1,6 @@
 # Sprint Report ([1,2])
 
-In diesem Sprint wurden die bis zum [Meilenstein X](meilenstein-url) erledigten User Stories abgearbeitet.
+In diesem Sprint wurden die bis zum [Meilenstein 4](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/milestones/2) erledigten User Stories abgearbeitet.
 
 ## Verbesserte Dokumente
 

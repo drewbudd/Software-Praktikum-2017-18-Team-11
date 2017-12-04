@@ -1,11 +1,10 @@
 ## What does this MR do?
 
-*Describe*
+Merge-Request ist sozusagen ein Pull-Request:
+- In einem Merge-Request stellt ein Entwickler oder ein Entwicklungsteam eine Anfrage zum "mergen" eines Entwicklungszweiges in den Hauptzweig. Dieser Entwicklungszweig kann mehrere Commits enthalten.
+- Somit wird das Thema Merge-Requests erst richtig interessant, wenn das Entwicklungsteam nach dem Feature-Branch-Workflow arbeitet. Denn für einen Merge-Request benötigen wir einen anderen Git-Branch.
 
-## Are there points in the code the reviewer needs to double check?
-
-- TODO/REMOVE
-
+[Referenz](https://www.sgalinski.de/typo3-agentur/technik/gitlab-merge-requests-einfach-erklaert/)
 ## Defintion of Done Checklist
 
 - [ ] Alle zur User Story assoziierten Test sind erfolgreich durchgelaufen.
@@ -13,6 +12,5 @@
 - [ ] Der Entwurf wurde aktualisiert.
 - [ ] Der Code ist kommentiert.
 - [ ] Die Coding Guidlines und Standards wurden eingehalten.
-- [ ] Ein Code Review oder Pair Programming wurde durchgeführt.
 - [ ] Alle relevanten Dokumente (Sprint backlog, Readme-Datei, Begriffslexikon) wurden aktualisiert.
 - [ ] Code ist fertiggestellt und im Versionierungssystem (GitLab) hochgeladen.
