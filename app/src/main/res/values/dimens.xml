@@ -15,5 +15,5 @@
     <dimen name="form_field_height">46dp</dimen>
     <dimen name="form_item_margin">16dp</dimen>
     <dimen name="form_label_margin">8dp</dimen>
-    <dimen name="form_label_text_size">18dp</dimen>
+    <dimen name="form_label_text_size">18sp</dimen>
 </resources>

@@ -30,7 +30,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="field_name">Name</string>
-    <string name="contract">Contract Type</string>
+    <string name="contract_type">Contract Type</string>
     <string name="field_type">Field Type</string>
     <string name="button_finished">Finished</string>
     <string-array name="contract_types">
@@ -38,5 +38,9 @@
         <item>All-around</item>
         <item>Full coverage</item>
     </string-array>
+    <string name="damage_type">Type of Damage</string>
+    <string name="damage_size">Estimated Size</string>
+    <string name="size_units">sq. m</string>
+    <string name="add_pictures">Add Pictures</string>
 
 </resources>

@@ -41,10 +41,10 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/contract_label"
+            android:id="@+id/label_contract"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/contract"
+            android:text="@string/contract_type"
             android:textSize="@dimen/form_label_text_size"/>
 
         <View
@@ -89,8 +89,10 @@
 
     <Button
         android:id="@+id/add_field_dialog_finish_button"
-        android:layout_width="match_parent"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_finished" />
+        android:text="@string/button_finished"
+        android:layout_gravity="end"/>
 
 </LinearLayout>

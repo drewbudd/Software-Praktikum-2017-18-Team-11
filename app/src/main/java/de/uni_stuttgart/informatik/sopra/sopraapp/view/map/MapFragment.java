@@ -53,6 +53,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.FieldType;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.AppModus;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.fragments.AddDamageDialog;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.fragments.AddFieldDialog;
 
 /**
@@ -203,7 +204,6 @@ public class MapFragment extends Fragment implements
         isFABOpen = false;
 
         rootView.findViewById(R.id.fab1).setOnClickListener(this);
-        rootView.findViewById(R.id.fab2).setOnClickListener(this);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,6 +213,15 @@ public class MapFragment extends Fragment implements
                 } else {
                     closeFABMenu();
                 }
+            }
+        });
+
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getActivity().getFragmentManager();
+                AddDamageDialog addDamageDialogFragment = AddDamageDialog.newInstance("Some Title");
+                addDamageDialogFragment.show(fm, "dialog_fragment_add_damage");
             }
         });
 

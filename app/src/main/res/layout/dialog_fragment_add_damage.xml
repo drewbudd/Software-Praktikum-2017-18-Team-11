@@ -1,6 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_name"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/form_label_margin"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/label_damage_type"
+            android:text="@string/damage_type"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/form_label_text_size"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/text_damage_type"
+        android:layout_width="268dp"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        android:layout_height="@dimen/form_field_height"
+        android:layout_marginBottom="@dimen/form_item_margin"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/form_label_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/label_damage_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/damage_size"
+            android:textSize="@dimen/form_label_text_size"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/text_damage_size"
+            android:layout_width="220dp"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:layout_height="@dimen/form_field_height"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/form_field_height"
+            android:textSize="@dimen/form_label_text_size"
+            android:text="@string/size_units"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/form_label_margin"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/label_field_type"
+            android:text="@string/add_pictures"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/form_label_text_size"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/add_damage_dialog_finish_button"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_finished"
+        android:layout_gravity="end"/>
+
+</LinearLayout>
