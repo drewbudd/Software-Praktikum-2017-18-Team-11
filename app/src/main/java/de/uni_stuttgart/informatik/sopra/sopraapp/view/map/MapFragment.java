@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +53,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.FieldType;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.AppModus;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.fragments.AddFieldDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -202,7 +204,6 @@ public class MapFragment extends Fragment implements
 
         rootView.findViewById(R.id.fab1).setOnClickListener(this);
         rootView.findViewById(R.id.fab2).setOnClickListener(this);
-        rootView.findViewById(R.id.fab3).setOnClickListener(this);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +213,15 @@ public class MapFragment extends Fragment implements
                 } else {
                     closeFABMenu();
                 }
+            }
+        });
+
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getActivity().getFragmentManager();
+                AddFieldDialog addFieldDialogFragment = AddFieldDialog.newInstance("Some Title");
+                addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
             }
         });
 
