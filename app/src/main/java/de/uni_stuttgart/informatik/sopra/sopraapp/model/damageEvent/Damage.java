@@ -1,5 +1,10 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent;
 
+import com.mapbox.mapboxsdk.geometry.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapElement;
 
@@ -14,6 +19,7 @@ public class Damage implements OnMapElement{
 
     private DamageEventArt art;
     private DamageEventStatus currentStatus;
+    private List<LatLng> markerPosition = new ArrayList<>();
     private User owner;
 
     public Damage(DamageEventArt art){
