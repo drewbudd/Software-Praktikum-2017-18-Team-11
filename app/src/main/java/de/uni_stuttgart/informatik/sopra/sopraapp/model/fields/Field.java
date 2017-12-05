@@ -25,9 +25,17 @@ public class Field implements OnMapElement {
     private List<Damage> damages;
     private List<LatLng> markerPosition = new ArrayList<>();
     private Color color;
+    private double minLat;
+    private double maxLat;
+    private double minLng;
+    private double maxLng;
 
     public Field() {
         damages = new ArrayList<>();
+        minLat = Double.MAX_VALUE;
+        maxLat = Double.MIN_VALUE;
+        minLng = Double.MAX_VALUE;
+        maxLat = Double.MIN_VALUE;
     }
 
     /**
@@ -60,6 +68,27 @@ public class Field implements OnMapElement {
 
     public void setMarkerPosition(List<LatLng> markerPosition) {
         this.markerPosition = markerPosition;
+
+        for (LatLng latLng : markerPosition) {
+            double lat = latLng.getLatitude();
+            double lng = latLng.getLongitude();
+
+            if (lat < minLat) {
+                minLat = lat;
+            }
+
+            if (lat > maxLat) {
+                maxLat = lat;
+            }
+
+            if (lng < minLng) {
+                minLng = lng;
+            }
+
+            if (lng > maxLng) {
+                maxLng = lng;
+            }
+        }
     }
 
     public Color getColor() {
@@ -68,5 +97,16 @@ public class Field implements OnMapElement {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public boolean contains(LatLng point) {
+        double lat = point.getLatitude();
+        double lng = point.getLongitude();
+
+        if (lat < minLat || lat > maxLat || lng < minLng || lng > maxLng) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -18,9 +18,9 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapEleme
 public class Damage implements OnMapElement{
 
     private DamageEventStatus currentStatus;
+    private List<LatLng> markerPosition = new ArrayList<>();
     private User owner;
     String damageType;
-    private List<LatLng> markerPosition = new ArrayList<>();
 
     public Damage() {
         this.currentStatus = DamageEventStatus.CREATED;

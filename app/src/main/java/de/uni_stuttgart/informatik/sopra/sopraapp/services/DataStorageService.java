@@ -80,14 +80,14 @@ public class DataStorageService {
 
         Gson gsonHandler = new Gson();
         java.lang.String fieldsAsJSon = null;
-        SharedPreferences loadFields = null;
         try {
             SharedPreferences sharedPreferences = App.getCurrentContext().getSharedPreferences("App_STORAGE", Context.MODE_PRIVATE);
-            fieldsAsJSon = sharedPreferences.getString("allFields", "");
+            fieldsAsJSon = sharedPreferences.getString("allFields", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Field> allFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<List<Field>>(){}.getType());
+        ArrayList<Field> allFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<ArrayList<Field>>() {
+        }.getType());
         return  allFields;
     }
 
@@ -106,6 +106,7 @@ public class DataStorageService {
         }
         SharedPreferences.Editor editor = saveFields.edit();
         editor.putString("allFields",allFieldsAsJSon);
+        editor.apply();
     }
 
     /**

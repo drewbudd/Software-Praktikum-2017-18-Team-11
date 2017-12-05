@@ -81,6 +81,7 @@ public class DataService {
 
     public void saveField(Field newField) {
         this.allFields.add(newField);
+        saveAllFields();
     }
 
     public List<Damage> getAllDamages() {
@@ -101,6 +102,10 @@ public class DataService {
     }
 
     public void saveAllFields() {
+        App.dataStorageService.saveAllFields(this.allFields);
+    }
 
+    public List<Field> getAllFields() {
+        return App.dataStorageService.getAllFieldsFromEveryUser();
     }
 }

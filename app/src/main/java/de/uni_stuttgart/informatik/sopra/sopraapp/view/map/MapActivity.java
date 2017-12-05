@@ -16,7 +16,6 @@ import android.widget.Spinner;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment;
@@ -33,6 +32,7 @@ public class MapActivity extends AppCompatActivity implements
         FieldsFragment.OnFragmentInteractionListener,
         SearchFragment.OnFragmentInteractionListener,
         BlankFragment.OnFragmentInteractionListener,
+        View.OnClickListener,
         LocationListener {
 
 
@@ -47,6 +47,8 @@ public class MapActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+
         // askPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION_FINE);
         //askPermission(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_LOCATION_COURSE);
         //askPermission(Manifest.permission.LOCATION_HARDWARE, REQUEST_LOCATION_HARDWARE);
@@ -157,11 +159,16 @@ public class MapActivity extends AppCompatActivity implements
         EditText fieldname = view.findViewById(R.id.text_field_name);
         Spinner contractType = view.findViewById(R.id.contract_spinner);
         EditText fieldType = view.findViewById(R.id.text_field_type);
-        Field newField = new Field();
-        newField.setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
-        App.dataService.saveField(newField);
+
+        mapFragment.getCreatingNewField().setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
+        App.dataService.saveField(mapFragment.getCreatingNewField());
         MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
+        //      addFieldDialog.getDialog().dismiss();
+
+        mapFragment.drawField(mapFragment.getCurrentMarkerFieldPositions());
+        mapFragment.getAddFieldDialogFragment().dismiss();
         mapFragment.clearField();
+
     }
 
     /**
@@ -176,6 +183,14 @@ public class MapActivity extends AppCompatActivity implements
         mapFragment.getFieldFromDamage().addDamage(newDamage);
         MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
         App.dataService.saveAllFields();
+        mapFragment.getAddDamageDialogFragment().dismiss();
+        mapFragment.drawDamage(mapFragment.getCurrentDamageMarkerPosition());
         mapFragment.clearField();
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.v("onClick", v.getId() + "");
+
     }
 }
