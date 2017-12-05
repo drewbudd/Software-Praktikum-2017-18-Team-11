@@ -1,7 +1,7 @@
 # FSKEA - Einfach. Genau. Papierlos. Jeder Landwirt wird es lieben!
 
 ![Screenshot of CyanogenMod 12 / 12.1 homescreen by Florian838, CC BY-SA 3.0](doc/images/app-screenshot.png)  
-Unsere FSKE-App beim Start
+Unsere FSKEA-App beim Start
 
 Landwirte versichern ihre Felder gegen verschiedenste Schäden. 
 Ein wichtiger Parameter ist die Fläche des Feldes und die Region in der das Feld bewirtschaftet wird.
@@ -28,9 +28,11 @@ Anleitung für Android Studio:
 1. Repository klonen: `git clone`
 
 ![Step1](doc/images/tutorial/s1.PNG)
+
 Nachdem man Android Studio gestartet hat wählt man den punkt:
 Check out project form Version Control, dann git.
 ![Step2](doc/images/tutorial/s2.PNG)
+
 In diesem Schritt muss die URL auf das Projekt vom Git Repository eingegeben werden. Mittels Test, kann man testen, ob die URL stimmt.
 Als nächstes gibt man den Pfad ein, indem das lokale Repository gespeichert werden soll.
 Zuletzt gibt man noch den namen des lokalen Ordners ein. Dann klickt man auf clone.
