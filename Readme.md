@@ -15,8 +15,7 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 ### Felderfassung
 
-Mit der App ist es möglich sowohl mit Touch, als auch mit den aktuellen Positionsdaten ein Feld bzw. einen Schaden auf der Karte anzeigen zu lassen.
-
+** TODO: STand am Freitag schreiben **
 **TODO: ** Screenshot
 
 ### Datenaustausch
@@ -104,10 +103,11 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 
 ### Entwicker
 
+| Andrew Almaguer| st152650@stud.uni-stuttgart.de |
+|--- | ---|
 | Stefan Zindl | st148777@stud.uni-stuttgart.de |
-| --- | --- |
-| Aimn Ahmen | st@stud.uni-stuttgart.de |
-| Andrew Almaguer    | stxxx@stud.uni-stuttgart.de
+| Aimn Ahmen | st150637@stud.uni-stuttgart.de |
+
 
 ### Betreuer
 | Verena Käfer |
@@ -115,4 +115,5 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 | Kai Mindermann |
 
 ### Tutor
-|Jingxi Zhang 
+|Jingxi Zhang|
+|--- | ---|
