@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.FieldType;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
@@ -24,9 +23,9 @@ public class DataStorageServiceTest {
     public void init(){
         dataStorageService = App.dataStorageService;
 
-        allFields.add(new Field(FieldType.CORN));
-        allFields.add(new Field(FieldType.CORN));
-        allFields.add(new Field(FieldType.CORN));
+        allFields.add(new Field(String.CORN));
+        allFields.add(new Field(String.CORN));
+        allFields.add(new Field(String.CORN));
     }
 
     @Test
@@ -46,6 +45,5 @@ public class DataStorageServiceTest {
     public void setUp() throws Exception {
     }
 
-    }
 
 }

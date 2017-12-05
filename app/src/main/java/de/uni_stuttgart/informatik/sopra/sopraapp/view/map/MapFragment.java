@@ -49,7 +49,6 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.FieldType;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.AppModus;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddDamageDialog;
@@ -70,18 +69,18 @@ public class MapFragment extends Fragment implements
         LocationListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final java.lang.String ARG_PARAM1 = "param1";
+    private static final java.lang.String ARG_PARAM2 = "param2";
     private static final int REQUEST_LOCATION_COURSE = 42;
     private static final int REQUEST_LOCATION_FINE = 7;
-    final String TAG = "TAG";
+    final java.lang.String TAG = "TAG";
     FloatingActionButton fab;
     LinearLayout fab1;
     LinearLayout fab2;
     LinearLayout fab3;
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private java.lang.String mParam1;
+    private java.lang.String mParam2;
     private OnFragmentInteractionListener mListener;
     private MapView mapView;
     private View rootView;
@@ -99,6 +98,7 @@ public class MapFragment extends Fragment implements
     private FloatingActionButton newDamage;
     private NewAreaMode currentMODE = NewAreaMode.GPS;
     private MapboxMap mapboxMapGlobal;
+    private Field dameInField = new Field();
 
     public MapFragment() {
         // Required empty public constructor
@@ -118,7 +118,7 @@ public class MapFragment extends Fragment implements
      * @return A new instance of fragment MapFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MapFragment newInstance(String param1, String param2) {
+    public static MapFragment newInstance(java.lang.String param1, java.lang.String param2) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -164,9 +164,9 @@ public class MapFragment extends Fragment implements
 
     }
 
-    private void askPermission(String accessCoarseLocation, int requestLocationCourse) {
+    private void askPermission(java.lang.String accessCoarseLocation, int requestLocationCourse) {
         if (ContextCompat.checkSelfPermission(getActivity(), accessCoarseLocation) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{accessCoarseLocation}, requestLocationCourse);
+            ActivityCompat.requestPermissions(getActivity(), new java.lang.String[]{accessCoarseLocation}, requestLocationCourse);
         }
     }
 
@@ -312,7 +312,7 @@ public class MapFragment extends Fragment implements
                     newPolygon.setFillColor(Color.BLUE);
 
                     // TODO: name, type from other fragment
-                    Field field = new Field(FieldType.CORN);
+                    Field field = new Field();
                     field.setMarkerPosition(currentMarkerFieldPositions);
                     App.dataService.saveField(field);
                     currentDamageMarkerPosition.clear();
@@ -325,7 +325,7 @@ public class MapFragment extends Fragment implements
                 newPolygon.setFillColor(Color.RED);
 
                 // TODO: name, type from other fragment
-                Field field = new Field(FieldType.CORN);
+                Field field = new Field();
                 field.setMarkerPosition(currentMarkerFieldPositions);
                 App.dataService.saveField(field);
                 currentMarkerFieldPositions.clear();
@@ -398,9 +398,9 @@ public class MapFragment extends Fragment implements
 
     public void newDamage(View view) {
         if (currentMapEditingStatus == MapEditingStatus.CREATE_DAMAGE) {
-            this.currentMapEditingStatus = MapEditingStatus.CREATED_DAMAGE_DONE;
+            currentMapEditingStatus = MapEditingStatus.CREATED_DAMAGE_DONE;
         } else {
-            this.currentMapEditingStatus = MapEditingStatus.CREATE_DAMAGE;
+            currentMapEditingStatus = MapEditingStatus.CREATE_DAMAGE;
         }
     }
 
@@ -419,17 +419,17 @@ public class MapFragment extends Fragment implements
 
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+    public void onStatusChanged(java.lang.String provider, int status, Bundle extras) {
 
     }
 
     @Override
-    public void onProviderEnabled(String provider) {
+    public void onProviderEnabled(java.lang.String provider) {
 
     }
 
     @Override
-    public void onProviderDisabled(String provider) {
+    public void onProviderDisabled(java.lang.String provider) {
 
     }
 
@@ -501,7 +501,7 @@ public class MapFragment extends Fragment implements
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("REGION", "Yosemite National Park");
-            String json = jsonObject.toString();
+            java.lang.String json = jsonObject.toString();
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor prefEditor = sharedPref.edit();
             prefEditor.putString("map", json);
@@ -555,12 +555,16 @@ public class MapFragment extends Fragment implements
                     }
 
                     @Override
-                    public void onError(String error) {
+                    public void onError(java.lang.String error) {
                         Log.e(TAG, "Error: " + error);
                     }
                 });
 
 
+    }
+
+    public void clearField() {
+        this.currentMarkerFieldPositions.clear();
     }
 
     /**
@@ -578,5 +582,27 @@ public class MapFragment extends Fragment implements
         void onFragmentInteraction(Uri uri);
     }
 
+    public List<LatLng> getCurrentMarkerFieldPositions() {
+        return currentMarkerFieldPositions;
+    }
 
+    public List<LatLng> getCurrentDamageMarkerPosition() {
+        return currentDamageMarkerPosition;
+    }
+
+    public Field getFieldFromDamage() {
+        return dameInField;
+    }
+
+    public void setDameInField(Field dameInField) {
+        this.dameInField = dameInField;
+    }
+
+    public static MapEditingStatus getCurrentMapEditingStatus() {
+        return currentMapEditingStatus;
+    }
+
+    public static void setCurrentMapEditingStatus(MapEditingStatus currentMapEditingStatus) {
+        MapFragment.currentMapEditingStatus = currentMapEditingStatus;
+    }
 }

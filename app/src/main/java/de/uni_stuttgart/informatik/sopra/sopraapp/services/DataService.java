@@ -5,7 +5,6 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEventArt;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
@@ -30,9 +29,9 @@ public class DataService {
         // safety singleton pattern
 
         loadUsers();
-        allDamages.add(new Damage(DamageEventArt.WIND));
+        allDamages.add(new Damage());
         allDamages.get(0).setOwner(getCurrentLoggedInUser());
-        allDamages.add(new Damage(DamageEventArt.WIND));
+        allDamages.add(new Damage());
         allDamages.get(1).setOwner(getCurrentLoggedInUser());
 
     }
@@ -99,5 +98,9 @@ public class DataService {
             default:
                 return App.dataStorageService.getAllFieldsFromEveryUser();
         }
+    }
+
+    public void saveAllFields() {
+
     }
 }

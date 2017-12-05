@@ -12,7 +12,6 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.FieldType;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
@@ -40,11 +39,6 @@ public class DataStorageService {
      * Adds stub fields
      */
     private void addStubFields() {
-        this.allFields.add(new Field(FieldType.CORN));
-        this.allFields.add(new Field(FieldType.CORN));
-        this.allFields.add(new Field(FieldType.CORN));
-        this.allFields.add(new Field(FieldType.CORN));
-        this.allFields.add(new Field(FieldType.CORN));
     }
 
     /**
@@ -85,7 +79,7 @@ public class DataStorageService {
     public List<Field> getAllFieldsFromEveryUser() {
 
         Gson gsonHandler = new Gson();
-        String fieldsAsJSon = null;
+        java.lang.String fieldsAsJSon = null;
         SharedPreferences loadFields = null;
         try {
             SharedPreferences sharedPreferences = App.getCurrentContext().getSharedPreferences("App_STORAGE", Context.MODE_PRIVATE);
@@ -103,7 +97,7 @@ public class DataStorageService {
      */
     public void saveAllFields(List<Field> allFields){
         Gson gsonHandler = new Gson();
-        String allFieldsAsJSon = gsonHandler.toJson(allFields);
+        java.lang.String allFieldsAsJSon = gsonHandler.toJson(allFields);
         SharedPreferences saveFields = null;
         try {
             saveFields = getContext().getSharedPreferences("App_STORAGE", getContext().getApplicationContext().MODE_PRIVATE);

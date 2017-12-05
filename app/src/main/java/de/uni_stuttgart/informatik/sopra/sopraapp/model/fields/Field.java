@@ -21,14 +21,13 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapEleme
 public class Field implements OnMapElement {
 
 
-    private FieldType fieldType;
+    private String fieldType;
     private List<Damage> damages;
     private List<LatLng> markerPosition = new ArrayList<>();
     private Color color;
 
-    public Field(FieldType fieldType) {
+    public Field() {
         damages = new ArrayList<>();
-        this.fieldType = fieldType;
     }
 
     /**
@@ -39,11 +38,11 @@ public class Field implements OnMapElement {
     }
 
 
-    public FieldType getFieldType() {
+    public String getFieldType() {
         return fieldType;
     }
 
-    public void setFieldType(FieldType fieldType) {
+    public void setFieldType(String fieldType) {
         this.fieldType = fieldType;
     }
 
