@@ -15,13 +15,14 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapEleme
 /**
  * @author Stefan Zindl
  * @since 2017/11/14
- *
+ * <p>
  * FieldModel
  */
 
 public class Field implements OnMapElement {
 
 
+    private static int id = 0;
     private String fieldType;
     private List<Damage> damages;
     private List<LatLng> markerPosition = new ArrayList<>();
@@ -31,6 +32,7 @@ public class Field implements OnMapElement {
     private double minLng;
     private double maxLng;
     private User owner;
+    private int currentID = 0;
 
     public Field() {
         damages = new ArrayList<>();
@@ -38,6 +40,8 @@ public class Field implements OnMapElement {
         maxLat = Double.MIN_VALUE;
         minLng = Double.MAX_VALUE;
         maxLat = Double.MIN_VALUE;
+        id++;
+        currentID = id;
     }
 
     /**
@@ -105,7 +109,7 @@ public class Field implements OnMapElement {
         int delta = 1000;
         double lat = point.getLatitude();
         double lng = point.getLongitude();
-        
+
         // a quick check to see if a point lies within a rectangle containing the polygon allowing most inquiries to be quickly answered
         if (lat < minLat || lat > maxLat || lng < minLng || lng > maxLng) {
             return false;
@@ -212,5 +216,13 @@ public class Field implements OnMapElement {
 */
         // all checks passed, the point lies within the polygon
         return true;
+    }
+
+    public static int getId() {
+        return id;
+    }
+
+    public int getCurrentID() {
+        return currentID;
     }
 }

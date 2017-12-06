@@ -36,6 +36,7 @@ public class ManageServiceFragment extends Fragment {
     private TabLayout tabLayout;
 
     private OnFragmentInteractionListener mListener;
+    SearchFragment searchFragment;
 
     public ManageServiceFragment() {
         // Required empty public constructor
@@ -90,7 +91,8 @@ public class ManageServiceFragment extends Fragment {
                         replaceFragment(new ContractsFragment());
                         break;
                     case 3:
-                        replaceFragment(new SearchFragment());
+                        searchFragment = new SearchFragment();
+                        replaceFragment(searchFragment);
                         break;
                     default:
                         // do nothing
@@ -164,6 +166,6 @@ public class ManageServiceFragment extends Fragment {
     }
 
     public SearchFragment getSearchFragment() {
-        return (SearchFragment) getFragmentManager().findFragmentById(R.id.searchView);
+        return searchFragment;
     }
 }

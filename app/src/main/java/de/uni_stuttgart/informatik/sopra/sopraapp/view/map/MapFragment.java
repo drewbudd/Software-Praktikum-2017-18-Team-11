@@ -103,6 +103,7 @@ public class MapFragment extends Fragment implements
     private Field damageInField;
     private Field creatingNewField;
     private Damage creatingNewDamage;
+    private int foundFieldID = -1;
 
     public MapFragment() {
         // Required empty public constructor
@@ -328,8 +329,13 @@ public class MapFragment extends Fragment implements
         if (App.dataService.getAllFields() != null) {
             for (Field field : App.dataService.getAllFields()) {
                 drawField(field.getMarkerPosition());
+                for (Damage damage : field.getDamages()) {
+                    drawDamage(damage.getMarkerPosition());
+                }
             }
         }
+
+
     }
 
     private void uploadMapForOfflineMode() {
@@ -366,9 +372,12 @@ public class MapFragment extends Fragment implements
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
                 if (this.damageInField == null) {
-                    for (Field field : App.dataService.getAllFields()) {
+                    List<Field> fields = App.dataService.getAllFields();
+                    for (Field field : fields) {
                         if (field.contains(point)) {
                             this.damageInField = field;
+                            this.foundFieldID = fields.indexOf(field);
+
                             this.creatingNewDamage = new Damage(field);
                             this.currentDamageMarkerPosition.add(point);
                             mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
@@ -384,6 +393,7 @@ public class MapFragment extends Fragment implements
                         Snackbar.make(rootView, "Marker has to be in the same field", Snackbar.LENGTH_SHORT).show();
                     }
                 }
+
 
         }
     }
@@ -640,5 +650,9 @@ public class MapFragment extends Fragment implements
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public int getFoundFieldID() {
+        return foundFieldID;
     }
 }

@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.SearchFragment">
+    tools:context="de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.SearchFragment"
+    android:id="@+id/searchFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

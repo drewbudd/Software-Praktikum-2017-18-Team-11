@@ -53,4 +53,9 @@ public class Damage implements OnMapElement{
     public Field getField() {
         return field;
     }
+
+    public List<LatLng> getMarkerPosition() {
+        return markerPosition;
+    }
+
 }

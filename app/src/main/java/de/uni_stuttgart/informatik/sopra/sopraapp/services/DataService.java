@@ -11,21 +11,20 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 /**
  * @author Stefan Zindl
  * @since 2017/11/14
- *
+ * <p>
  * Dataservice saves Dataservice
  */
 
 public class DataService {
 
     public static DataService instance = null;
+    List<Damage> allDamages = new ArrayList<>();
     private List<User> allUsers = new ArrayList<>();
     private User currentLoggedInUser;
     private List<Field> allFields = new ArrayList<>();
 
-    List<Damage> allDamages = new ArrayList<>();
 
-
-    private DataService(){
+    private DataService() {
         // safety singleton pattern
 
         loadUsers();
@@ -57,11 +56,11 @@ public class DataService {
         return false;
     }
 
-    public void loadUsers(){
+    public void loadUsers() {
         allUsers.addAll(App.dataStorageService.getStubUsers());
     }
 
-    public void saveUsers(List<User> users){
+    public void saveUsers(List<User> users) {
         this.allUsers = users;
     }
 
@@ -98,5 +97,13 @@ public class DataService {
 
     public List<Field> getAllFields() {
         return App.dataStorageService.getAllFieldsFromEveryUser();
+    }
+
+    /**
+     * @param id
+     * @param damageInField
+     */
+    public void updateField(int id, Field damageInField) {
+        App.dataStorageService.getAllFieldsFromEveryUser().get(id).setDamages(damageInField.getDamages());
     }
 }
