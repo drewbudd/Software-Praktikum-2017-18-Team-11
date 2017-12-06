@@ -113,6 +113,7 @@ public class Field implements OnMapElement {
 
         // IF THIS METHOD DOESN'T WORK, COMMENT OUT FROM THIS POINT UNTIL return true;
 
+        /*
         // prepare points
         long roundLat = Math.round(lat*delta);
         long roundLng = Math.round(lng*delta);
@@ -208,7 +209,7 @@ public class Field implements OnMapElement {
         if (lngCrosses % 2 == 0) {
             return false;
         }
-
+*/
         // all checks passed, the point lies within the polygon
         return true;
     }
