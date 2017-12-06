@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class SearchFragment extends Fragment {
     private View rootView;
     private RecyclerView recycler;
     private SearchAdapter adapter;
+    private SearchView searchView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -82,6 +84,23 @@ public class SearchFragment extends Fragment {
         recycler = rootView.findViewById(R.id.recycler_search);
         List<Damage> damages = App.dataService.getAllDamages();
         adapter = new SearchAdapter(getContext(), damages);
+        searchView = rootView.findViewById(R.id.searchView);
+        searchView.setActivated(true);
+        searchView.setQueryHint("Search for the owner of the damages");
+        searchView.onActionViewExpanded();
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         return rootView;
@@ -124,5 +143,9 @@ public class SearchFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public SearchAdapter getSearchAdapter() {
+        return adapter;
     }
 }

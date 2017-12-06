@@ -42,6 +42,7 @@ public class MapActivity extends AppCompatActivity implements
     private static final int REQUEST_LOCATION_HARDWARE = 103;
     private LocationManager locationManager;
     private MapFragment mapFragment;
+    private ManageServiceFragment manageServiceFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class MapActivity extends AppCompatActivity implements
 //        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, mapFragment);
 
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
+        manageServiceFragment = (ManageServiceFragment) getFragmentManager().findFragmentById(R.id.manage_fragment_main);
 
     }
 
@@ -171,11 +173,9 @@ public class MapActivity extends AppCompatActivity implements
 
     }
 
-
     @Override
     public void onClick(View v) {
         Log.v("onClick", v.getId() + "");
-
     }
 
     public void saveDamage(View view) {
@@ -187,6 +187,7 @@ public class MapActivity extends AppCompatActivity implements
         MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
         mapFragment.getAddDamageDialogFragment().dismiss();
         mapFragment.drawDamage(mapFragment.getCurrentDamageMarkerPosition());
+        manageServiceFragment.getSearchFragment().getSearchAdapter().notifyDataSetChanged();
         mapFragment.clearField();
     }
 }

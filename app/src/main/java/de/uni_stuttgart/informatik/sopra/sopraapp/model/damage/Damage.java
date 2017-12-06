@@ -27,6 +27,7 @@ public class Damage implements OnMapElement{
     public Damage(Field field) {
         this.currentStatus = DamageEventStatus.CREATED;
         this.field = field;
+        damageType = "springen";
     }
 
     public void setOwner(User user) {

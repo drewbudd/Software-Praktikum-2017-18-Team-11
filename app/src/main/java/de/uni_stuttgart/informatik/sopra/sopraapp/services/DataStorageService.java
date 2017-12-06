@@ -132,23 +132,31 @@ public class DataStorageService {
     public void saveNewField(Field field) {
         this.allFields.add(field);
         saveAllFields();
-        this.allFields.clear();
     }
 
     public List<Damage> getAllDamages() {
         List<Damage> allDamages = new ArrayList<>();
-        for (Field field : getAllFieldsFromEveryUser()) {
-            allDamages.addAll(field.getDamages());
-            Damage newDamage = new Damage(new Field());
-            newDamage.setDamageType("Typ");
-            Damage newDamage1 = new Damage(new Field());
-            newDamage.setDamageType("Typ");
-            Damage newDamage2 = new Damage(new Field());
-            newDamage.setDamageType("Typ");
-            allDamages.add(newDamage);
-            allDamages.add(newDamage1);
-            allDamages.add(newDamage2);
+        if (getAllFieldsFromEveryUser() != null) {
+            for (Field field : getAllFieldsFromEveryUser()) {
+                allDamages.addAll(field.getDamages());
+
+            }
         }
+
+        Damage damage1 = new Damage(new Field());
+        damage1.setDamageType("Stefan");
+
+
+        Damage damage2 = new Damage(new Field());
+        damage1.setDamageType("Stefan");
+
+
+        Damage damage3 = new Damage(new Field());
+        damage1.setDamageType("Peter");
+
+        allDamages.add(damage1);
+        allDamages.add(damage2);
+        allDamages.add(damage3);
         return allDamages;
     }
 }

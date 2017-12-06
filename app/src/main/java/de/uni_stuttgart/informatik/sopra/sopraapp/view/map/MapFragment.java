@@ -359,11 +359,11 @@ public class MapFragment extends Fragment implements
                     for (Field field : App.dataService.getAllFields()) {
                         if (field.contains(point)) {
                             this.damageInField = field;
-                            this.creatingNewDamage = new Damage(damageInField);
+                            this.creatingNewDamage = new Damage(field);
                             this.currentDamageMarkerPosition.add(point);
                             mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                         } else {
-                            Snackbar.make(rootView, "Marker has to be in a existing field", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(rootView, "Marker has to be in an existing field", Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 } else {
@@ -371,7 +371,7 @@ public class MapFragment extends Fragment implements
                         this.currentDamageMarkerPosition.add(point);
                         mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                     } else {
-                        Snackbar.make(rootView, "Marker has to be in the sameField", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(rootView, "Marker has to be in the same field", Snackbar.LENGTH_SHORT).show();
                     }
                 }
 

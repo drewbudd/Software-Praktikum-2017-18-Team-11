@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -162,5 +161,9 @@ public class ManageServiceFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public SearchFragment getSearchFragment() {
+        return (SearchFragment) getFragmentManager().findFragmentById(R.id.searchView);
     }
 }
