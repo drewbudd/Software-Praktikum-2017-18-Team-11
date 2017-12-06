@@ -36,13 +36,8 @@ public class DataStorageService {
     }
 
     /**
-     * Adds stub fields
-     */
-    private void addStubFields() {
-    }
-
-    /**
      * creates an Singelton Pattern from DataStorageService
+     *
      * @param applicationContext
      * @return
      */
@@ -54,12 +49,29 @@ public class DataStorageService {
         return instance;
     }
 
+    /**
+     * get the current ApplicationContext
+     *
+     * @return
+     * @throws Exception
+     */
+    public static Application getContext() throws Exception {
+        return (Application) Class.forName("android.app.AppGlobals")
+                .getMethod("getInitialApplication").invoke(null, (Object[]) null);
+    }
+
+    /**
+     * Adds stub fields
+     */
+    private void addStubFields() {
+    }
+
     private void addStubUsers() {
         this.stubUser.add(new User("aa", "a"));
         this.stubUser.add(new User("admin2", "admin"));
 
-        stubUser.get(0).setUserRole(UserRole.LANDWIRT);
-        stubUser.get(1).setUserRole(UserRole.GUTACHTER);
+        this.stubUser.get(0).setUserRole(UserRole.LANDWIRT);
+        this.stubUser.get(1).setUserRole(UserRole.GUTACHTER);
     }
 
     /**
@@ -74,6 +86,7 @@ public class DataStorageService {
     /**
      * load all saved Fields form Storage
      * using SharedPreferences
+     *
      * @return
      */
     public List<Field> getAllFieldsFromEveryUser() {
@@ -88,16 +101,18 @@ public class DataStorageService {
         }
         ArrayList<Field> allFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<ArrayList<Field>>() {
         }.getType());
-        return  allFields;
+        return allFields;
     }
 
     /**
      * saves all Fields using SharedPreferences
+     *
      * @param allFields
      */
-    public void saveAllFields(List<Field> allFields){
+    public void saveAllFields() {
         Gson gsonHandler = new Gson();
-        java.lang.String allFieldsAsJSon = gsonHandler.toJson(allFields);
+        java.lang.String allFieldsAsJSon = gsonHandler.toJson(this.allFields);
+        this.allFields.addAll(getAllFieldsFromEveryUser());
         SharedPreferences saveFields = null;
         try {
             saveFields = getContext().getSharedPreferences("App_STORAGE", getContext().getApplicationContext().MODE_PRIVATE);
@@ -105,17 +120,13 @@ public class DataStorageService {
             e.printStackTrace();
         }
         SharedPreferences.Editor editor = saveFields.edit();
-        editor.putString("allFields",allFieldsAsJSon);
-        editor.apply();
+        editor.putString("allFields", allFieldsAsJSon);
+        editor.commit();
     }
 
-    /**
-     * get the current ApplicationContext
-     * @return
-     * @throws Exception
-     */
-    public static Application getContext() throws Exception {
-        return (Application) Class.forName("android.app.AppGlobals")
-                .getMethod("getInitialApplication").invoke(null, (Object[]) null);
+    public void saveNewField(Field field) {
+        this.allFields.add(field);
+        saveAllFields();
+        this.allFields.clear();
     }
 }

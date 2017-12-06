@@ -182,7 +182,6 @@ public class MapActivity extends AppCompatActivity implements
         newDamage.setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
         mapFragment.getFieldFromDamage().addDamage(newDamage);
         MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
-        App.dataService.saveAllFields();
         mapFragment.getAddDamageDialogFragment().dismiss();
         mapFragment.drawDamage(mapFragment.getCurrentDamageMarkerPosition());
         mapFragment.clearField();

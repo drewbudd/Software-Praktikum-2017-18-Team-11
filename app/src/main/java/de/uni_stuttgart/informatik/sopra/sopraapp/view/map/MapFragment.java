@@ -191,7 +191,6 @@ public class MapFragment extends Fragment implements
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
         fab = rootView.findViewById(R.id.fab);
-
         fab1 = rootView.findViewById(R.id.fab1_and_label);
         fab2 = rootView.findViewById(R.id.fab2_and_label);
         fab3 = rootView.findViewById(R.id.fab3_and_label);
@@ -203,6 +202,7 @@ public class MapFragment extends Fragment implements
             public void onClick(View v) {
                 if (currentMapEditingStatus == MapEditingStatus.DEFAULT) {
                     currentMapEditingStatus = MapEditingStatus.START_CREATE_FIELD_COORDINATES;
+
                     Snackbar.make(getView(), "Make Marker", Snackbar.LENGTH_SHORT).show();
                 } else if (currentMapEditingStatus == MapEditingStatus.START_CREATE_FIELD_COORDINATES) {
                     currentMapEditingStatus = MapEditingStatus.END_CREATE_FIELD_COORDINATES;
@@ -254,13 +254,6 @@ public class MapFragment extends Fragment implements
             }
         }); */
 
-        newDamage = rootView.findViewById(R.id.newDamage);
-        newDamage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //newDamage(v);
-            }
-        });
         return rootView;
     }
 
@@ -363,7 +356,6 @@ public class MapFragment extends Fragment implements
                 drawField(field.getMarkerPosition());
             }
         }
-
     }
 
 
@@ -450,6 +442,7 @@ public class MapFragment extends Fragment implements
     @Override
     public void onPolygonClick(@NonNull Polygon polygon) {
         this.onPolygonClicked = true;
+
 
     }
 
@@ -638,11 +631,12 @@ public class MapFragment extends Fragment implements
         newPolygon.setFillColor(Color.RED);
     }
 
+
     public void drawDamage(List<LatLng> markers) {
         PolygonOptions polygonOptions = new PolygonOptions();
         polygonOptions.addAll(markers);
         Polygon newPolygon = mapboxMapGlobal.addPolygon(polygonOptions);
-        newPolygon.setFillColor(Color.RED);
+        newPolygon.setFillColor(Color.BLUE);
     }
 
     /**

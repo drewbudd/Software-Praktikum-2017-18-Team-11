@@ -103,10 +103,6 @@ public class Field implements OnMapElement {
         double lat = point.getLatitude();
         double lng = point.getLongitude();
 
-        if (lat < minLat || lat > maxLat || lng < minLng || lng > maxLng) {
-            return false;
-        }
-
-        return true;
+        return !(lat < minLat || lat > maxLat || lng < minLng || lng > maxLng);
     }
 }
