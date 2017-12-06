@@ -53,7 +53,7 @@
         android:layout_gravity="bottom|end">
 
         <TextView
-            android:id="@+id/fab2_label"
+            android:id="@+id/damages_button_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
@@ -62,7 +62,7 @@
             android:alpha="0"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab2"
+            android:id="@+id/damages_button"
             android:layout_width="@dimen/fab_sub_size"
             android:layout_height="@dimen/fab_sub_size"
             android:layout_gravity="bottom|end"
@@ -80,7 +80,7 @@
         android:layout_gravity="bottom|end">
 
         <TextView
-            android:id="@+id/fieldButtonLabel"
+            android:id="@+id/field_button_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
@@ -89,7 +89,7 @@
             android:alpha="0"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fieldButton"
+            android:id="@+id/field_button"
             android:layout_width="@dimen/fab_sub_size"
             android:layout_height="@dimen/fab_sub_size"
             android:layout_gravity="bottom|end"
@@ -107,5 +107,13 @@
         android:layout_margin="@dimen/fab_margin"
         app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/mapbox_mylocation_icon_bearing"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/fab_margin"/>
 
 </FrameLayout>

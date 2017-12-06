@@ -103,6 +103,8 @@ public class MapFragment extends Fragment implements
     private Field damageInField;
     private Field creatingNewField;
     private Damage creatingNewDamage;
+    private double gpsLat;
+    private double gpsLng;
     private int foundFieldID = -1;
 
     public MapFragment() {
@@ -178,8 +180,7 @@ public class MapFragment extends Fragment implements
         }
         locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, mapFragment);
-
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mapFragment);
 
     }
 
@@ -204,14 +205,26 @@ public class MapFragment extends Fragment implements
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
+        FloatingActionButton fabGPS = rootView.findViewById(R.id.fab_gps);
         fab = rootView.findViewById(R.id.fab);
         fab1 = rootView.findViewById(R.id.fab1_and_label);
         fab2 = rootView.findViewById(R.id.fab2_and_label);
         fab3 = rootView.findViewById(R.id.fab3_and_label);
-
         isFABOpen = false;
 
-        rootView.findViewById(R.id.fieldButton).setOnClickListener(new View.OnClickListener() {
+        fabGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Math.round(gpsLat) != 0 || Math.round(gpsLng) != 0) {
+                    mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder()
+                            .target(new LatLng(gpsLat, gpsLng)).build());
+                } else {
+                    Snackbar.make(rootView, "No GPS connection", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        rootView.findViewById(R.id.field_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (currentMapEditingStatus == MapEditingStatus.DEFAULT) {
@@ -226,6 +239,8 @@ public class MapFragment extends Fragment implements
                 }
             }
         });
+
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,17 +387,14 @@ public class MapFragment extends Fragment implements
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
                 if (this.damageInField == null) {
-                    List<Field> fields = App.dataService.getAllFields();
-                    for (Field field : fields) {
+                    for (Field field : App.dataService.getAllFields()) {
                         if (field.contains(point)) {
                             this.damageInField = field;
-                            this.foundFieldID = fields.indexOf(field);
-
-                            this.creatingNewDamage = new Damage(field);
+                            this.creatingNewDamage = new Damage(damageInField);
                             this.currentDamageMarkerPosition.add(point);
                             mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                         } else {
-                            Snackbar.make(rootView, "Marker has to be in an existing field", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(rootView, "Marker has to be in a existing field", Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 } else {
@@ -393,7 +405,6 @@ public class MapFragment extends Fragment implements
                         Snackbar.make(rootView, "Marker has to be in the same field", Snackbar.LENGTH_SHORT).show();
                     }
                 }
-
 
         }
     }
@@ -416,6 +427,9 @@ public class MapFragment extends Fragment implements
         if (this.currentMODE == NewAreaMode.GPS) {
             this.currentBorderPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
         }
+
+        gpsLat = location.getLatitude();
+        gpsLng = location.getLongitude();
     }
 
     @Override
