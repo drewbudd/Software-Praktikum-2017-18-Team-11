@@ -163,6 +163,7 @@ public class MapActivity extends AppCompatActivity implements
         EditText fieldType = view.findViewById(R.id.text_field_type);
 
         mapFragment.getCreatingNewField().setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
+        mapFragment.getCreatingNewField().setFieldType(fieldType.getText().toString());
         App.dataService.saveField(mapFragment.getCreatingNewField());
         MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
         //      addFieldDialog.getDialog().dismiss();
@@ -178,8 +179,8 @@ public class MapActivity extends AppCompatActivity implements
         Log.v("onClick", v.getId() + "");
     }
 
-    public void saveDamage(View view) {
-        EditText damageType = view.findViewById(R.id.text_damage_typeText);
+    public void saveNewDamage(View view) {
+        EditText damageType = mapFragment.getAddDamageDialogFragment().getDialog().findViewById(R.id.text_damage_typeText);
         Damage newDamage = new Damage(mapFragment.getFieldFromDamage());
         newDamage.setDamageType(damageType.getText().toString());
         newDamage.setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
@@ -187,7 +188,7 @@ public class MapActivity extends AppCompatActivity implements
         MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
         mapFragment.getAddDamageDialogFragment().dismiss();
         mapFragment.drawDamage(mapFragment.getCurrentDamageMarkerPosition());
-        manageServiceFragment.getSearchFragment().getSearchAdapter().notifyDataSetChanged();
+        // manageServiceFragment.getSearchFragment().getSearchAdapter().notifyDataSetChanged();
         mapFragment.clearField();
     }
 }
