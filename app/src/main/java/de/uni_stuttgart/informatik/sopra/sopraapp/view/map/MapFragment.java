@@ -292,8 +292,8 @@ public class MapFragment extends Fragment implements
         fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55)).setDuration(200);
         fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105)).setDuration(400);
         fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155)).setDuration(600);
-        rootView.findViewById(R.id.fieldButtonLabel).animate().alpha(1.0f).setDuration(300);
-        rootView.findViewById(R.id.fab2_label).animate().alpha(1.0f).setDuration(600);
+        rootView.findViewById(R.id.fab1_and_label).animate().alpha(1.0f).setDuration(300);
+        rootView.findViewById(R.id.damages_button_label).animate().alpha(1.0f).setDuration(600);
         rootView.findViewById(R.id.fab3_label).animate().alpha(1.0f).setDuration(900);
     }
 
@@ -302,8 +302,8 @@ public class MapFragment extends Fragment implements
         fab1.animate().translationY(0);
         fab2.animate().translationY(0);
         fab3.animate().translationY(0);
-        rootView.findViewById(R.id.fieldButtonLabel).animate().alpha(0.0f).setDuration(200);
-        rootView.findViewById(R.id.fab2_label).animate().alpha(0.0f).setDuration(200);
+        rootView.findViewById(R.id.fab1_and_label).animate().alpha(0.0f).setDuration(200);
+        rootView.findViewById(R.id.fab2_and_label).animate().alpha(0.0f).setDuration(200);
         rootView.findViewById(R.id.fab3_label).animate().alpha(0.0f).setDuration(200);
     }
 
