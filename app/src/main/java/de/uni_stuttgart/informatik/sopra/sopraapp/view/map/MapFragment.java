@@ -103,6 +103,8 @@ public class MapFragment extends Fragment implements
     private Field damageInField;
     private Field creatingNewField;
     private Damage creatingNewDamage;
+    private double gpsLat;
+    private double gpsLng;
 
     public MapFragment() {
         // Required empty public constructor
@@ -164,6 +166,8 @@ public class MapFragment extends Fragment implements
         askPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION_FINE);
         askPermission(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_LOCATION_COURSE);
 
+
+
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -177,8 +181,7 @@ public class MapFragment extends Fragment implements
         }
         locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, mapFragment);
-
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mapFragment);
 
     }
 
@@ -203,14 +206,26 @@ public class MapFragment extends Fragment implements
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
+        FloatingActionButton fabGPS = rootView.findViewById(R.id.fab_gps);
         fab = rootView.findViewById(R.id.fab);
         fab1 = rootView.findViewById(R.id.fab1_and_label);
         fab2 = rootView.findViewById(R.id.fab2_and_label);
         fab3 = rootView.findViewById(R.id.fab3_and_label);
-
         isFABOpen = false;
 
-        rootView.findViewById(R.id.fieldButton).setOnClickListener(new View.OnClickListener() {
+        fabGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Math.round(gpsLat) != 0 || Math.round(gpsLng) != 0) {
+                    mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder()
+                            .target(new LatLng(gpsLat, gpsLng)).build());
+                } else {
+                    Snackbar.make(rootView, "No GPS connection", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        rootView.findViewById(R.id.field_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (currentMapEditingStatus == MapEditingStatus.DEFAULT) {
@@ -226,6 +241,8 @@ public class MapFragment extends Fragment implements
             }
         });
 
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -237,7 +254,7 @@ public class MapFragment extends Fragment implements
             }
         });
 
-        fab2.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.damages_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -276,8 +293,8 @@ public class MapFragment extends Fragment implements
         fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55)).setDuration(200);
         fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105)).setDuration(400);
         fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155)).setDuration(600);
-        rootView.findViewById(R.id.fieldButtonLabel).animate().alpha(1.0f).setDuration(300);
-        rootView.findViewById(R.id.fab2_label).animate().alpha(1.0f).setDuration(600);
+        rootView.findViewById(R.id.field_button_label).animate().alpha(1.0f).setDuration(300);
+        rootView.findViewById(R.id.damages_button_label).animate().alpha(1.0f).setDuration(600);
         rootView.findViewById(R.id.fab3_label).animate().alpha(1.0f).setDuration(900);
     }
 
@@ -286,8 +303,8 @@ public class MapFragment extends Fragment implements
         fab1.animate().translationY(0);
         fab2.animate().translationY(0);
         fab3.animate().translationY(0);
-        rootView.findViewById(R.id.fieldButtonLabel).animate().alpha(0.0f).setDuration(200);
-        rootView.findViewById(R.id.fab2_label).animate().alpha(0.0f).setDuration(200);
+        rootView.findViewById(R.id.field_button_label).animate().alpha(0.0f).setDuration(200);
+        rootView.findViewById(R.id.damages_button_label).animate().alpha(0.0f).setDuration(200);
         rootView.findViewById(R.id.fab3_label).animate().alpha(0.0f).setDuration(200);
     }
 
@@ -406,6 +423,9 @@ public class MapFragment extends Fragment implements
         if (this.currentMODE == NewAreaMode.GPS) {
             this.currentBorderPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
         }
+
+        gpsLat = location.getLatitude();
+        gpsLng = location.getLongitude();
     }
 
     @Override
