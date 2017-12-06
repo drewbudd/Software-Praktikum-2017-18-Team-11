@@ -108,25 +108,26 @@ public class DataStorageService {
     /**
      * saves all Fields using SharedPreferences
      *
-     * @param allFields
      */
     public void saveAllFields() {
         Gson gsonHandler = new Gson();
-        java.lang.String allFieldsAsJSon = gsonHandler.toJson(this.allFields);
         List<Field> toSave = getAllFieldsFromEveryUser();
 
         if (toSave != null) {
             this.allFields.addAll(getAllFieldsFromEveryUser());
-            SharedPreferences saveFields = null;
-            try {
-                saveFields = getContext().getSharedPreferences("App_STORAGE", getContext().getApplicationContext().MODE_PRIVATE);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            SharedPreferences.Editor editor = saveFields.edit();
-            editor.putString("allFields", allFieldsAsJSon);
-            editor.commit();
         }
+
+        java.lang.String allFieldsAsJSon = gsonHandler.toJson(this.allFields);
+
+        SharedPreferences saveFields = null;
+        try {
+            saveFields = getContext().getSharedPreferences("App_STORAGE", getContext().getApplicationContext().MODE_PRIVATE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SharedPreferences.Editor editor = saveFields.edit();
+        editor.putString("allFields", allFieldsAsJSon);
+        editor.commit();
     }
 
     public void saveNewField(Field field) {
