@@ -171,12 +171,15 @@ public class MapActivity extends AppCompatActivity implements
 
     }
 
-    /**
-     * saves a new Field after saveButton pressed in the
-     * newDamageDialog
-     */
-    public void saveNewDamage(View view) {
-        EditText damageType = view.findViewById(R.id.text_damage_type);
+
+    @Override
+    public void onClick(View v) {
+        Log.v("onClick", v.getId() + "");
+
+    }
+
+    public void saveDamage(View view) {
+        EditText damageType = view.findViewById(R.id.text_damage_typeText);
         Damage newDamage = new Damage(mapFragment.getFieldFromDamage());
         newDamage.setDamageType(damageType.getText().toString());
         newDamage.setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
@@ -185,11 +188,5 @@ public class MapActivity extends AppCompatActivity implements
         mapFragment.getAddDamageDialogFragment().dismiss();
         mapFragment.drawDamage(mapFragment.getCurrentDamageMarkerPosition());
         mapFragment.clearField();
-    }
-
-    @Override
-    public void onClick(View v) {
-        Log.v("onClick", v.getId() + "");
-
     }
 }

@@ -37,7 +37,7 @@ public class AddDamageDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        EditText mEditText = view.findViewById(R.id.text_damage_type);
+        EditText mEditText = view.findViewById(R.id.text_damage_typeText);
 
         /*String title = getArguments().getFieldType("title", "Enter Name");
         getDialog().setTitle(title);*/
