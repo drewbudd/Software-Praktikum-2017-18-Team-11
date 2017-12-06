@@ -347,11 +347,21 @@ public class MapFragment extends Fragment implements
         switch (currentMapEditingStatus) {
             case START_CREATE_FIELD_COORDINATES:
                 this.creatingNewField = new Field();
-                if (!creatingNewField.contains(point)) {
+                boolean pointInAField = false;
+
+                if (App.dataService.getAllFields() != null) {
+                    for (Field field : App.dataService.getAllFields()) {
+                        if (field.contains(point)) {
+                            pointInAField = true;
+                        }
+                    }
+                }
+
+                if (!pointInAField) {
                     this.currentMarkerFieldPositions.add(point);
                     mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                 } else {
-                    Snackbar.make(rootView, "Marker musnt in an other field", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(rootView, "Marker can not be in another field", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
@@ -371,7 +381,7 @@ public class MapFragment extends Fragment implements
                         this.currentDamageMarkerPosition.add(point);
                         mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                     } else {
-                        Snackbar.make(rootView, "Marker has to be in the sameField", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(rootView, "Marker has to be in the same field", Snackbar.LENGTH_SHORT).show();
                     }
                 }
 
