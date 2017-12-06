@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.AppModus;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
@@ -382,11 +382,11 @@ public class MapFragment extends Fragment implements
                 }
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
-                this.creatingNewDamage = new Damage();
                 if (this.dameInField == null) {
                     for (Field field : App.dataService.getAllFields()) {
                         if (field.contains(point)) {
                             this.dameInField = field;
+                            this.creatingNewDamage = new Damage(dameInField);
                             this.currentDamageMarkerPosition.add(point);
                             mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                         } else {
@@ -395,6 +395,7 @@ public class MapFragment extends Fragment implements
                     }
                 } else {
                     if (dameInField.contains(point)) {
+                        this.creatingNewDamage = new Damage(dameInField);
                         this.currentDamageMarkerPosition.add(point);
                         mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                     } else {

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
@@ -128,5 +129,22 @@ public class DataStorageService {
         this.allFields.add(field);
         saveAllFields();
         this.allFields.clear();
+    }
+
+    public List<Damage> getAllDamages() {
+        List<Damage> allDamages = new ArrayList<>();
+        for (Field field : getAllFieldsFromEveryUser()) {
+            allDamages.addAll(field.getDamages());
+            Damage newDamage = new Damage(new Field());
+            newDamage.setDamageType("Typ");
+            Damage newDamage1 = new Damage(new Field());
+            newDamage.setDamageType("Typ");
+            Damage newDamage2 = new Damage(new Field());
+            newDamage.setDamageType("Typ");
+            allDamages.add(newDamage);
+            allDamages.add(newDamage1);
+            allDamages.add(newDamage2);
+        }
+        return allDamages;
     }
 }

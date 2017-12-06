@@ -4,7 +4,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.ArrayList;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 
 /**

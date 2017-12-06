@@ -1,14 +1,21 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.manage;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.SearchAdapter;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,9 +31,14 @@ public class SearchFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private View rootView;
+    private RecyclerView recycler;
+    private SearchAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,7 +77,14 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        rootView = inflater.inflate(R.layout.fragment_search, container, false);
+
+        recycler = rootView.findViewById(R.id.recycler_search);
+        List<Damage> damages = App.dataService.getAllDamages();
+        adapter = new SearchAdapter(getContext(), damages);
+        recycler.setAdapter(adapter);
+        recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -1,4 +1,4 @@
-package de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent;
+package de.uni_stuttgart.informatik.sopra.sopraapp.model.damage;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapElement;
 
 /**
@@ -20,10 +21,12 @@ public class Damage implements OnMapElement{
     private DamageEventStatus currentStatus;
     private List<LatLng> markerPosition = new ArrayList<>();
     private User owner;
+    private Field field;
     String damageType;
 
-    public Damage() {
+    public Damage(Field field) {
         this.currentStatus = DamageEventStatus.CREATED;
+        this.field = field;
     }
 
     public void setOwner(User user) {
@@ -44,5 +47,9 @@ public class Damage implements OnMapElement{
 
     public void setMarkerPosition(List<LatLng> markerPosition) {
         this.markerPosition = markerPosition;
+    }
+
+    public Field getField() {
+        return field;
     }
 }

@@ -8,7 +8,8 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapElement;
 
 /**
@@ -29,6 +30,7 @@ public class Field implements OnMapElement {
     private double maxLat;
     private double minLng;
     private double maxLng;
+    private User owner;
 
     public Field() {
         damages = new ArrayList<>();

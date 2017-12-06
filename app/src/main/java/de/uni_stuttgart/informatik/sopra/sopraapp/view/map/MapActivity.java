@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment;
@@ -177,7 +177,7 @@ public class MapActivity extends AppCompatActivity implements
      */
     public void saveNewDamage(View view) {
         EditText damageType = view.findViewById(R.id.text_damage_type);
-        Damage newDamage = new Damage();
+        Damage newDamage = new Damage(mapFragment.getFieldFromDamage());
         newDamage.setDamageType(damageType.getText().toString());
         newDamage.setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
         mapFragment.getFieldFromDamage().addDamage(newDamage);

@@ -1,4 +1,4 @@
-package de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent;
+package de.uni_stuttgart.informatik.sopra.sopraapp.model.damage;
 
 /**
  * @author Stefan Zindl
