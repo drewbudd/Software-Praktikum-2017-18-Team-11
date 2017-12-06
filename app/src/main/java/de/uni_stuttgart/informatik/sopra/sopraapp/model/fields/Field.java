@@ -113,7 +113,7 @@ public class Field implements OnMapElement {
 
         // IF THIS METHOD DOESN'T WORK, COMMENT OUT FROM THIS POINT UNTIL return true;
 
-        /*
+/*
         // prepare points
         long roundLat = Math.round(lat*delta);
         long roundLng = Math.round(lng*delta);
