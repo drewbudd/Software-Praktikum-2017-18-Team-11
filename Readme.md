@@ -15,8 +15,10 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 ### Felderfassung
 
-** TODO: STand am Freitag schreiben **
-**TODO: ** Screenshot
+##### Critical Feature
+
+
+#### Additional Feature
 
 ### Datenaustausch
 
