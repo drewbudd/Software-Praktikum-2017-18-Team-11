@@ -100,7 +100,7 @@ public class MapFragment extends Fragment implements
     private FloatingActionButton newDamage;
     private NewAreaMode currentMODE = NewAreaMode.GPS;
     private MapboxMap mapboxMapGlobal;
-    private Field dameInField;
+    private Field damageInField;
     private Field creatingNewField;
     private Damage creatingNewDamage;
 
@@ -355,11 +355,11 @@ public class MapFragment extends Fragment implements
                 }
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
-                if (this.dameInField == null) {
+                if (this.damageInField == null) {
                     for (Field field : App.dataService.getAllFields()) {
                         if (field.contains(point)) {
-                            this.dameInField = field;
-                            this.creatingNewDamage = new Damage(dameInField);
+                            this.damageInField = field;
+                            this.creatingNewDamage = new Damage(damageInField);
                             this.currentDamageMarkerPosition.add(point);
                             mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                         } else {
@@ -367,8 +367,7 @@ public class MapFragment extends Fragment implements
                         }
                     }
                 } else {
-                    if (dameInField.contains(point)) {
-                        this.creatingNewDamage = new Damage(dameInField);
+                    if (damageInField.contains(point)) {
                         this.currentDamageMarkerPosition.add(point);
                         mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                     } else {
@@ -543,7 +542,7 @@ public class MapFragment extends Fragment implements
     public void clearDamage() {
         this.currentDamageMarkerPosition.clear();
         this.creatingNewDamage = null;
-        this.dameInField = null;
+        this.damageInField = null;
     }
 
     public void drawField(List<LatLng> markers) {
@@ -580,14 +579,14 @@ public class MapFragment extends Fragment implements
      * @return
      */
     public Field getFieldFromDamage() {
-        return dameInField;
+        return damageInField;
     }
 
     /**
-     * @param dameInField
+     * @param damageInField
      */
-    public void setDameInField(Field dameInField) {
-        this.dameInField = dameInField;
+    public void setDamageInField(Field damageInField) {
+        this.damageInField = damageInField;
     }
 
     /**
