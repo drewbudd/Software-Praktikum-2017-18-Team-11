@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.FieldType;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
@@ -37,18 +37,8 @@ public class DataStorageService {
     }
 
     /**
-     * Adds stub fields
-     */
-    private void addStubFields() {
-        this.allFields.add(new Field(FieldType.CORN));
-        this.allFields.add(new Field(FieldType.CORN));
-        this.allFields.add(new Field(FieldType.CORN));
-        this.allFields.add(new Field(FieldType.CORN));
-        this.allFields.add(new Field(FieldType.CORN));
-    }
-
-    /**
      * creates an Singelton Pattern from DataStorageService
+     *
      * @param applicationContext
      * @return
      */
@@ -60,12 +50,29 @@ public class DataStorageService {
         return instance;
     }
 
+    /**
+     * get the current ApplicationContext
+     *
+     * @return
+     * @throws Exception
+     */
+    public static Application getContext() throws Exception {
+        return (Application) Class.forName("android.app.AppGlobals")
+                .getMethod("getInitialApplication").invoke(null, (Object[]) null);
+    }
+
+    /**
+     * Adds stub fields
+     */
+    private void addStubFields() {
+    }
+
     private void addStubUsers() {
         this.stubUser.add(new User("aa", "a"));
         this.stubUser.add(new User("admin2", "admin"));
 
-        stubUser.get(0).setUserRole(UserRole.LANDWIRT);
-        stubUser.get(1).setUserRole(UserRole.GUTACHTER);
+        this.stubUser.get(0).setUserRole(UserRole.LANDWIRT);
+        this.stubUser.get(1).setUserRole(UserRole.GUTACHTER);
     }
 
     /**
@@ -80,30 +87,33 @@ public class DataStorageService {
     /**
      * load all saved Fields form Storage
      * using SharedPreferences
+     *
      * @return
      */
     public List<Field> getAllFieldsFromEveryUser() {
 
         Gson gsonHandler = new Gson();
-        String fieldsAsJSon = null;
-        SharedPreferences loadFields = null;
+        java.lang.String fieldsAsJSon = null;
         try {
             SharedPreferences sharedPreferences = App.getCurrentContext().getSharedPreferences("App_STORAGE", Context.MODE_PRIVATE);
-            fieldsAsJSon = sharedPreferences.getString("allFields", "");
+            fieldsAsJSon = sharedPreferences.getString("allFields", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Field> allFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<List<Field>>(){}.getType());
-        return  allFields;
+        ArrayList<Field> allFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<ArrayList<Field>>() {
+        }.getType());
+        return allFields;
     }
 
     /**
      * saves all Fields using SharedPreferences
+     *
      * @param allFields
      */
-    public void saveAllFields(List<Field> allFields){
+    public void saveAllFields() {
         Gson gsonHandler = new Gson();
-        String allFieldsAsJSon = gsonHandler.toJson(allFields);
+        java.lang.String allFieldsAsJSon = gsonHandler.toJson(this.allFields);
+        this.allFields.addAll(getAllFieldsFromEveryUser());
         SharedPreferences saveFields = null;
         try {
             saveFields = getContext().getSharedPreferences("App_STORAGE", getContext().getApplicationContext().MODE_PRIVATE);
@@ -111,16 +121,30 @@ public class DataStorageService {
             e.printStackTrace();
         }
         SharedPreferences.Editor editor = saveFields.edit();
-        editor.putString("allFields",allFieldsAsJSon);
+        editor.putString("allFields", allFieldsAsJSon);
+        editor.commit();
     }
 
-    /**
-     * get the current ApplicationContext
-     * @return
-     * @throws Exception
-     */
-    public static Application getContext() throws Exception {
-        return (Application) Class.forName("android.app.AppGlobals")
-                .getMethod("getInitialApplication").invoke(null, (Object[]) null);
+    public void saveNewField(Field field) {
+        this.allFields.add(field);
+        saveAllFields();
+        this.allFields.clear();
+    }
+
+    public List<Damage> getAllDamages() {
+        List<Damage> allDamages = new ArrayList<>();
+        for (Field field : getAllFieldsFromEveryUser()) {
+            allDamages.addAll(field.getDamages());
+            Damage newDamage = new Damage(new Field());
+            newDamage.setDamageType("Typ");
+            Damage newDamage1 = new Damage(new Field());
+            newDamage.setDamageType("Typ");
+            Damage newDamage2 = new Damage(new Field());
+            newDamage.setDamageType("Typ");
+            allDamages.add(newDamage);
+            allDamages.add(newDamage1);
+            allDamages.add(newDamage2);
+        }
+        return allDamages;
     }
 }

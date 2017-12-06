@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.DamageEventArt;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
@@ -30,11 +29,6 @@ public class DataService {
         // safety singleton pattern
 
         loadUsers();
-        allDamages.add(new Damage(DamageEventArt.WIND));
-        allDamages.get(0).setOwner(getCurrentLoggedInUser());
-        allDamages.add(new Damage(DamageEventArt.WIND));
-        allDamages.get(1).setOwner(getCurrentLoggedInUser());
-
     }
 
     public static DataService getInstance() {
@@ -81,11 +75,11 @@ public class DataService {
     }
 
     public void saveField(Field newField) {
-        this.allFields.add(newField);
+        App.dataStorageService.saveNewField(newField);
     }
 
     public List<Damage> getAllDamages() {
-        return this.allDamages;
+        return App.dataStorageService.getAllDamages();
     }
 
     /**
@@ -99,5 +93,9 @@ public class DataService {
             default:
                 return App.dataStorageService.getAllFieldsFromEveryUser();
         }
+    }
+
+    public List<Field> getAllFields() {
+        return App.dataStorageService.getAllFieldsFromEveryUser();
     }
 }

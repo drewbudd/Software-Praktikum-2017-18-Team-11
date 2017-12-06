@@ -13,54 +13,54 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * @author Stefan Zindl
  * @since 2017/11/15
- *
- *
+ * <p>
+ * <p>
  * //TODO implement Adapater, aufbau
  * https://github.com/codepath/android_guides/wiki/Using-the-RecyclerView
- *
  */
 
-public class DamageEventAdapter extends RecyclerView.Adapter<DamageEventAdapter.ViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
 
-    private List<Damage> damages;
+    private List<Damage> damageList;
     private List<ViewHolder> views = new ArrayList<>();
     private Context context;
 
-    public DamageEventAdapter(Context context, List<Damage> events) {
-        this.damages = events;
+    public SearchAdapter(Context context, List<Damage> events) {
+        this.damageList = events;
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_damageevent, parent, false);
 
-        ViewHolder vh = new ViewHolder(view);
+        ViewHolder vh = new ViewHolder(v);
         views.add(vh);
+
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Damage event = damages.get(position);
+    public void onBindViewHolder(SearchAdapter.ViewHolder holder, int position) {
+        Damage event = damageList.get(position);
         String insuranceHolder;
 
         holder.associateDamage = event;
 
-        holder.inscuredPerson.setText(App.dataService.getCurrentLoggedInUser().getName());
+        holder.damageType.setText(event.getDamageType());
+        holder.inscuredPerson.setText("Blabla");
 
     }
 
     @Override
     public int getItemCount() {
-        return this.damages.size();
+        return damageList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -68,11 +68,14 @@ public class DamageEventAdapter extends RecyclerView.Adapter<DamageEventAdapter.
         public CardView card;
         public TextView inscuredPerson;
         public Damage associateDamage;
+        public TextView damageType;
 
         public ViewHolder(View itemView) {
             super(itemView);
+
             card = (CardView) itemView;
             inscuredPerson = itemView.findViewById(R.id.insuredPerson);
+            damageType = itemView.findViewById(R.id.card_damage_type);
         }
     }
 }

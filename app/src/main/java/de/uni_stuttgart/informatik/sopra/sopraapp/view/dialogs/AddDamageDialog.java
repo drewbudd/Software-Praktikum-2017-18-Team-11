@@ -39,7 +39,7 @@ public class AddDamageDialog extends DialogFragment {
 
         EditText mEditText = view.findViewById(R.id.text_damage_type);
 
-        /*String title = getArguments().getString("title", "Enter Name");
+        /*String title = getArguments().getFieldType("title", "Enter Name");
         getDialog().setTitle(title);*/
 
         mEditText.requestFocus();

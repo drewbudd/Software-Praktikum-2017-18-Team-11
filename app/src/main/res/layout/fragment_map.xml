@@ -80,7 +80,7 @@
         android:layout_gravity="bottom|end">
 
         <TextView
-            android:id="@+id/fab1_label"
+            android:id="@+id/fieldButtonLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
@@ -89,7 +89,7 @@
             android:alpha="0"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab1"
+            android:id="@+id/fieldButton"
             android:layout_width="@dimen/fab_sub_size"
             android:layout_height="@dimen/fab_sub_size"
             android:layout_gravity="bottom|end"
@@ -108,11 +108,4 @@
         app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/newDamage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_add" />
 </FrameLayout>

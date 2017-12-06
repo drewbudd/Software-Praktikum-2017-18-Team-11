@@ -8,7 +8,8 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damageEvent.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapElement;
 
 /**
@@ -21,7 +22,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapEleme
 public class Field implements OnMapElement {
 
 
-    private FieldType fieldType;
+    private String fieldType;
     private List<Damage> damages;
     private List<LatLng> markerPosition = new ArrayList<>();
     private Color color;
@@ -29,10 +30,10 @@ public class Field implements OnMapElement {
     private double maxLat;
     private double minLng;
     private double maxLng;
+    private User owner;
 
-    public Field(FieldType fieldType) {
+    public Field() {
         damages = new ArrayList<>();
-        this.fieldType = fieldType;
         minLat = Double.MAX_VALUE;
         maxLat = Double.MIN_VALUE;
         minLng = Double.MAX_VALUE;
@@ -47,11 +48,11 @@ public class Field implements OnMapElement {
     }
 
 
-    public FieldType getFieldType() {
+    public String getFieldType() {
         return fieldType;
     }
 
-    public void setFieldType(FieldType fieldType) {
+    public void setFieldType(String fieldType) {
         this.fieldType = fieldType;
     }
 
@@ -104,12 +105,12 @@ public class Field implements OnMapElement {
         int delta = 1000;
         double lat = point.getLatitude();
         double lng = point.getLongitude();
-
+        
         // a quick check to see if a point lies within a rectangle containing the polygon allowing most inquiries to be quickly answered
         if (lat < minLat || lat > maxLat || lng < minLng || lng > maxLng) {
             return false;
         }
-        
+
         // IF THIS METHOD DOESN'T WORK, COMMENT OUT FROM THIS POINT UNTIL return true;
 
         // prepare points
