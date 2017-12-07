@@ -302,7 +302,6 @@ public class MapFragment extends Fragment implements
                             label.setText("Report Damage");
                             menuFAB.animate().alpha(1.0f).setDuration(100);
                             menuFAB.setEnabled(true);
-                            creatingNewField.setMarkerPosition(currentMarkerFieldPositions);
                             FragmentManager fm = getActivity().getFragmentManager();
                             addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage");
                             addDamageDialogFragment.show(fm, "dialog_fragment_add_damage");
@@ -607,7 +606,7 @@ public class MapFragment extends Fragment implements
      */
     public void clearField() {
         this.currentMarkerFieldPositions.clear();
-        this.creatingNewField = new Field();
+        this.creatingNewField = null;
     }
 
     public void clearDamage() {
