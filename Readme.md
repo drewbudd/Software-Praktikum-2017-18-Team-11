@@ -117,8 +117,9 @@ Auch der Landwirt interessiert sich für seine eigenen Felder und Hageschläden.
 Die Entwicklungsgeschichte befindet sich in [CHANGELOG.md](CHANGELOG.md).
 
 ## Verwendete Bibliotheken
+- [MapBox](https://github.com/mapbox/mapbox-gl-native)
 
-| 
+- [AndroidSlidingUpPanel](https://github.com/umano/AndroidSlidingUpPanel)
 ## Lizenz
 
 - Apache License, Version 2.0 für die Verwendung des Slidermenüs
