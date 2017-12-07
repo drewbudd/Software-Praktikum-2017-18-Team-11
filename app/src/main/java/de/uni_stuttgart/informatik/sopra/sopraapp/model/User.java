@@ -102,4 +102,8 @@ public class User {
     public UserRole getCurrentUserRole() {
         return currentUserRole;
     }
+
+    public ArrayList<Contract> getContracts() {
+        return contracts;
+    }
 }

@@ -5,5 +5,15 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.model;
  * @since 2017/11/14
  */
 
-class Contract {
+public class Contract {
+
+    private String contractType;
+
+    public String getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(String contractType) {
+        this.contractType = contractType;
+    }
 }

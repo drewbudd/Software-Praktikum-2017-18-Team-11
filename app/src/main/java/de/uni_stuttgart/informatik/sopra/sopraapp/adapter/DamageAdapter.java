@@ -25,14 +25,14 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
  *
  */
 
-public class DamageEventAdapter extends RecyclerView.Adapter<DamageEventAdapter.ViewHolder> {
+public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder> {
 
 
     private List<Damage> damages;
     private List<ViewHolder> views = new ArrayList<>();
     private Context context;
 
-    public DamageEventAdapter(Context context, List<Damage> events) {
+    public DamageAdapter(Context context, List<Damage> events) {
         this.damages = events;
         this.context = context;
     }

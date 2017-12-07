@@ -4,10 +4,15 @@
     android:layout_height="match_parent"
     tools:context="de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="CONTACTS" />
+        android:layout_height="match_parent">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_contracts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 </FrameLayout>

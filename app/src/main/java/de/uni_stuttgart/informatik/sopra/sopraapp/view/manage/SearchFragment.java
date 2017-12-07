@@ -104,8 +104,8 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-        recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setAdapter(adapter);
         return rootView;
     }
 

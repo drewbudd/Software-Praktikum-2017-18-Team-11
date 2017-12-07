@@ -1,14 +1,22 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.manage;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.os.Debug;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.ContractListAdapter;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.Contract;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +35,11 @@ public class ContractsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private View rootView;
+    private ContractListAdapter adapter;
+    private RecyclerView recycler;
+    private List<Contract> contracts;
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,7 +78,23 @@ public class ContractsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contracts, container, false);
+        rootView = inflater.inflate(R.layout.fragment_contracts, container, false);
+
+        recycler = rootView.findViewById(R.id.recycler_contracts);
+        if (App.dataService.getAllContracts() != null) {
+            contracts = App.dataService.getAllContracts();
+        } else {
+            if (Debug.isDebuggerConnected()) {
+                Contract newContract = new Contract();
+                newContract.setContractType("Hello World");
+                contracts.add(newContract);
+            }
+        }
+        adapter = new ContractListAdapter(getContext(), contracts);
+        recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setAdapter(adapter);
+        return rootView;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

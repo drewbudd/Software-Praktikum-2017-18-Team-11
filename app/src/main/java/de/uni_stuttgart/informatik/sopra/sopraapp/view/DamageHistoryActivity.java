@@ -7,7 +7,7 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.DamageEventAdapter;
+import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.DamageAdapter;
 
 public class DamageHistoryActivity extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class DamageHistoryActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.damages);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
-        recyclerView.setAdapter(new DamageEventAdapter(this, App.dataService.getAllDamages()));
+        recyclerView.setAdapter(new DamageAdapter(this, App.dataService.getAllDamages()));
 
     }
 }

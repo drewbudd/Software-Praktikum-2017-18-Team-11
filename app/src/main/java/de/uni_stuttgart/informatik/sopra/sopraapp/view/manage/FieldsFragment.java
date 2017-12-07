@@ -1,14 +1,24 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.manage;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.os.Debug;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.FieldListAdapter;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +40,10 @@ public class FieldsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private View rootView;
+    private RecyclerView recycler;
+    private List<Field> fields = new ArrayList<>();
+    private FieldListAdapter adapter;
     public FieldsFragment() {
         // Required empty public constructor
     }
@@ -65,7 +79,26 @@ public class FieldsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fields, container, false);
+        rootView = inflater.inflate(R.layout.fragment_fields, container, false);
+        recycler = rootView.findViewById(R.id.recycler_fieldsview);
+
+        if (App.dataService.getAllFields() == null) {
+
+        } else {
+            fields = App.dataService.getAllFields();
+
+        }
+
+        if (Debug.isDebuggerConnected()) {
+            Field newField = new Field();
+            User user = new User("Stefan", "");
+            newField.setGutachter(user);
+            fields.add(newField);
+        }
+        adapter = new FieldListAdapter(getContext(), fields);
+        recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setAdapter(adapter);
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -105,5 +138,14 @@ public class FieldsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (App.dataStorageService.getAllFields() != null) {
+            this.fields = App.dataStorageService.getAllFields();
+            adapter.notifyDataSetChanged();
+        }
     }
 }

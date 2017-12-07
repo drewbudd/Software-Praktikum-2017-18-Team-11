@@ -3,6 +3,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.Contract;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
@@ -28,6 +29,7 @@ public class DataService {
         // safety singleton pattern
 
         loadUsers();
+        App.dataStorageService.saveAllFields();
         App.dataStorageService.loadFields();
     }
 
@@ -106,5 +108,9 @@ public class DataService {
      */
     public void updateField(int id, Field damageInField) {
         App.dataStorageService.getAllFieldsFromEveryUser().get(id).setDamages(damageInField.getDamages());
+    }
+
+    public List<Contract> getAllContracts() {
+        return App.dataService.getCurrentLoggedInUser().getContracts();
     }
 }

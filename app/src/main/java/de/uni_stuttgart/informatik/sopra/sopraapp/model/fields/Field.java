@@ -33,6 +33,7 @@ public class Field implements OnMapElement {
     private double maxLng;
     private User owner;
     private int currentID = 0;
+    private User gutachter;
 
     public Field() {
         damages = new ArrayList<>();
@@ -232,5 +233,13 @@ public class Field implements OnMapElement {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public User getGutachter() {
+        return gutachter;
+    }
+
+    public void setGutachter(User gutachter) {
+        this.gutachter = gutachter;
     }
 }
