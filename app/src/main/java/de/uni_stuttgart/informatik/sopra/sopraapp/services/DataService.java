@@ -29,8 +29,6 @@ public class DataService {
         // safety singleton pattern
 
         loadUsers();
-        App.dataStorageService.saveAllFields();
-        App.dataStorageService.loadFields();
     }
 
     public static DataService getInstance() {
@@ -77,25 +75,11 @@ public class DataService {
     }
 
     public void saveField(Field newField) {
-
         App.dataStorageService.saveNewField(newField);
     }
 
     public List<Damage> getAllDamages() {
         return App.dataStorageService.getAllDamages();
-    }
-
-    /**
-     * @return
-     */
-    public List<Field> loadFields() {
-
-        switch (currentLoggedInUser.getCurrentUserRole()) {
-            case GUTACHTER:
-                return App.dataStorageService.getAllFields();
-            default:
-                return App.dataStorageService.getAllFields();
-        }
     }
 
     public List<Field> getAllFields() {
@@ -107,7 +91,11 @@ public class DataService {
      * @param damageInField
      */
     public void updateField(int id, Field damageInField) {
-        App.dataStorageService.getAllFieldsFromEveryUser().get(id).setDamages(damageInField.getDamages());
+        App.dataStorageService.getAllFields().get(id).setDamages(damageInField.getDamages());
+    }
+
+    public void loadFieldsFromUser() {
+        App.dataStorageService.loadFieldsFromStorage();
     }
 
     public List<Contract> getAllContracts() {

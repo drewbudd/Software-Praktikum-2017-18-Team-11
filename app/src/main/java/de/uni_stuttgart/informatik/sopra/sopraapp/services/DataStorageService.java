@@ -3,7 +3,6 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Debug;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,6 +30,7 @@ public class DataStorageService {
 
     private List<User> stubUser = new ArrayList<>();
     private List<Field> allFields = new ArrayList<>();
+    private List<Damage> allDamages = new ArrayList<>();
 
     private DataStorageService() {
         addStubUsers();
@@ -91,7 +91,7 @@ public class DataStorageService {
      *
      * @return
      */
-    public List<Field> getAllFieldsFromEveryUser() {
+    public void loadFieldsFromStorage() {
 
         Gson gsonHandler = new Gson();
         java.lang.String fieldsAsJSon = null;
@@ -103,20 +103,18 @@ public class DataStorageService {
         }
         ArrayList<Field> allFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<ArrayList<Field>>() {
         }.getType());
-        return allFields;
+
+        if (allFields != null) {
+            this.allFields.addAll(allFields);
+        }
     }
 
     /**
      * saves all Fields using SharedPreferences
-     *
      */
     public void saveAllFields() {
         Gson gsonHandler = new Gson();
-        List<Field> toSave = getAllFieldsFromEveryUser();
-
-        if (toSave != null) {
-            this.allFields.addAll(getAllFieldsFromEveryUser());
-        }
+        loadFieldsFromStorage();
 
         java.lang.String allFieldsAsJSon = gsonHandler.toJson(this.allFields);
 
@@ -131,37 +129,20 @@ public class DataStorageService {
         editor.commit();
     }
 
-    public void saveNewField(Field field) {
-        this.allFields.add(field);
-        saveAllFields();
-    }
-
     public List<Damage> getAllDamages() {
-        List<Damage> allDamages = new ArrayList<>();
-        if (allFields != null) {
-            for (Field field : allFields) {
-                allDamages.addAll(field.getDamages());
-            }
+        for (Field field : this.allFields) {
+            this.allDamages.addAll(field.getDamages());
         }
-        if (Debug.isDebuggerConnected()) {
-            Damage newDamage = new Damage(new Field());
-            User user = new User("", "");
-            user.setName("hallo");
-            newDamage.setOwner(user);
-            allDamages.add(newDamage);
-        }
-        return allDamages;
-    }
 
-    /**
-     *
-     */
-    public void loadFields() {
-        this.allFields.clear();
-        this.allFields = getAllFieldsFromEveryUser();
+        return this.allDamages;
     }
 
     public List<Field> getAllFields() {
         return allFields;
+    }
+
+    public void saveNewField(Field newField) {
+        this.allFields.add(newField);
+        saveAllFields();
     }
 }

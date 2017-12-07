@@ -50,15 +50,6 @@ public class MapActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_map);
 
 
-        // askPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION_FINE);
-        //askPermission(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_LOCATION_COURSE);
-        //askPermission(Manifest.permission.LOCATION_HARDWARE, REQUEST_LOCATION_HARDWARE);
-
-
-        //      locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, mapFragment);
-
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
         manageServiceFragment = (ManageServiceFragment) getFragmentManager().findFragmentById(R.id.manageServiceFragment);
 
@@ -166,9 +157,8 @@ public class MapActivity extends AppCompatActivity implements
         mapFragment.getCreatingNewField().setFieldType(fieldType.getText().toString());
         mapFragment.getCreatingNewField().setOwner(App.dataService.getCurrentLoggedInUser());
         App.dataService.saveField(mapFragment.getCreatingNewField());
-        MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
-        //      addFieldDialog.getDialog().dismiss();
 
+        MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
         mapFragment.drawField(mapFragment.getCurrentMarkerFieldPositions());
         mapFragment.getAddFieldDialogFragment().dismiss();
         mapFragment.clearField();
@@ -188,12 +178,11 @@ public class MapActivity extends AppCompatActivity implements
         newDamage.setOwner(mapFragment.getFieldFromDamage().getOwner());
         mapFragment.getFieldFromDamage().addDamage(newDamage);
         App.dataService.updateField(mapFragment.getFoundFieldID(), mapFragment.getFieldFromDamage());
-        App.dataStorageService.saveAllFields();
         MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
         mapFragment.getAddDamageDialogFragment().dismiss();
         mapFragment.drawDamage(mapFragment.getCurrentDamageMarkerPosition());
 //        manageServiceFragment.getSearchFragment().getSearchAdapter().notifyDataSetChanged();
-        mapFragment.clearField();
+        mapFragment.clearDamage();
     }
 
     @Override

@@ -114,8 +114,6 @@ public class MapFragment extends Fragment implements
         mapFragment = this;
         offlineRegions = new OfflineRegion[10];
         currentDamageMarkerPosition = new ArrayList<>();
-        App.dataStorageService.getAllFieldsFromEveryUser();
-
     }
 
     /**
@@ -371,7 +369,7 @@ public class MapFragment extends Fragment implements
     @Override
     public void onMapReady(final MapboxMap mapboxMap) {
         mapboxMapGlobal = mapboxMap;
-
+        App.dataService.loadFieldsFromUser();
         mapboxMap.setOnMapClickListener(mapFragment);
 
         /* Campus coordinates*/

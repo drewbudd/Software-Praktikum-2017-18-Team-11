@@ -55,9 +55,9 @@ public class FieldListAdapter extends RecyclerView.Adapter<FieldListAdapter.View
 
         holder.associatedField = event;
 
-        holder.fieldType.setText(event.getFieldType());
-        holder.inscuredPerson.setText(event.getOwner().getName());
-        holder.gutachter.setText(event.getGutachter().getName());
+        //    holder.fieldType.setText(event.getFieldType());
+        //      holder.inscuredPerson.setText(event.getOwner().getName());
+//        holder.gutachter.setText(event.getGutachter().getName());
 
     }
 
