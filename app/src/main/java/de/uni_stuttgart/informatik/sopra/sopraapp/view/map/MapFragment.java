@@ -113,6 +113,7 @@ public class MapFragment extends Fragment implements
         mapFragment = this;
         offlineRegions = new OfflineRegion[10];
         currentDamageMarkerPosition = new ArrayList<>();
+        App.dataStorageService.getAllFieldsFromEveryUser();
 
     }
 
@@ -387,11 +388,13 @@ public class MapFragment extends Fragment implements
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
                 if (this.damageInField == null) {
-                    for (Field field : App.dataService.getAllFields()) {
+                    List<Field> fields = App.dataService.getAllFields();
+                    for (Field field : fields) {
                         if (field.contains(point)) {
                             this.damageInField = field;
                             this.creatingNewDamage = new Damage(damageInField);
                             this.currentDamageMarkerPosition.add(point);
+                            this.foundFieldID = fields.indexOf(field);
                             mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
                         } else {
                             Snackbar.make(rootView, "Marker has to be in a existing field", Snackbar.LENGTH_SHORT).show();
