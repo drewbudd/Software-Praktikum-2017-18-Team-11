@@ -4,6 +4,24 @@ This project adheres currently NOT REALLY to [Semantic Versioning](http://semver
 
 ## Unreleased
 
+## [0.3.0] - 2017-12-31
+### Added
+
+- Felder ändern
+- Suche nach Schäden und Felder ermöglichen
+- Sprachen ergänzen
+- Zentrieren von Felder und Schäden in der Karte
+- Neuen Benutzer anlegen
+
+### Changed
+- Schadensfälle erstellen verbessern und stabiler machen
+- Felder erstellen verbessern und stablier machen
+- Bugfixes
+
+### Security
+- Verwendung von Datenbank
+- Verschlüsselung der Daten
+
 ## Released
 ## [0.2.1] - 2017-12-7
 
@@ -55,58 +73,3 @@ This project adheres currently NOT REALLY to [Semantic Versioning](http://semver
 ### Security
 
 - Userlogin: Daten werden überprüft, ob diese richtig sind und der User registriert ist
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-
-
-
-# Template
-
-## [X.Y.Z] - XXXX-XX-XX
-
-### Added
-
-- added something
-- added something else
-
-### Changed
-
-- changed something
-- changed something else
-
-### Deprecated
-
-- deprecated something
-- deprecated something else
-
-### Removed
-
-- removed something
-- removed something else
-
-### Fixed
-
-- fixed something
-- fixed something else
-
-### Security
-
-- made some security relevant changes
-- made other security relevant changes
