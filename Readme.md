@@ -11,10 +11,14 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 ## Bereits implementierte Features
 
+## Features
 
 ### Felderfassung
 
-### Feldvisualisierung
+##### Critical Feature
+
+
+#### Additional Feature
 
 ### Feldverwaltung
 
@@ -131,10 +135,11 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 
 ### Entwicker
 
+| Andrew Almaguer| st152650@stud.uni-stuttgart.de |
+|--- | ---|
 | Stefan Zindl | st148777@stud.uni-stuttgart.de |
 | --- | --- |
 | Aimn Ahmen | st@stud.uni-stuttgart.de |
-| Andrew Almaguer    | stxxx@stud.uni-stuttgart.de
 
 ### Betreuer
 | Verena Käfer |
@@ -143,3 +148,5 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 
 ### Tutor
 |Jingxi Zhang 
+|Jingxi Zhang|
+|--- | ---|
