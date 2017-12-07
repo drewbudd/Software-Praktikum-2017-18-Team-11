@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
@@ -75,10 +76,10 @@ public class MapFragment extends Fragment implements
     private static final int REQUEST_LOCATION_FINE = 7;
     public static MapEditingStatus currentMapEditingStatus = MapEditingStatus.DEFAULT;
     final java.lang.String TAG = "TAG";
-    FloatingActionButton fab;
-    LinearLayout fab1;
-    LinearLayout fab2;
-    LinearLayout fab3;
+    FloatingActionButton menuFAB;
+    LinearLayout fieldsFAB;
+    LinearLayout damagesFAB;
+    LinearLayout settingsFAB;
     AddFieldDialog addFieldDialogFragment;
     AddDamageDialog addDamageDialogFragment;
     // TODO: Rename and change types of parameters
@@ -101,7 +102,7 @@ public class MapFragment extends Fragment implements
     private NewAreaMode currentMODE = NewAreaMode.GPS;
     private MapboxMap mapboxMapGlobal;
     private Field damageInField;
-    private Field creatingNewField;
+    private Field creatingNewField = new Field();
     private Damage creatingNewDamage;
     private double gpsLat;
     private double gpsLng;
@@ -206,11 +207,12 @@ public class MapFragment extends Fragment implements
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
+
         FloatingActionButton fabGPS = rootView.findViewById(R.id.fab_gps);
-        fab = rootView.findViewById(R.id.fab);
-        fab1 = rootView.findViewById(R.id.fab1_and_label);
-        fab2 = rootView.findViewById(R.id.fab2_and_label);
-        fab3 = rootView.findViewById(R.id.fab3_and_label);
+        menuFAB = rootView.findViewById(R.id.fab);
+        fieldsFAB = rootView.findViewById(R.id.fab1_and_label);
+        damagesFAB = rootView.findViewById(R.id.fab2_and_label);
+        settingsFAB = rootView.findViewById(R.id.fab3_and_label);
         isFABOpen = false;
 
         fabGPS.setOnClickListener(new View.OnClickListener() {
@@ -225,25 +227,8 @@ public class MapFragment extends Fragment implements
             }
         });
 
-        rootView.findViewById(R.id.field_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentMapEditingStatus == MapEditingStatus.DEFAULT) {
-                    currentMapEditingStatus = MapEditingStatus.START_CREATE_FIELD_COORDINATES;
 
-                    Snackbar.make(getView(), "Make Marker", Snackbar.LENGTH_SHORT).show();
-                } else if (currentMapEditingStatus == MapEditingStatus.START_CREATE_FIELD_COORDINATES) {
-                    currentMapEditingStatus = MapEditingStatus.END_CREATE_FIELD_COORDINATES;
-                    FragmentManager fm = getActivity().getFragmentManager();
-                    addFieldDialogFragment = AddFieldDialog.newInstance("Some Title");
-                    addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
-                }
-            }
-        });
-
-
-
-        fab.setOnClickListener(new View.OnClickListener() {
+        menuFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!isFABOpen) {
@@ -254,20 +239,74 @@ public class MapFragment extends Fragment implements
             }
         });
 
-        fab2.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.field_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentMapEditingStatus == MapEditingStatus.DEFAULT) {
+                    currentMapEditingStatus = MapEditingStatus.START_CREATE_FIELD_COORDINATES;
+                    Snackbar.make(getView(), "Add Marker", Snackbar.LENGTH_SHORT).show();
+                    damagesFAB.animate().alpha(0.3f).setDuration(100);
+                    damagesFAB.setEnabled(false);
+                    //settingsFAB.animate().alpha(0.3f).setDuration(100);
+                    settingsFAB.setEnabled(false);
+                    menuFAB.animate().alpha(0.3f).setDuration(100);
+                    menuFAB.setEnabled(false);
+                    TextView label = rootView.findViewById(R.id.field_button_label);
+                    label.setText("Finish adding points");
+                } else if (currentMapEditingStatus == MapEditingStatus.START_CREATE_FIELD_COORDINATES) {
+                    if (currentMarkerFieldPositions.size() < 3) {
+                        Snackbar.make(getView(), "Please add at least 3 markers", Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        currentMapEditingStatus = MapEditingStatus.END_CREATE_FIELD_COORDINATES;
+                        FragmentManager fm = getActivity().getFragmentManager();
+                        damagesFAB.animate().alpha(1.0f).setDuration(100);
+                        damagesFAB.setEnabled(true);
+                        //settingsFAB.animate().alpha(1.0f).setDuration(100);
+                        settingsFAB.setEnabled(true);
+                        menuFAB.animate().alpha(1.0f).setDuration(100);
+                        menuFAB.setEnabled(true);
+                        TextView label = rootView.findViewById(R.id.field_button_label);
+                        label.setText("Add field");
+                        addFieldDialogFragment = AddFieldDialog.newInstance("Add Field");
+                        addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
+                    }
+                }
+            }
+        });
+
+        rootView.findViewById(R.id.damages_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                TextView label = rootView.findViewById(R.id.damages_button_label);
                 switch (currentMapEditingStatus) {
                     case DEFAULT:
                         currentMapEditingStatus = MapEditingStatus.START_CREATE_DAMAGE_COORDINATES;
                         Snackbar.make(getView(), "Create a damage within a field", Snackbar.LENGTH_SHORT).show();
+                        fieldsFAB.animate().alpha(0.3f).setDuration(100);
+                        fieldsFAB.setEnabled(false);
+                        //settingsFAB.animate().alpha(0.3f).setDuration(100);
+                        settingsFAB.setEnabled(false);
+                        menuFAB.animate().alpha(0.3f).setDuration(100);
+                        menuFAB.setEnabled(false);
+                        label.setText("Finish adding points");
                         break;
                     case START_CREATE_DAMAGE_COORDINATES:
-                        currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
-                        FragmentManager fm = getActivity().getFragmentManager();
-                        addDamageDialogFragment = AddDamageDialog.newInstance("Add Damge");
-                        addDamageDialogFragment.show(fm, "dialog_fragment_add_damage");
+                        if (currentDamageMarkerPosition.size() < 3) {
+                            Snackbar.make(getView(), "Please add at least 3 markers", Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
+                            fieldsFAB.animate().alpha(1.0f).setDuration(100);
+                            fieldsFAB.setEnabled(true);
+                            //settingsFAB.animate().alpha(1.0f).setDuration(100);
+                            settingsFAB.setEnabled(true);
+                            label.setText("Report Damage");
+                            menuFAB.animate().alpha(1.0f).setDuration(100);
+                            menuFAB.setEnabled(true);
+                            creatingNewField.setMarkerPosition(currentMarkerFieldPositions);
+                            FragmentManager fm = getActivity().getFragmentManager();
+                            addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage");
+                            addDamageDialogFragment.show(fm, "dialog_fragment_add_damage");
+                        }
                         break;
                 }
 
@@ -275,37 +314,34 @@ public class MapFragment extends Fragment implements
             }
         });
 
-        /*fab3.setOnClickListener(new View.OnClickListener() {
+        settingsFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getActivity().getFragmentManager();
-                AddFieldDialog addFieldDialogFragment = AddFieldDialog.newInstance("Some Title");
-                addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
-
+                Snackbar.make(rootView, "Placeholder button, not yet implemented", Snackbar.LENGTH_SHORT).show();
             }
-        }); */
+        });
 
         return rootView;
     }
 
     private void showFABMenu() {
         isFABOpen = true;
-        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55)).setDuration(200);
-        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105)).setDuration(400);
-        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155)).setDuration(600);
-        rootView.findViewById(R.id.fab1_and_label).animate().alpha(1.0f).setDuration(300);
+        fieldsFAB.animate().translationY(-getResources().getDimension(R.dimen.standard_55)).setDuration(200);
+        damagesFAB.animate().translationY(-getResources().getDimension(R.dimen.standard_105)).setDuration(400);
+        settingsFAB.animate().translationY(-getResources().getDimension(R.dimen.standard_155)).setDuration(600);
+        rootView.findViewById(R.id.field_button_label).animate().alpha(1.0f).setDuration(300);
         rootView.findViewById(R.id.damages_button_label).animate().alpha(1.0f).setDuration(600);
-        rootView.findViewById(R.id.fab3_label).animate().alpha(1.0f).setDuration(900);
+        rootView.findViewById(R.id.fab3_label).animate().alpha(0.3f).setDuration(900);
     }
 
     private void closeFABMenu() {
         isFABOpen = false;
-        fab1.animate().translationY(0);
-        fab2.animate().translationY(0);
-        fab3.animate().translationY(0);
+        fieldsFAB.animate().translationY(0);
+        damagesFAB.animate().translationY(0);
+        settingsFAB.animate().translationY(0);
         rootView.findViewById(R.id.fab1_and_label).animate().alpha(0.0f).setDuration(200);
         rootView.findViewById(R.id.fab2_and_label).animate().alpha(0.0f).setDuration(200);
-        rootView.findViewById(R.id.fab3_label).animate().alpha(0.0f).setDuration(200);
+        rootView.findViewById(R.id.fab3_and_label).animate().alpha(0.0f).setDuration(200);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -351,7 +387,6 @@ public class MapFragment extends Fragment implements
             }
         }
 
-
     }
 
     private void uploadMapForOfflineMode() {
@@ -368,7 +403,6 @@ public class MapFragment extends Fragment implements
     public void onMapClick(@NonNull LatLng point) {
         switch (currentMapEditingStatus) {
             case START_CREATE_FIELD_COORDINATES:
-                this.creatingNewField = new Field();
                 boolean pointInAField = false;
 
                 if (App.dataService.getAllFields() != null) {
@@ -573,7 +607,7 @@ public class MapFragment extends Fragment implements
      */
     public void clearField() {
         this.currentMarkerFieldPositions.clear();
-        this.creatingNewField = null;
+        this.creatingNewField = new Field();
     }
 
     public void clearDamage() {
