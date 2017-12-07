@@ -138,7 +138,7 @@ Damit die Versicherung die Daten des Schadens als Versicherungsfall aufnehmen ka
 
 ## Epic 3 *Benutzerverwaltung*
 
-> Als *Admin* möchte ich *die Kontrolle über die Benutzer haben und ihnen eine Rolle zuweisen können, damit jeder Benutzer nur die Funktionen zur Verfügung hat, welche er benötigt.*
+> Als *Benutzer* möchte ich *nur die Funktionen verwenden können*, sodass ich keine keine Funktione verwenden kan, für die ich nicht authorisiert bin.
 
 Diese App werden verschiedene Personas verwenden. Dadurch muss sicher gestellt werden, dass jede Rolle die passende Rechte bekommt und somit nur Zugriff auf die Funktionen bekommt, für die er berechtigt ist. 
 
