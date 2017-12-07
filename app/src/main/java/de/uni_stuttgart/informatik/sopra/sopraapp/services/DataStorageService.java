@@ -138,10 +138,9 @@ public class DataStorageService {
 
     public List<Damage> getAllDamages() {
         List<Damage> allDamages = new ArrayList<>();
-        if (getAllFieldsFromEveryUser() != null) {
-            for (Field field : getAllFieldsFromEveryUser()) {
+        if (allFields != null) {
+            for (Field field : allFields) {
                 allDamages.addAll(field.getDamages());
-
             }
         }
         if (Debug.isDebuggerConnected()) {
@@ -154,4 +153,15 @@ public class DataStorageService {
         return allDamages;
     }
 
+    /**
+     *
+     */
+    public void loadFields() {
+        this.allFields.clear();
+        this.allFields = getAllFieldsFromEveryUser();
+    }
+
+    public List<Field> getAllFields() {
+        return allFields;
+    }
 }

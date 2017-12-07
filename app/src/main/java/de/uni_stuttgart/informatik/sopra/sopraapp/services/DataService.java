@@ -28,6 +28,7 @@ public class DataService {
         // safety singleton pattern
 
         loadUsers();
+        App.dataStorageService.loadFields();
     }
 
     public static DataService getInstance() {
@@ -89,14 +90,14 @@ public class DataService {
 
         switch (currentLoggedInUser.getCurrentUserRole()) {
             case GUTACHTER:
-                return App.dataStorageService.getAllFieldsFromEveryUser();
+                return App.dataStorageService.getAllFields();
             default:
-                return App.dataStorageService.getAllFieldsFromEveryUser();
+                return App.dataStorageService.getAllFields();
         }
     }
 
     public List<Field> getAllFields() {
-        return App.dataStorageService.getAllFieldsFromEveryUser();
+        return App.dataStorageService.getAllFields();
     }
 
     /**
