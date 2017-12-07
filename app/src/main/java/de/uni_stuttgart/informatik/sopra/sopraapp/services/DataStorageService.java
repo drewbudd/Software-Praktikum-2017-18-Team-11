@@ -31,6 +31,7 @@ public class DataStorageService {
     private List<User> stubUser = new ArrayList<>();
     private List<Field> allFields = new ArrayList<>();
     private List<Damage> allDamages = new ArrayList<>();
+    private List<Field> newFields = new ArrayList<>();
 
     private DataStorageService() {
         addStubUsers();
@@ -101,11 +102,10 @@ public class DataStorageService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ArrayList<Field> allFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<ArrayList<Field>>() {
+        ArrayList<Field> loadedFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<ArrayList<Field>>() {
         }.getType());
-
-        if (allFields != null) {
-            this.allFields.addAll(allFields);
+        if (loadedFields != null) {
+            this.allFields.addAll(loadedFields);
         }
     }
 
@@ -114,10 +114,11 @@ public class DataStorageService {
      */
     public void saveAllFields() {
         Gson gsonHandler = new Gson();
-        loadFieldsFromStorage();
-
-        java.lang.String allFieldsAsJSon = gsonHandler.toJson(this.allFields);
-
+        List<Field> saveAllFields = new ArrayList<>();
+        saveAllFields.addAll(allFields);
+        saveAllFields.addAll(newFields);
+        java.lang.String allFieldsAsJSon = gsonHandler.toJson(saveAllFields);
+        this.newFields.clear();
         SharedPreferences saveFields = null;
         try {
             saveFields = getContext().getSharedPreferences("App_STORAGE", getContext().getApplicationContext().MODE_PRIVATE);
@@ -142,7 +143,15 @@ public class DataStorageService {
     }
 
     public void saveNewField(Field newField) {
-        this.allFields.add(newField);
+        this.newFields.add(newField);
+        saveAllFields();
+    }
+
+    public void updateFieldDamage(int id, Field field) {
+        Field fbevore = this.allFields.get(id);
+        this.allFields.get(id).setDamages(field.getDamages());
+
+        Field fafter = this.allFields.get(id);
         saveAllFields();
     }
 }

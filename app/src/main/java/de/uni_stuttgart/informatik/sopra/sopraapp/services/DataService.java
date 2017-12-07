@@ -91,7 +91,7 @@ public class DataService {
      * @param damageInField
      */
     public void updateField(int id, Field damageInField) {
-        App.dataStorageService.getAllFields().get(id).setDamages(damageInField.getDamages());
+        App.dataStorageService.updateFieldDamage(id, damageInField);
     }
 
     public void loadFieldsFromUser() {
