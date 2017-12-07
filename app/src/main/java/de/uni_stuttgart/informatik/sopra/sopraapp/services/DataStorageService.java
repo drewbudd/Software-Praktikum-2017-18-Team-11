@@ -3,6 +3,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Debug;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -143,21 +144,13 @@ public class DataStorageService {
 
             }
         }
-
-        Damage damage1 = new Damage(new Field());
-        damage1.setDamageType("Stefan");
-
-
-        Damage damage2 = new Damage(new Field());
-        damage1.setDamageType("Stefan");
-
-
-        Damage damage3 = new Damage(new Field());
-        damage1.setDamageType("Peter");
-
-        allDamages.add(damage1);
-        allDamages.add(damage2);
-        allDamages.add(damage3);
+        if (Debug.isDebuggerConnected()) {
+            Damage newDamage = new Damage(new Field());
+            User user = new User("", "");
+            user.setName("hallo");
+            newDamage.setOwner(user);
+            allDamages.add(newDamage);
+        }
         return allDamages;
     }
 

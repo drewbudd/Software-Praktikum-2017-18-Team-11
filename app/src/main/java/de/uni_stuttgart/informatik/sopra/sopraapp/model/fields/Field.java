@@ -225,4 +225,12 @@ public class Field implements OnMapElement {
     public int getCurrentID() {
         return currentID;
     }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }

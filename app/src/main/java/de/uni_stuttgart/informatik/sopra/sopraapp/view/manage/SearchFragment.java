@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
@@ -41,6 +42,8 @@ public class SearchFragment extends Fragment {
     private RecyclerView recycler;
     private SearchAdapter adapter;
     private SearchView searchView;
+
+    List<Damage> damages = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -82,7 +85,7 @@ public class SearchFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
         recycler = rootView.findViewById(R.id.recycler_search);
-        List<Damage> damages = App.dataService.getAllDamages();
+        damages = App.dataService.getAllDamages();
         adapter = new SearchAdapter(getContext(), damages);
         searchView = rootView.findViewById(R.id.searchView);
         searchView.setActivated(true);
@@ -147,5 +150,12 @@ public class SearchFragment extends Fragment {
 
     public SearchAdapter getSearchAdapter() {
         return adapter;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.damages = App.dataStorageService.getAllDamages();
+        adapter.notifyDataSetChanged();
     }
 }

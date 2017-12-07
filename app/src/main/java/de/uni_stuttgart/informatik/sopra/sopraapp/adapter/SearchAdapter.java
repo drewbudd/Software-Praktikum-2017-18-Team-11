@@ -59,7 +59,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.associateDamage = event;
 
         holder.damageType.setText(event.getDamageType());
-        holder.inscuredPerson.setText("Blabla");
+        holder.inscuredPerson.setText(event.getOwner().getName());
 
     }
 
@@ -101,8 +101,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 List filterList = new ArrayList();
 
                 for (Damage damage : damageList) {
-                    if (damage.getOwner().getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        filterList.add(damage);
+                    if (damage.getOwner() != null) {
+                        if (damage.getOwner().getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            filterList.add(damage);
+                        }
                     }
                 }
 

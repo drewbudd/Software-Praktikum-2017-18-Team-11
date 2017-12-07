@@ -164,6 +164,7 @@ public class MapActivity extends AppCompatActivity implements
 
         mapFragment.getCreatingNewField().setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
         mapFragment.getCreatingNewField().setFieldType(fieldType.getText().toString());
+        mapFragment.getCreatingNewField().setOwner(App.dataService.getCurrentLoggedInUser());
         App.dataService.saveField(mapFragment.getCreatingNewField());
         MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
         //      addFieldDialog.getDialog().dismiss();
@@ -184,6 +185,7 @@ public class MapActivity extends AppCompatActivity implements
         Damage newDamage = new Damage(mapFragment.getFieldFromDamage());
         newDamage.setDamageType(damageType.getText().toString());
         newDamage.setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
+        newDamage.setOwner(mapFragment.getFieldFromDamage().getOwner());
         mapFragment.getFieldFromDamage().addDamage(newDamage);
         App.dataService.updateField(mapFragment.getFoundFieldID(), mapFragment.getFieldFromDamage());
         App.dataStorageService.saveAllFields();
