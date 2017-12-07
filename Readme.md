@@ -9,18 +9,42 @@ Kommt es zu einem Schaden, müssen Gutachter oder Landwirte die genaue Position 
 
 Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als auch automatisch Positionsdaten eine Feld bzw. Schaden auf der Karte erstellen lassen und verwalten.
 
-**TODO:**  ein Screenshot oder Logo zu platzieren.
+## Bereits implementierte Features
 
-## Features
 
 ### Felderfassung
 
-** TODO: STand am Freitag schreiben **
-**TODO: ** Screenshot
+### Feldvisualisierung
 
+### Feldverwaltung
+
+### Schadenfallerfassung
+
+### Schadensfallvisualisierung
+
+### Schadensfallverwaltung
+
+
+### Felderfassung
+
+## Noch nicht implementierte Features
+Hier ist aufgelistet, welche Features im nächsten Sprint implementiert werden
 ### Datenaustausch
 
 Der Landwirt hat die Möglichkeit seine Schadensfälle zu exportieren, sodass der Gutachter diese in sein Handy einspielen kann. Durch diese Möglichkeit kann der Gutachter up-to-date bleiben und Änderungen dies der Versicherung melden.
+
+### Internationalität
+- Möglichkeit die App in verschiedenen Sprachen anzuzeigen
+### Zentrieren von Feldern/ Schadensfälle auf Karte
+- Möglichkeit die Karte auf ein bestimmtes Feld oder Schadensfall zentrieren
+### Neue Benutzer anlegen
+### bestehende Felder ändern
+- Man kann die Felder bearbeiten:
+ - Größe, Art, Gutachter etc.
+### Farben für Felder ändern
+- Möglichkeit die Farbe der Felder je nach Feldtyp anpassen
+### Suche erweitern
+- Möglichkeit nach Feldtypen, Schadensarten etc. suchen
 
 ## Installation
 Anleitung für Android Studio:
@@ -97,7 +121,8 @@ Die Entwicklungsgeschichte befindet sich in [CHANGELOG.md](CHANGELOG.md).
 | 
 ## Lizenz
 
-- Apache License, Version 2.0
+- Apache License, Version 2.0 für die Verwendung des Slidermenüs
+- MIT Lizenz für die Verwendung von MapBox
 
 Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 
@@ -105,17 +130,15 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 
 ### Entwicker
 
-| Andrew Almaguer| st152650@stud.uni-stuttgart.de |
-|--- | ---|
 | Stefan Zindl | st148777@stud.uni-stuttgart.de |
-| Aimn Ahmen | st150637@stud.uni-stuttgart.de |
-
+| --- | --- |
+| Aimn Ahmen | st@stud.uni-stuttgart.de |
+| Andrew Almaguer    | stxxx@stud.uni-stuttgart.de
 
 ### Betreuer
 | Verena Käfer |
-| -------------| 
+| ----------|
 | Kai Mindermann |
 
 ### Tutor
-|Jingxi Zhang|
-|--- | ---|
+|Jingxi Zhang 
