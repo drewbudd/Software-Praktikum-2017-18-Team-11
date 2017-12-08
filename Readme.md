@@ -20,6 +20,7 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 ### Felderfassung
 ![Step1](doc/images/screenshots/app_menu_open.png)
 ![Step2](doc/images/screenshots/create_field_begin.png)
+
 ![Step3](doc/images/screenshots/create_field.png)
 ![Step4](doc/images/screenshots/create_field_complete.png)
 
@@ -29,6 +30,7 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 ### Schadenfallerfassung
 ![Step1](doc/images/screenshots/app_menu_open.png)
 ![Step2](doc/images/screenshots/create_damage.png)
+
 ![Step3](doc/images/screenshots/create_damage_complete.png)
 
 ### Schadensfallvisualisierung
