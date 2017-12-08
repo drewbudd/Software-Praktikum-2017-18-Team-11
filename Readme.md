@@ -1,9 +1,9 @@
 # FSKEA - Einfach. Genau. Papierlos. Jeder Landwirt wird es lieben!
 
-![Screenshot of CyanogenMod 12 / 12.1 homescreen by Florian838, CC BY-SA 3.0](doc/images/app-screenshot.png)  
+![Screenshot of CyanogenMod 12 / 12.1 homescreen by Florian838, CC BY-SA 3.0](doc/images/screenshots/app_screenshot.png)  
 Unsere FSKEA-App beim Start
 
-Landwirte versichern ihre Felder gegen verschiedenste Schäden. 
+Landwirte versichern ihre Felder gegen verschiedenste Schäden.
 Ein wichtiger Parameter ist die Fläche des Feldes und die Region in der das Feld bewirtschaftet wird.
 Kommt es zu einem Schaden, müssen Gutachter oder Landwirte die genaue Position und Abmessungen des Schadens erfassen können und den Sachbeareitern in der Versicherung übermitteln können.
 
@@ -18,15 +18,24 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 ##### Critical Feature
 
 ### Felderfassung
-
+![Step1](doc/images/screenshots/app_menu_open.PNG)
+![Step2](doc/images/screenshots/create_field_begin.PNG)
+![Step3](doc/images/screenshots/create_field.PNG)
+![Step4](doc/images/screenshots/create_field_complete.PNG)
 
 ### Felderverwaltung
+![Step1](doc/images/screenshots/felderverwaltung.PNG)
 
 ### Schadenfallerfassung
+![Step1](doc/images/screenshots/app_menu_open.PNG)
+![Step2](doc/images/screenshots/create_damage.PNG)
+![Step3](doc/images/screenshots/create_damage_complete.PNG)
 
 ### Schadensfallvisualisierung
+![Step1](doc/images/screenshots/shadensvisualisierung.PNG)
 
 ### Schadensfallverwaltung
+![Step1](doc/images/screenshots/shadensverwaltung.PNG)
 
 #### Additional Feature
 
@@ -83,7 +92,7 @@ Man klickt auf das 4. letzte Symbol von rechts. Dann muss man ein Virtual Device
 ![Step2](doc/images/tutorial/s5.PNG)
 Nachdem man dies erstellt hat. Kann man wieder im Editor auf den grünen Pfeil klicken:
 ![Step2](doc/images/tutorial/s3.PNG)
-Dann wählt man das virtuel Device aus, wartet bis die App gesptartet hat und los gehts. 
+Dann wählt man das virtuel Device aus, wartet bis die App gesptartet hat und los gehts.
 Wenn man ein echtes Gerät mittels USB eingesteckt hat und dort den Develepor modus aktiviert hat, kann man auch dieses Gerät dort auswählen.
 ![Step2](doc/images/tutorial/s6.PNG)
 
@@ -101,7 +110,7 @@ Dazu kommt noch, dass die Versicherung immer mehr und genauerere Daten von den L
 
 ### Genaue Daten für die Versicherung
 
-Mit unserem App ist es später möglich die Felder und Schadensfälle so genau wie möglich in die Karte anzuzeigen und zu speichern. 
+Mit unserem App ist es später möglich die Felder und Schadensfälle so genau wie möglich in die Karte anzuzeigen und zu speichern.
 Die Vorteile für den Landwirt:
 - Dokumentation seiner Felder und Schadensfälle
 - Abgleich der Daten mit der Versicherung
