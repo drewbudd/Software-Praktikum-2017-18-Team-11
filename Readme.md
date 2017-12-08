@@ -1,9 +1,10 @@
 # FSKEA - Einfach. Genau. Papierlos. Jeder Landwirt wird es lieben!
 
-![Screenshot of CyanogenMod 12 / 12.1 homescreen by Florian838, CC BY-SA 3.0](doc/images/app-screenshot.png)  
-Unsere FSKEA-App beim Start
+![Screenshot of FSKEA](doc/images/screenshots/app_screenshot.png)
 
-Landwirte versichern ihre Felder gegen verschiedenste Schäden. 
+Unsere FSKEA-App nach Login
+
+Landwirte versichern ihre Felder gegen verschiedenste Schäden.
 Ein wichtiger Parameter ist die Fläche des Feldes und die Region in der das Feld bewirtschaftet wird.
 Kommt es zu einem Schaden, müssen Gutachter oder Landwirte die genaue Position und Abmessungen des Schadens erfassen können und den Sachbeareitern in der Versicherung übermitteln können.
 
@@ -11,19 +12,33 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 ## Bereits implementierte Features
 
+## Features
 
 
 
 ### Feldvisualisierung
 
 ### Felderfassung
+![Step1](doc/images/screenshots/app_menu_open.png)
+![Step2](doc/images/screenshots/create_field_begin.png)
+
+![Step3](doc/images/screenshots/create_field.png)
+![Step4](doc/images/screenshots/create_field_complete.png)
+
 ### Felderverwaltung
+![Step1](doc/images/screenshots/felderverwaltung.png)
 
 ### Schadenfallerfassung
+![Step1](doc/images/screenshots/app_menu_open.png)
+![Step2](doc/images/screenshots/create_damage.png)
+
+![Step3](doc/images/screenshots/create_damage_complete.png)
 
 ### Schadensfallvisualisierung
+![Step1](doc/images/screenshots/schadensvisualisierung.png)
 
 ### Schadensfallverwaltung
+![Step1](doc/images/screenshots/shadensverwaltung.png)
 
 #### Additional Feature
 
@@ -49,6 +64,17 @@ Der Landwirt hat die Möglichkeit seine Schadensfälle zu exportieren, sodass de
 ## Installation
 Anleitung für Android Studio:
 1. Repository klonen: `git clone`
+
+![Step1](doc/images/tutorial/s1.PNG)
+
+Nachdem man Android Studio gestartet hat wählt man den punkt:
+Check out project form Version Control, dann git.
+![Step2](doc/images/tutorial/s2.PNG)
+
+In diesem Schritt muss die URL auf das Projekt vom Git Repository eingegeben werden. Mittels Test, kann man testen, ob die URL stimmt.
+Als nächstes gibt man den Pfad ein, indem das lokale Repository gespeichert werden soll.
+Zuletzt gibt man noch den namen des lokalen Ordners ein. Dann klickt man auf clone.
+
 2. Android Studio Projekt öffnen
 3. Android Studio Projekt bauen
 4. Android Studio Projekt im Emulator ausführen oder APK erstellen lassen
@@ -64,7 +90,7 @@ Dazu kommt noch, dass die Versicherung immer mehr und genauerere Daten von den L
 
 ### Genaue Daten für die Versicherung
 
-Mit unserem App ist es später möglich die Felder und Schadensfälle so genau wie möglich in die Karte anzuzeigen und zu speichern. 
+Mit unserem App ist es später möglich die Felder und Schadensfälle so genau wie möglich in die Karte anzuzeigen und zu speichern.
 Die Vorteile für den Landwirt:
 - Dokumentation seiner Felder und Schadensfälle
 - Abgleich der Daten mit der Versicherung
