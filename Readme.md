@@ -135,9 +135,7 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 ### Entwicker
 
 | Andrew Almaguer| st152650@stud.uni-stuttgart.de |
-|--- | ---|
 | Stefan Zindl | st148777@stud.uni-stuttgart.de |
-| --- | --- |
 | Aimn Ahmed | st150637@stud.uni-stuttgart.de |
 
 ### Betreuer
