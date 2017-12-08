@@ -2,6 +2,14 @@
 
 In diesem Sprint wurden die bis zum [Meilenstein 4](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/milestones/2) erledigten User Stories abgearbeitet.
 
+[Benutzerverwaltung](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/2)
+[Schaden darstellen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/43)
+[Schaden erstellen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/13)
+[Feld darstellen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/30)
+[Feld erstellen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/17)
+[Nach Versicherungsnehmer suchen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/42)
+[Polygon mit GPS erstellen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/21)
+
 ## Verbesserte Dokumente
 
 - Das Begriffslexikon wurde erstellt und ist für den Meilenstein 4 zugeschnitten.
