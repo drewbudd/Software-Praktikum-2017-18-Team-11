@@ -56,7 +56,6 @@ Nach dem klonen weiter bei 2.
 Handy anschließen und dies nach dem Bauen wählen
 4. Android Studio Projekt im Emulator ausführen oder APK erstellen lassen
 
-Oder scanne einfach den QR-Code:
 
 ## Verwendung der App
 
