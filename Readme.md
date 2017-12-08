@@ -20,7 +20,7 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 #### Additional Feature
 
-### Feldverwaltung
+### Felderverwaltung
 
 ### Schadenfallerfassung
 
