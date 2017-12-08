@@ -12,11 +12,12 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 ## Bereits implementierte Features
 
 
-### Felderfassung
+
 
 ### Feldvisualisierung
 
-### Feldverwaltung
+### Felderfassung
+### Felderverwaltung
 
 ### Schadenfallerfassung
 
@@ -24,8 +25,7 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 ### Schadensfallverwaltung
 
-
-### Felderfassung
+#### Additional Feature
 
 ## Noch nicht implementierte Features
 Hier ist aufgelistet, welche Features im nächsten Sprint implementiert werden
@@ -97,10 +97,11 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 
 ### Entwicker
 
+| Andrew Almaguer| st152650@stud.uni-stuttgart.de |
+
 | Stefan Zindl | st148777@stud.uni-stuttgart.de |
-| --- | --- |
-| Aimn Ahmen | st@stud.uni-stuttgart.de |
-| Andrew Almaguer    | st152650@stud.uni-stuttgart.de
+
+| Aimn Ahmed | st150637@stud.uni-stuttgart.de |
 
 ### Betreuer
 | Verena Käfer |
@@ -108,4 +109,4 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 | Kai Mindermann |
 
 ### Tutor
-Jingxi Zhang 
+|Jingxi Zhang |
