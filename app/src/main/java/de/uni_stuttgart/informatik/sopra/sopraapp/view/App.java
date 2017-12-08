@@ -20,11 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -112,13 +110,6 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
             }
         });
 
-        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -342,14 +333,18 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     }
 
     public void startGutachter(View view) {
-        this.mPasswordView.setText("a");
-        this.mUsernameView.setText("admin2");
+        this.mUsernameView.setText("Andrew");
+        this.mPasswordView.setText("admin");
+
+        attemptLogin();
 
     }
 
     public void startLandwart(View view) {
+        this.mUsernameView.setText("Stefan");
         this.mPasswordView.setText("a");
-        this.mUsernameView.setText("aa");
+
+        attemptLogin();
     }
 
 

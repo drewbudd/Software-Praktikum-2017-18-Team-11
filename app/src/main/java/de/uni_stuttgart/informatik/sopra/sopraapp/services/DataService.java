@@ -23,6 +23,7 @@ public class DataService {
     private List<User> allUsers = new ArrayList<>();
     private User currentLoggedInUser;
     private List<Field> allFields = new ArrayList<>();
+    private List<Contract> allContracts = new ArrayList<>();
 
 
     private DataService() {
@@ -91,7 +92,7 @@ public class DataService {
      * @param damageInField
      */
     public void updateField(int id, Field damageInField) {
-        App.dataStorageService.updateFieldDamage(id, damageInField);
+        // App.dataStorageService.getAllFieldsFromEveryUser().get(id).setDamages(damageInField.getDamages());
     }
 
     public void loadFieldsFromUser() {
@@ -99,6 +100,6 @@ public class DataService {
     }
 
     public List<Contract> getAllContracts() {
-        return App.dataService.getCurrentLoggedInUser().getContracts();
+        return allContracts;
     }
 }

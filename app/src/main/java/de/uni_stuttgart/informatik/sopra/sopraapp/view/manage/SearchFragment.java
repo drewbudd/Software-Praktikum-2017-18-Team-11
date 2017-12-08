@@ -109,6 +109,14 @@ public class SearchFragment extends Fragment {
         return rootView;
     }
 
+    public void updateAdapter() {
+        if (adapter != null) {
+            damages.clear();
+            damages = App.dataService.getAllDamages();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

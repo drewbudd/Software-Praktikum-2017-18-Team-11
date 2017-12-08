@@ -628,6 +628,7 @@ public class MapFragment extends Fragment implements
         Polygon newPolygon = mapboxMapGlobal.addPolygon(polygonOptions);
         newPolygon.setFillColor(Color.BLUE);
         mapboxMapGlobal.addPolygon(polygonOptions);
+        mapView.refreshDrawableState();
     }
 
     /**
@@ -703,5 +704,29 @@ public class MapFragment extends Fragment implements
 
     public int getFoundFieldID() {
         return foundFieldID;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
     }
 }

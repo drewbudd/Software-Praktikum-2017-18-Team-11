@@ -31,7 +31,6 @@ public class DataStorageService {
     private List<User> stubUser = new ArrayList<>();
     private List<Field> allFields = new ArrayList<>();
     private List<Damage> allDamages = new ArrayList<>();
-    private List<Field> newFields = new ArrayList<>();
 
     private DataStorageService() {
         addStubUsers();
@@ -70,8 +69,8 @@ public class DataStorageService {
     }
 
     private void addStubUsers() {
-        this.stubUser.add(new User("aa", "a"));
-        this.stubUser.add(new User("admin2", "admin"));
+        this.stubUser.add(new User("Stefan", "a"));
+        this.stubUser.add(new User("Andrew", "admin"));
 
         this.stubUser.get(0).setUserRole(UserRole.LANDWIRT);
         this.stubUser.get(1).setUserRole(UserRole.GUTACHTER);
@@ -102,10 +101,11 @@ public class DataStorageService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ArrayList<Field> loadedFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<ArrayList<Field>>() {
+        ArrayList<Field> allFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<ArrayList<Field>>() {
         }.getType());
-        if (loadedFields != null) {
-            this.allFields.addAll(loadedFields);
+
+        if (allFields != null) {
+            this.allFields.addAll(allFields);
         }
     }
 
@@ -113,12 +113,12 @@ public class DataStorageService {
      * saves all Fields using SharedPreferences
      */
     public void saveAllFields() {
+        /*
         Gson gsonHandler = new Gson();
-        List<Field> saveAllFields = new ArrayList<>();
-        saveAllFields.addAll(allFields);
-        saveAllFields.addAll(newFields);
-        java.lang.String allFieldsAsJSon = gsonHandler.toJson(saveAllFields);
-        this.newFields.clear();
+        loadFieldsFromStorage();
+
+        java.lang.String allFieldsAsJSon = gsonHandler.toJson(this.allFields);
+
         SharedPreferences saveFields = null;
         try {
             saveFields = getContext().getSharedPreferences("App_STORAGE", getContext().getApplicationContext().MODE_PRIVATE);
@@ -127,13 +127,16 @@ public class DataStorageService {
         }
         SharedPreferences.Editor editor = saveFields.edit();
         editor.putString("allFields", allFieldsAsJSon);
-        editor.commit();
+        editor.commit(); */
     }
 
     public List<Damage> getAllDamages() {
-        for (Field field : this.allFields) {
+
+        for (Field field : allFields) {
             this.allDamages.addAll(field.getDamages());
         }
+
+        // Stub Damages
 
         return this.allDamages;
     }
@@ -143,15 +146,7 @@ public class DataStorageService {
     }
 
     public void saveNewField(Field newField) {
-        this.newFields.add(newField);
-        saveAllFields();
-    }
-
-    public void updateFieldDamage(int id, Field field) {
-        Field fbevore = this.allFields.get(id);
-        this.allFields.get(id).setDamages(field.getDamages());
-
-        Field fafter = this.allFields.get(id);
+        this.allFields.add(newField);
         saveAllFields();
     }
 }
