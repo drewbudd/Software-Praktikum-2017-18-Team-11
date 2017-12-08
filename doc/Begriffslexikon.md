@@ -14,10 +14,10 @@ Für genauere Beschreibungen der einzelnen Komponenten siehe die Architektur-Dok
 - **(App-)Services**: Hier werden alle Services über AppRegistry bereitgestellt. Diese sind von der ganzen App aus zugreifbar, wodurch es nun möglich ist gespeicherte Daten von einem Ort zu holen.
 
   - **MapService**: Sie ist die zentrale Komponente, die alle Features enthält, bei denen man mit der Karte arbeitet. Dazu gehören:
-    - Map-Bibliothek bereitstellen
-    - Felder, Schäden brechnen
-    - Mapdaten aktualisieren
-    - Funktionen speichern
+        - Map-Bibliothek bereitstellen
+        - Felder, Schäden brechnen
+        - Mapdaten aktualisieren
+        - Funktionen speichern
 
   - **DataService**: Hier werden alle weiteren Daten (Nutzerprofile, Verträge, Angemeldeter Benutzer) bereitgestellt.
 
