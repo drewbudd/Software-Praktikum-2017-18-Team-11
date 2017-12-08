@@ -1,4 +1,46 @@
 <resources>
-    <string name="app_name">SoPraApp</string>
+    <string name="app_name">FSK</string>
+    <string name="title_activity_login">FSK</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="prompt_username">Username</string>
+    <string name="title_activity_map">MapActivity</string>
+
+    <!-- Strings related to tabs -->
+    <string name="tab_fields">Fields</string>
+    <string name="tab_damage">Damage Reports</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_contracts">Contracts</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_create_new_field">CreateNewFieldActivity</string>
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="field_name">Name</string>
+    <string name="contract_type">Contract Type</string>
+    <string name="field_type">Field Type</string>
+    <string name="button_finished">Finished</string>
+    <string-array name="contract_types">
+        <item>Basic</item>
+        <item>All-around</item>
+        <item>Full coverage</item>
+    </string-array>
+    <string name="damage_type">Type of Damage</string>
+    <string name="damage_size">Estimated Size</string>
+    <string name="size_units">sq. m</string>
+    <string name="add_pictures">Add Pictures</string>
+
 </resources>

@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ManageServiceFragment"
+    android:id="@+id/manage_fragment_main"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tabSize">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/fields_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_fields" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/damages_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_damage" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/contracts_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_contracts" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/search_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_search" />
+    </android.support.design.widget.TabLayout>
+
+    <fragment
+        android:id="@+id/info_fragment"
+        android:name="de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
