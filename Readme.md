@@ -32,7 +32,7 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 ![Step3](doc/images/screenshots/create_damage_complete.png)
 
 ### Schadensfallvisualisierung
-![Step1](doc/images/screenshots/shadensvisualisierung.png)
+![Step1](doc/images/screenshots/schadensvisualisierung.png)
 
 ### Schadensfallverwaltung
 ![Step1](doc/images/screenshots/shadensverwaltung.png)
