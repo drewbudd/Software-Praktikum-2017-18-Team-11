@@ -11,23 +11,21 @@ Für genauere Beschreibungen der einzelnen Komponenten siehe die Architektur-Dok
 
 - **Model**: Alle Models werden hier bereitgestellt. Zu diesen Models gehören die 3 "Hauptmodels": **User**, **Field** und **DamageEvent**.
 
-- **App-Services**: Ein Interface von dem alle benötigten Services erben, da man nun mittels eines Dictionary auf die benötigten AppServices zugreifen kann.
+- **(App-)Services**: Hier werden alle Services über AppRegistry bereitgestellt. Diese sind von der ganzen App aus zugreifbar, wodurch es nun möglich ist gespeicherte Daten von einem Ort zu holen.
 
-  - **(App-)Services**: Hier werden alle Services über AppRegistry bereitgestellt. Diese sind von der ganzen App aus zugreifbar, wodurch es nun möglich ist gespeicherte Daten von einem Ort zu holen.
+  - **MapService**: Sie ist die zentrale Komponente, die alle Features enthält, bei denen man mit der Karte arbeitet. Dazu gehören:
+    - Map-Bibliothek bereitstellen
+    - Felder, Schäden brechnen
+    - Mapdaten aktualisieren
+    - Funktionen speichern
 
-      - **MapService**: Sie ist die zentrale Komponente, die alle Features enthält, bei denen man mit der Karte arbeitet. Dazu gehören:
-        - Map-Bibliothek bereitstellen
-        - Felder, Schäden brechnen
-        - Mapdaten aktualisieren
-        - Funktionen speichern
+  - **DataService**: Hier werden alle weiteren Daten (Nutzerprofile, Verträge, Angemeldeter Benutzer) bereitgestellt.
 
-      - **DataService**: Hier werden alle weiteren Daten (Nutzerprofile, Verträge, Angemeldeter Benutzer) bereitgestellt.
+  - **CacheService**: In dieser Komponente sind zwischengespeicherte Daten, wie z.B. die heruntergeladenen Karten, um einen schnelleren Zugriff zu erlauben.
 
-      - **CacheService**: In dieser Komponente sind zwischengespeicherte Daten, wie z.B. die heruntergeladenen Karten, um einen schnelleren Zugriff zu erlauben.
+  - **ConfigService**: Alle benutzerspezifische Daten befinden sich hier, also beispielsweise Benutzerpräferenzen wie z.B. automatisches anmelden.
 
-      - **ConfigService**: Alle benutzerspezifische Daten befinden sich hier, also beispielsweise Benutzerpräferenzen wie z.B. automatisches anmelden.
-
-      - **DataStorageService**: Dieser Service ist das Bindeglied für die lokale Datenhaltung. Arten der Speicherung sind: Datenbank, XML und Textdateien. Um Daten persistent zu machen, greift jeder andere Service auf diesen hier zu. Außerdem werden die Export- und Import-Funktionen in dieser Komponente bereitgestellt.
+  - **DataStorageService**: Dieser Service ist das Bindeglied für die lokale Datenhaltung. Arten der Speicherung sind: Datenbank, XML und Textdateien. Um Daten persistent zu machen, greift jeder andere Service auf diesen hier zu. Außerdem werden die Export- und Import-Funktionen in dieser Komponente bereitgestellt.
 
 - **User**: Diese Klasse hat zwei Unterklassen: Gutachter und Landwirt. Diese zwei Unterklassen stellen die Benutzer dar und stellen je nach Rolle (Gutachter oder Landwirt) bestimmte Funktionen bereit. Während der Gutachter Zugriff auf Felder von allen Landwirten hat, hat der Landwirt nur Zugriff auf seine eigenen Felder.
 
