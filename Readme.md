@@ -11,14 +11,10 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 ## Bereits implementierte Features
 
-## Features
 
 ### Felderfassung
 
-##### Critical Feature
-
-
-#### Additional Feature
+### Feldvisualisierung
 
 ### Feldverwaltung
 
@@ -53,46 +49,12 @@ Der Landwirt hat die Möglichkeit seine Schadensfälle zu exportieren, sodass de
 ## Installation
 Anleitung für Android Studio:
 1. Repository klonen: `git clone`
-
-![Step1](doc/images/tutorial/s1.PNG)
-
-Nachdem man Android Studio gestartet hat wählt man den punkt:
-Check out project form Version Control, dann git.
-![Step2](doc/images/tutorial/s2.PNG)
-
-In diesem Schritt muss die URL auf das Projekt vom Git Repository eingegeben werden. Mittels Test, kann man testen, ob die URL stimmt.
-Als nächstes gibt man den Pfad ein, indem das lokale Repository gespeichert werden soll.
-Zuletzt gibt man noch den namen des lokalen Ordners ein. Dann klickt man auf clone.
-
 2. Android Studio Projekt öffnen
-
-Mit dem Schritt davor ist auch automatisch das Projekt startbereit. Somit erspart man sich diesen manuellen Schritt.
 3. Android Studio Projekt bauen
-
-![Step2](doc/images/tutorial/s3.PNG)
-Oben rechts im Editor findet man eine Leiste wie auf dem Bild. Sobald alles geladen ist ( das dropbown menü zeigt kein rotes x mehr), kann man das Projekt bauen:
-
-![Step2](doc/images/tutorial/s4.PNG)
-man Klickt auf Build und dann auf Make Project.
-
 4. Android Studio Projekt im Emulator ausführen oder APK erstellen lassen
 - Im Emulator starten:
-
-![Step2](doc/images/tutorial/s3.PNG)
-Man klickt auf das 4. letzte Symbol von rechts. Dann muss man ein Virtual Device erstellen:
-
-![Step2](doc/images/tutorial/s5.PNG)
-Nachdem man dies erstellt hat. Kann man wieder im Editor auf den grünen Pfeil klicken:
-![Step2](doc/images/tutorial/s3.PNG)
-Dann wählt man das virtuel Device aus, wartet bis die App gesptartet hat und los gehts. 
-Wenn man ein echtes Gerät mittels USB eingesteckt hat und dort den Develepor modus aktiviert hat, kann man auch dieses Gerät dort auswählen.
-![Step2](doc/images/tutorial/s6.PNG)
-
-
 - APK erstellen
 
-![Step2](doc/images/tutorial/s4.PNG)
-Unter Build findet man auch den Menüpunkt Build APK. Dies klickt man an.
 
 ## Verwendung der App
 
@@ -135,11 +97,10 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 
 ### Entwicker
 
-| Andrew Almaguer| st152650@stud.uni-stuttgart.de |
-|--- | ---|
 | Stefan Zindl | st148777@stud.uni-stuttgart.de |
 | --- | --- |
 | Aimn Ahmen | st@stud.uni-stuttgart.de |
+| Andrew Almaguer    | st152650@stud.uni-stuttgart.de
 
 ### Betreuer
 | Verena Käfer |
@@ -147,6 +108,4 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 | Kai Mindermann |
 
 ### Tutor
-|Jingxi Zhang 
-|Jingxi Zhang|
-|--- | ---|
+Jingxi Zhang 
