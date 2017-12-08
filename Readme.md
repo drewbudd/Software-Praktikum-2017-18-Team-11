@@ -2,7 +2,7 @@
 
 ![Screenshot of FSKEA](doc/images/screenshots/app_screenshot.png)
 
-Unsere FSKEA-App beim Start
+Unsere FSKEA-App nach Login
 
 Landwirte versichern ihre Felder gegen verschiedenste Schäden.
 Ein wichtiger Parameter ist die Fläche des Feldes und die Region in der das Feld bewirtschaftet wird.
