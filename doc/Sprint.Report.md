@@ -26,4 +26,5 @@ In diesem Sprint wurden die bis zum [Meilenstein 4](https://sopra.informatik.uni
 
 ## Tests/Testprotokolle/Nachweis der Testabdeckung
 
-*TODO: Testprotokolle und Abdeckung hier einfügen/verlinken*
+Testfälle sind unter doc/Testfälle.pdf zu finden
+[Testfälle](http:)
