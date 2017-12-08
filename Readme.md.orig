@@ -1,9 +1,10 @@
 # FSKEA - Einfach. Genau. Papierlos. Jeder Landwirt wird es lieben!
 
-![Screenshot of CyanogenMod 12 / 12.1 homescreen by Florian838, CC BY-SA 3.0](doc/images/app-screenshot.png)  
-Unsere FSKEA-App beim Start
+![Screenshot of FSKEA](doc/images/screenshots/app_screenshot.png)
 
-Landwirte versichern ihre Felder gegen verschiedenste Schäden. 
+Unsere FSKEA-App nach Login
+
+Landwirte versichern ihre Felder gegen verschiedenste Schäden.
 Ein wichtiger Parameter ist die Fläche des Feldes und die Region in der das Feld bewirtschaftet wird.
 Kommt es zu einem Schaden, müssen Gutachter oder Landwirte die genaue Position und Abmessungen des Schadens erfassen können und den Sachbeareitern in der Versicherung übermitteln können.
 
@@ -12,27 +13,36 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 ## Bereits implementierte Features
 
 
-### Felderfassung
 
-<<<<<<< HEAD
+
 ### Feldvisualisierung
+
+### Felderfassung
+<<<<<<< HEAD
 =======
-##### Critical Feature
+![Step1](doc/images/screenshots/app_menu_open.png)
+![Step2](doc/images/screenshots/create_field_begin.png)
 
+![Step3](doc/images/screenshots/create_field.png)
+![Step4](doc/images/screenshots/create_field_complete.png)
 
-#### Additional Feature
->>>>>>> eb136ee55c1c7d34e714524673dbcfb2e9317f0f
-
-### Feldverwaltung
+>>>>>>> f6128b539de1438ab321ee1dd0b9d8020a031e71
+### Felderverwaltung
+![Step1](doc/images/screenshots/felderverwaltung.png)
 
 ### Schadenfallerfassung
+![Step1](doc/images/screenshots/app_menu_open.png)
+![Step2](doc/images/screenshots/create_damage.png)
+
+![Step3](doc/images/screenshots/create_damage_complete.png)
 
 ### Schadensfallvisualisierung
+![Step1](doc/images/screenshots/schadensvisualisierung.png)
 
 ### Schadensfallverwaltung
+![Step1](doc/images/screenshots/shadensverwaltung.png)
 
-
-### Felderfassung
+#### Additional Feature
 
 ## Noch nicht implementierte Features
 Hier ist aufgelistet, welche Features im nächsten Sprint implementiert werden
@@ -56,30 +66,12 @@ Der Landwirt hat die Möglichkeit seine Schadensfälle zu exportieren, sodass de
 ## Installation
 Anleitung für Android Studio:
 1. Repository klonen: `git clone`
-
-![Step1](doc/images/tutorial/s1.PNG)
-
-Nachdem man Android Studio gestartet hat wählt man den punkt:
-Check out project form Version Control, dann git.
-![Step2](doc/images/tutorial/s2.PNG)
-
-In diesem Schritt muss die URL auf das Projekt vom Git Repository eingegeben werden. Mittels Test, kann man testen, ob die URL stimmt.
-Als nächstes gibt man den Pfad ein, indem das lokale Repository gespeichert werden soll.
-Zuletzt gibt man noch den namen des lokalen Ordners ein. Dann klickt man auf clone.
-
 2. Android Studio Projekt öffnen
-
-Mit dem Schritt davor ist auch automatisch das Projekt startbereit. Somit erspart man sich diesen manuellen Schritt.
 3. Android Studio Projekt bauen
-
-![Step2](doc/images/tutorial/s3.PNG)
-Oben rechts im Editor findet man eine Leiste wie auf dem Bild. Sobald alles geladen ist ( das dropbown menü zeigt kein rotes x mehr), kann man das Projekt bauen:
-
-![Step2](doc/images/tutorial/s4.PNG)
-man Klickt auf Build und dann auf Make Project.
-
 4. Android Studio Projekt im Emulator ausführen oder APK erstellen lassen
 - Im Emulator starten:
+<<<<<<< HEAD
+=======
 
 ![Step2](doc/images/tutorial/s3.PNG)
 Man klickt auf das 4. letzte Symbol von rechts. Dann muss man ein Virtual Device erstellen:
@@ -87,15 +79,14 @@ Man klickt auf das 4. letzte Symbol von rechts. Dann muss man ein Virtual Device
 ![Step2](doc/images/tutorial/s5.PNG)
 Nachdem man dies erstellt hat. Kann man wieder im Editor auf den grünen Pfeil klicken:
 ![Step2](doc/images/tutorial/s3.PNG)
-Dann wählt man das virtuel Device aus, wartet bis die App gesptartet hat und los gehts. 
+Dann wählt man das virtuel Device aus, wartet bis die App gesptartet hat und los gehts.
 Wenn man ein echtes Gerät mittels USB eingesteckt hat und dort den Develepor modus aktiviert hat, kann man auch dieses Gerät dort auswählen.
 ![Step2](doc/images/tutorial/s6.PNG)
 
 
+>>>>>>> f6128b539de1438ab321ee1dd0b9d8020a031e71
 - APK erstellen
 
-![Step2](doc/images/tutorial/s4.PNG)
-Unter Build findet man auch den Menüpunkt Build APK. Dies klickt man an.
 
 ## Verwendung der App
 
@@ -105,7 +96,7 @@ Dazu kommt noch, dass die Versicherung immer mehr und genauerere Daten von den L
 
 ### Genaue Daten für die Versicherung
 
-Mit unserem App ist es später möglich die Felder und Schadensfälle so genau wie möglich in die Karte anzuzeigen und zu speichern. 
+Mit unserem App ist es später möglich die Felder und Schadensfälle so genau wie möglich in die Karte anzuzeigen und zu speichern.
 Die Vorteile für den Landwirt:
 - Dokumentation seiner Felder und Schadensfälle
 - Abgleich der Daten mit der Versicherung
@@ -138,10 +129,11 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 
 ### Entwicker
 
+| Andrew Almaguer| st152650@stud.uni-stuttgart.de |
+
 | Stefan Zindl | st148777@stud.uni-stuttgart.de |
-| --- | --- |
-| Aimn Ahmen | st@stud.uni-stuttgart.de |
-| Andrew Almaguer    | stxxx@stud.uni-stuttgart.de
+
+| Aimn Ahmed | st150637@stud.uni-stuttgart.de |
 
 ### Betreuer
 | Verena Käfer |
@@ -149,4 +141,4 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 | Kai Mindermann |
 
 ### Tutor
-|Jingxi Zhang 
+|Jingxi Zhang |

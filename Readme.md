@@ -11,10 +11,70 @@ Kommt es zu einem Schaden, müssen Gutachter oder Landwirte die genaue Position 
 Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als auch automatisch Positionsdaten eine Feld bzw. Schaden auf der Karte erstellen lassen und verwalten.
 
 ## Bereits implementierte Features
+- Felder erstellen
+- Schadensfälle erstellen
+- Nach Versicherungsnehmer in Schadensälle suchen
+- Schadensfälle nach Versicherungsnehmer suchen
+-  Feld/ GPS mittels GPS-Koordinaten erstellen
+-  Schadensfälle auflisten
+-  Felder auflisten
+-  Login fenster
+-  Unterscheidung der Benutzer Gutachter / Landwirt
+-  Felder anzeigen
+-  Schäden anzeigen
+#### Additional Feature
+- Aktuelle Position ermitteln + Karte zentrieren
+## Noch nicht implementierte Features
+Hier ist aufgelistet, welche Features im nächsten Sprint implementiert werden
+### Datenaustausch
 
-## Features
+Der Landwirt hat die Möglichkeit seine Schadensfälle zu exportieren, sodass der Gutachter diese in sein Handy einspielen kann. Durch diese Möglichkeit kann der Gutachter up-to-date bleiben und Änderungen dies der Versicherung melden.
+
+### Internationalität
+- Möglichkeit die App in verschiedenen Sprachen anzuzeigen
+### Zentrieren von Feldern/ Schadensfälle auf Karte
+- Möglichkeit die Karte auf ein bestimmtes Feld oder Schadensfall zentrieren
+### Neue Benutzer anlegen
+### bestehende Felder ändern
+- Man kann die Felder bearbeiten:
+ - Größe, Art, Gutachter etc.
+### Farben für Felder ändern
+- Möglichkeit die Farbe der Felder je nach Feldtyp anpassen
+### Suche erweitern
+- Möglichkeit nach Feldtypen, Schadensarten etc. suchen
+
+## Installation
+Anleitung für Android Studio:
+1. Repository klonen: `git clone`
+Nach dem klonen weiter bei 2.
+2. Android Studio Projekt öffnen
+3. Android Studio Projekt bauen
+Handy anschließen und dies nach dem Bauen wählen
+4. Android Studio Projekt im Emulator ausführen oder APK erstellen lassen
+
+Oder scanne einfach den QR-Code:
+
+## Verwendung der App
+
+Die Landwirte haben es schon schwer, dass Sie mit seinen Feldern genügen Ertrag und somit ihren Unterhalt bestreiten können. Zusätzlich werden die wird u.A Deutschland immer mehr bürokratischer und dadurch muss eben auch mehr Papiere ausgefüllt werden.
+
+Dazu kommt noch, dass die Versicherung immer mehr und genauerere Daten von den Landwirten benötigt. Und genau da kommt unsere App ins Spiel.
+
+### Genaue Daten für die Versicherung
+
+Mit unserem App ist es später möglich die Felder und Schadensfälle so genau wie möglich in die Karte anzuzeigen und zu speichern.
+Die Vorteile für den Landwirt:
+- Dokumentation seiner Felder und Schadensfälle
+- Abgleich der Daten mit der Versicherung
+- Die Flächen können mit GPS erstellt werden, somit ist sicher gegeben, dass die Flächen auch genau so groß sind, wie sie in der Realität sind
+- Es erspart dem Landwirt und auch dem Gutachter ärger, falls die falsche Fläche an die Versicherung weiter gegeben wurde
 
 
+### Eigene Dokumentation
+Auch der Landwirt interessiert sich für seine eigenen Felder und Hageschläden. Durch unsere App hat er die Möglichkeit
+- Vergangene Schadensfälle auch nach mehreren Jahren aufzurufen
+- Er kann seinen Ertrag mit der Fläche über die Jahre vergleichen
+- Er kann sich mit der Dokumentation in den nächsten Jahren überlegen, welches Getreide er anpflanzt, sodass bei möglichen weiteren Schaden am wenigsten kaputt geht.
 
 ### Feldvisualisierung
 
@@ -39,70 +99,6 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 ### Schadensfallverwaltung
 ![Step1](doc/images/screenshots/shadensverwaltung.png)
-
-#### Additional Feature
-
-## Noch nicht implementierte Features
-Hier ist aufgelistet, welche Features im nächsten Sprint implementiert werden
-### Datenaustausch
-
-Der Landwirt hat die Möglichkeit seine Schadensfälle zu exportieren, sodass der Gutachter diese in sein Handy einspielen kann. Durch diese Möglichkeit kann der Gutachter up-to-date bleiben und Änderungen dies der Versicherung melden.
-
-### Internationalität
-- Möglichkeit die App in verschiedenen Sprachen anzuzeigen
-### Zentrieren von Feldern/ Schadensfälle auf Karte
-- Möglichkeit die Karte auf ein bestimmtes Feld oder Schadensfall zentrieren
-### Neue Benutzer anlegen
-### bestehende Felder ändern
-- Man kann die Felder bearbeiten:
- - Größe, Art, Gutachter etc.
-### Farben für Felder ändern
-- Möglichkeit die Farbe der Felder je nach Feldtyp anpassen
-### Suche erweitern
-- Möglichkeit nach Feldtypen, Schadensarten etc. suchen
-
-## Installation
-Anleitung für Android Studio:
-1. Repository klonen: `git clone`
-
-![Step1](doc/images/tutorial/s1.PNG)
-
-Nachdem man Android Studio gestartet hat wählt man den punkt:
-Check out project form Version Control, dann git.
-![Step2](doc/images/tutorial/s2.PNG)
-
-In diesem Schritt muss die URL auf das Projekt vom Git Repository eingegeben werden. Mittels Test, kann man testen, ob die URL stimmt.
-Als nächstes gibt man den Pfad ein, indem das lokale Repository gespeichert werden soll.
-Zuletzt gibt man noch den namen des lokalen Ordners ein. Dann klickt man auf clone.
-
-2. Android Studio Projekt öffnen
-3. Android Studio Projekt bauen
-4. Android Studio Projekt im Emulator ausführen oder APK erstellen lassen
-- Im Emulator starten:
-- APK erstellen
-
-
-## Verwendung der App
-
-Die Landwirte haben es schon schwer, dass Sie mit seinen Feldern genügen Ertrag und somit ihren Unterhalt bestreiten können. Zusätzlich werden die wird u.A Deutschland immer mehr bürokratischer und dadurch muss eben auch mehr Papiere ausgefüllt werden.
-
-Dazu kommt noch, dass die Versicherung immer mehr und genauerere Daten von den Landwirten benötigt. Und genau da kommt unsere App ins Spiel.
-
-### Genaue Daten für die Versicherung
-
-Mit unserem App ist es später möglich die Felder und Schadensfälle so genau wie möglich in die Karte anzuzeigen und zu speichern.
-Die Vorteile für den Landwirt:
-- Dokumentation seiner Felder und Schadensfälle
-- Abgleich der Daten mit der Versicherung
-- Die Flächen können mit GPS erstellt werden, somit ist sicher gegeben, dass die Flächen auch genau so groß sind, wie sie in der Realität sind
-- Es erspart dem Landwirt und auch dem Gutachter ärger, falls die falsche Fläche an die Versicherung weiter gegeben wurde
-
-
-### Eigene Dokumentation
-Auch der Landwirt interessiert sich für seine eigenen Felder und Hageschläden. Durch unsere App hat er die Möglichkeit
-- Vergangene Schadensfälle auch nach mehreren Jahren aufzurufen
-- Er kann seinen Ertrag mit der Fläche über die Jahre vergleichen
-- Er kann sich mit der Dokumentation in den nächsten Jahren überlegen, welches Getreide er anpflanzt, sodass bei möglichen weiteren Schaden am wenigsten kaputt geht.
 
 ## Changelog
 
