@@ -29,4 +29,4 @@ In diesem Sprint wurden die bis zum [Meilenstein 4](https://sopra.informatik.uni
 ## Tests/Testprotokolle/Nachweis der Testabdeckung
 
 Testfälle sind unter doc/Testfälle.pdf zu finden
-[Testfälle](http:)
+[Testfälle](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/blob/master/doc/Testf%C3%A4lle.pdf)
