@@ -13,12 +13,12 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 ## Features
 
-### Felderfassung
+
 
 ##### Critical Feature
 
+### Felderfassung
 
-#### Additional Feature
 
 ### Felderverwaltung
 
@@ -28,6 +28,7 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 ### Schadensfallverwaltung
 
+#### Additional Feature
 
 ## Noch nicht implementierte Features
 Hier ist aufgelistet, welche Features im nächsten Sprint implementiert werden
@@ -145,6 +146,4 @@ Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 | Kai Mindermann |
 
 ### Tutor
-|Jingxi Zhang 
-|Jingxi Zhang|
-|--- | ---|
+|Jingxi Zhang |
