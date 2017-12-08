@@ -1,7 +1,6 @@
 # FSKEA - Einfach. Genau. Papierlos. Jeder Landwirt wird es lieben!
 
-![Screenshot of FSKEA](doc/images/screenshots/app_screenshot.png =250x)
-<img src="doc/images/screenshots/app_screenshot.png" width="250"/>
+![Screenshot of FSKEA](doc/images/screenshots/app_screenshot.png)
 Unsere FSKEA-App beim Start
 
 Landwirte versichern ihre Felder gegen verschiedenste Schäden.
