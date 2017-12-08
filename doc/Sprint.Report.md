@@ -23,6 +23,8 @@ In diesem Sprint wurden die bis zum [Meilenstein 4](https://sopra.informatik.uni
 - Das Product Backlog wurde aktualisiert
 - Merge Request Template wurde aktualisiert
 - Definition of Done wurde aktualisiert
+- Sprint-report
+- Issues wurden erstellt
 
 ## Tests/Testprotokolle/Nachweis der Testabdeckung
 
