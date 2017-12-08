@@ -25,7 +25,7 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 
 #### Additional Feature
 - Aktuelle Position ermitteln + Karte zentrieren
-- 
+
 ## Noch nicht implementierte Features
 
 Hier ist aufgelistet, welche Features im nächsten Sprint implementiert werden
