@@ -1,6 +1,6 @@
 # FSKEA - Einfach. Genau. Papierlos. Jeder Landwirt wird es lieben!
 
-![Screenshot of CyanogenMod 12 / 12.1 homescreen by Florian838, CC BY-SA 3.0](doc/images/screenshots/app_screenshot.png)  
+![Screenshot of FSKEA](doc/images/screenshots/app_screenshot.png)  
 Unsere FSKEA-App beim Start
 
 Landwirte versichern ihre Felder gegen verschiedenste Schäden.
@@ -18,24 +18,24 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 ##### Critical Feature
 
 ### Felderfassung
-![Step1](doc/images/screenshots/app_menu_open.PNG)
-![Step2](doc/images/screenshots/create_field_begin.PNG)
-![Step3](doc/images/screenshots/create_field.PNG)
-![Step4](doc/images/screenshots/create_field_complete.PNG)
+![Step1](doc/images/screenshots/app_menu_open.png)
+![Step2](doc/images/screenshots/create_field_begin.png)
+![Step3](doc/images/screenshots/create_field.png)
+![Step4](doc/images/screenshots/create_field_complete.png)
 
 ### Felderverwaltung
-![Step1](doc/images/screenshots/felderverwaltung.PNG)
+![Step1](doc/images/screenshots/felderverwaltung.png)
 
 ### Schadenfallerfassung
-![Step1](doc/images/screenshots/app_menu_open.PNG)
-![Step2](doc/images/screenshots/create_damage.PNG)
-![Step3](doc/images/screenshots/create_damage_complete.PNG)
+![Step1](doc/images/screenshots/app_menu_open.png)
+![Step2](doc/images/screenshots/create_damage.png)
+![Step3](doc/images/screenshots/create_damage_complete.png)
 
 ### Schadensfallvisualisierung
-![Step1](doc/images/screenshots/shadensvisualisierung.PNG)
+![Step1](doc/images/screenshots/shadensvisualisierung.png)
 
 ### Schadensfallverwaltung
-![Step1](doc/images/screenshots/shadensverwaltung.PNG)
+![Step1](doc/images/screenshots/shadensverwaltung.png)
 
 #### Additional Feature
 
