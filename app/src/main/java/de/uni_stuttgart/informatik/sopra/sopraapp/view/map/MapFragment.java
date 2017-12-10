@@ -161,14 +161,6 @@ public class MapFragment extends Fragment implements
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        if (!isNetworkAvailable()) {
-            this.currentModus = AppModus.OFFLINE;
-            initOfflineModus();
-        } else {
-            this.currentModus = AppModus.ONLINE;
-            initOnlineModus();
-        }
-
         askPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION_FINE);
         askPermission(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_LOCATION_COURSE);
 
@@ -195,14 +187,6 @@ public class MapFragment extends Fragment implements
         }
     }
 
-    private void initOnlineModus() {
-    }
-
-    private void initOfflineModus() {
-        if (Debug.isDebuggerConnected()) {
-            downloadMap();
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -425,22 +409,6 @@ public class MapFragment extends Fragment implements
     @Override
     public void onMapReady(final MapboxMap mapboxMap) {
         mapboxMapGlobal = mapboxMap;
-        App.dataService.loadFieldsFromUser();
-        mapboxMap.setOnMapClickListener(mapFragment);
-
-        /* Campus coordinates*/
-        mapboxMap.setCameraPosition(new CameraPosition.Builder()
-                .target(new LatLng(48.74641, 9.10623))
-                .zoom(15).build());
-        if (App.dataService.getAllFields() != null) {
-            for (Field field : App.dataService.getAllFields()) {
-                drawField(field.getMarkerPosition());
-                for (Damage damage : field.getDamages()) {
-                    drawDamage(damage.getMarkerPosition());
-                }
-            }
-        }
-
     }
 
     private void uploadMapForOfflineMode() {
@@ -455,70 +423,6 @@ public class MapFragment extends Fragment implements
 
     @Override
     public void onMapClick(@NonNull LatLng point) {
-        switch (currentMapEditingStatus) {
-            case START_CREATE_FIELD_COORDINATES:
-                addFieldPoint(point);
-                break;
-            case START_CREATE_DAMAGE_COORDINATES:
-                addDamagePoint(point);
-                break;
-        }
-    }
-
-    private void addDamagePoint(@NonNull LatLng point) {
-        if (this.damageInField == null) {
-            List<Field> fields = App.dataService.getAllFields();
-            for (Field field : fields) {
-                if (field.contains(point)) {
-                    this.damageInField = field;
-                    this.creatingNewDamage = new Damage(damageInField);
-                    this.currentDamageMarkerPosition.add(point);
-                    this.foundFieldID = fields.indexOf(field);
-                    mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
-                } else {
-                    Snackbar.make(rootView, "Marker has to be in a existing field", Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        } else {
-            if (damageInField.contains(point)) {
-                this.currentDamageMarkerPosition.add(point);
-                mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
-            } else {
-                Snackbar.make(rootView, "Marker has to be in the same field", Snackbar.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void addFieldPoint(@NonNull LatLng point) {
-        boolean pointInAField = false;
-
-        if (App.dataService.getAllFields() != null) {
-            for (Field field : App.dataService.getAllFields()) {
-                if (field.contains(point)) {
-                    pointInAField = true;
-                }
-            }
-        }
-
-        if (!pointInAField) {
-            this.currentMarkerFieldPositions.add(point);
-            mapboxMapGlobal.addMarker(new MarkerOptions().setPosition(point));
-        } else {
-            Snackbar.make(rootView, "Marker can not be in another field", Snackbar.LENGTH_SHORT).show();
-        }
-        return;
-    }
-
-    private void showNewFieldOnMap(List<LatLng> markers) {
-
-    }
-
-    public void newDamage(View view) {
-        if (currentMapEditingStatus == MapEditingStatus.CREATE_DAMAGE) {
-            currentMapEditingStatus = MapEditingStatus.CREATED_DAMAGE_DONE;
-        } else {
-            currentMapEditingStatus = MapEditingStatus.CREATE_DAMAGE;
-        }
     }
 
 
@@ -563,9 +467,6 @@ public class MapFragment extends Fragment implements
 
     }
 
-    public LocationListener getLocationListener() {
-        return this;
-    }
 
     /**
      * @param view
@@ -583,190 +484,7 @@ public class MapFragment extends Fragment implements
         mapView.getMapAsync(this);
     }
 
-    /**
-     * @return
-     */
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getApplicationContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null;
-    }
-
-    /**
-     *
-     */
-    private void downloadMap() {
-        OfflineManager offlineManager = OfflineManager.getInstance(getActivity());
-
-        LatLngBounds latLngBounds = new LatLngBounds.Builder()
-                .include(new LatLng(48.74641, 9.10623))
-                .include(new LatLng(48.73641, 9.11623))
-
-                .build();
-
-        OfflineTilePyramidRegionDefinition definition = new
-                OfflineTilePyramidRegionDefinition(
-                mapboxMapGlobal.getStyleUrl(),
-                latLngBounds,
-                10,
-                20,
-                getActivity().getResources().getDisplayMetrics().density);
-
-        // Implementation that uses JSON to store Yosemite National Park as the offline region name.
-        byte[] metadata;
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("REGION", "Yosemite National Park");
-            java.lang.String json = jsonObject.toString();
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor prefEditor = sharedPref.edit();
-            prefEditor.putString("map", json);
-            prefEditor.apply();
-            metadata = json.getBytes();
-        } catch (Exception exception) {
-            Log.e(TAG, "Failed to encode metadata: " + exception.getMessage());
-            metadata = null;
-        }
-
-        // Create the region asynchronously
-        offlineManager.createOfflineRegion(definition, metadata,
-                new OfflineManager.CreateOfflineRegionCallback() {
-                    @Override
-                    public void onCreate(final OfflineRegion offlineRegion) {
-                        offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE);
-
-                        // Monitor the download progress using setObserver
-                        offlineRegion.setObserver(new OfflineRegion.OfflineRegionObserver() {
-                            @Override
-                            public void onStatusChanged(OfflineRegionStatus status) {
-
-                                // Calculate the download percentage
-                                double percentage = status.getRequiredResourceCount() >= 0
-                                        ? (100.0 * status.getCompletedResourceCount() / status.getRequiredResourceCount()) :
-                                        0.0;
-
-                                if (status.isComplete()) {
-                                    offlineRegions[0] = offlineRegion;
-                                    // TODO: save to file and load
-                                    Snackbar.make(mapFragment.getView(), "Download done", Snackbar.LENGTH_LONG).show();
-                                    Log.d(TAG, "Region downloaded successfully.");
-                                } else if (status.isRequiredResourceCountPrecise()) {
-                                    Log.d(TAG, "");
-                                }
-                            }
-
-                            @Override
-                            public void onError(OfflineRegionError error) {
-                                // If an error occurs, print to logcat
-                                Log.e(TAG, "onError reason: " + error.getReason());
-                                Log.e(TAG, "onError message: " + error.getMessage());
-                            }
-
-                            @Override
-                            public void mapboxTileCountLimitExceeded(long limit) {
-                                // Notify if offline region exceeds maximum tile count
-                                Log.e(TAG, "Mapbox tile count limit exceeded: " + limit);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(java.lang.String error) {
-                        Log.e(TAG, "Error: " + error);
-                    }
-                });
-
-
-    }
-
-    /**
-     *
-     */
-    public void clearField() {
-        this.currentMarkerFieldPositions.clear();
-        this.creatingNewField = new Field();
-    }
-
-    public void clearDamage() {
-        this.currentDamageMarkerPosition.clear();
-        this.creatingNewDamage = null;
-        this.damageInField = null;
-    }
-
-    public void drawField(List<LatLng> markers) {
-        PolygonOptions polygonOptions = new PolygonOptions();
-        polygonOptions.addAll(markers);
-        Polygon newPolygon = mapboxMapGlobal.addPolygon(polygonOptions);
-        newPolygon.setFillColor(Color.RED);
-        mapView.refreshDrawableState();
-    }
-
-    public void drawDamage(List<LatLng> markers) {
-        PolygonOptions polygonOptions = new PolygonOptions();
-        polygonOptions.addAll(markers);
-        Polygon newPolygon = mapboxMapGlobal.addPolygon(polygonOptions);
-        newPolygon.setFillColor(Color.BLUE);
-        mapboxMapGlobal.addPolygon(polygonOptions);
-        mapView.refreshDrawableState();
-    }
-
-    /**
-     * @return
-     */
-    public List<LatLng> getCurrentMarkerFieldPositions() {
-        return currentMarkerFieldPositions;
-    }
-
-    /**
-     * @return
-     */
-    public List<LatLng> getCurrentDamageMarkerPosition() {
-        return currentDamageMarkerPosition;
-    }
-
-    /**
-     * @return
-     */
-    public Field getFieldFromDamage() {
-        return damageInField;
-    }
-
-    /**
-     * @param damageInField
-     */
-    public void setDamageInField(Field damageInField) {
-        this.damageInField = damageInField;
-    }
-
-    /**
-     * @return
-     */
-    public Field getCreatingNewField() {
-        return creatingNewField;
-    }
-
-    /**
-     * @param creatingNewField
-     */
-    public void setCreatingNewField(Field creatingNewField) {
-        this.creatingNewField = creatingNewField;
-    }
-
-    /**
-     * @return
-     */
-    public AddFieldDialog getAddFieldDialogFragment() {
-        return addFieldDialogFragment;
-    }
-
-    /**
-     * @return
-     */
-    public AddDamageDialog getAddDamageDialogFragment() {
-        return addDamageDialogFragment;
-    }
 
     /**
      * This interface must be implemented by activities that contain this

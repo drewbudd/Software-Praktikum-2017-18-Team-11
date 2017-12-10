@@ -142,53 +142,10 @@ public class MapActivity extends AppCompatActivity implements
         }
     }
 
-    /**
-     * saves a new Field after saveButton pressed in the
-     * newFieldDialog
-     *
-     * @param view
-     */
-    public void saveNewField(View view) {
-        EditText fieldname = mapFragment.getAddFieldDialogFragment().getDialog().findViewById(R.id.text_field_name);
-        Spinner contractType = mapFragment.getAddFieldDialogFragment().getDialog().findViewById(R.id.contract_spinner);
-        EditText fieldType = mapFragment.getAddFieldDialogFragment().getDialog().findViewById(R.id.text_field_type);
-
-        mapFragment.getCreatingNewField().setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
-        mapFragment.getCreatingNewField().setFieldType(fieldType.getText().toString());
-        mapFragment.getCreatingNewField().setOwner(App.dataService.getCurrentLoggedInUser());
-        App.dataService.saveField(mapFragment.getCreatingNewField());
-
-        MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
-        mapFragment.drawField(mapFragment.getCurrentMarkerFieldPositions());
-        mapFragment.getAddFieldDialogFragment().dismiss();
-        mapFragment.clearField();
-
-    }
 
     @Override
     public void onClick(View v) {
         Log.v("onClick", v.getId() + "");
     }
 
-    public void saveNewDamage(View view) {
-        EditText damageType = mapFragment.getAddDamageDialogFragment().getDialog().findViewById(R.id.text_damage_typeText);
-        Damage newDamage = new Damage(mapFragment.getFieldFromDamage());
-        newDamage.setDamageType(damageType.getText().toString());
-        newDamage.setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
-        newDamage.setOwner(mapFragment.getFieldFromDamage().getOwner());
-        mapFragment.getFieldFromDamage().addDamage(newDamage);
-        App.dataService.updateField(mapFragment.getFoundFieldID(), mapFragment.getFieldFromDamage());
-        MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
-        mapFragment.getAddDamageDialogFragment().dismiss();
-        mapFragment.drawDamage(mapFragment.getCurrentDamageMarkerPosition());
-//        manageServiceFragment.getSearchFragment().getSearchAdapter().notifyDataSetChanged();
-        mapFragment.clearDamage();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        App.dataStorageService.saveAllFields();
-    }
 }
