@@ -87,7 +87,7 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        dataService = DataService.getInstance();
+        dataService = DataService.getInstance(this);
         configService = ConfigService.getInstance();
         mapService = MapService.getInstance();
         userService = UserService.getInstance();
