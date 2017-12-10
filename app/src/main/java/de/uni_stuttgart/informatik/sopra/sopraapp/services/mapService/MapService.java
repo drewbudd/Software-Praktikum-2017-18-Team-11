@@ -14,15 +14,6 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
  * provides all Map functions
  */
 
-public class MapService{
-
-    public static MapService instance = null;
-
-    public static MapService getInstance() {
-        if (instance == null) {
-            instance = new MapService();
-        }
-        return instance;
-    }
+public class MapService {
 
 }

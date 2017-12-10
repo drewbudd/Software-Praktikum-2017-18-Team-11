@@ -17,6 +17,6 @@ public interface IDataService {
     void addField(Field damage);
     void loadFields();
 
-    void saveFields () throws IOException;
+    void saveFields ();
     List<Field> getFields();
 }

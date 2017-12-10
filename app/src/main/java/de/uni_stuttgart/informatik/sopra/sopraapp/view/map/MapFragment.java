@@ -4,23 +4,17 @@ import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,34 +22,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.annotations.Icon;
-import com.mapbox.mapboxsdk.annotations.IconFactory;
-import com.mapbox.mapboxsdk.annotations.Marker;
-import com.mapbox.mapboxsdk.annotations.MarkerOptions;
-import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
-import com.mapbox.mapboxsdk.annotations.Polygon;
-import com.mapbox.mapboxsdk.annotations.PolygonOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.offline.OfflineManager;
-import com.mapbox.mapboxsdk.offline.OfflineRegion;
-import com.mapbox.mapboxsdk.offline.OfflineRegionError;
-import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
-import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.AppModus;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.FieldCreation;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapInitialization;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddDamageDialog;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddFieldDialog;
@@ -92,33 +71,21 @@ public class MapFragment extends Fragment implements
     private OnFragmentInteractionListener mListener;
     private MapView mapView;
     private View rootView;
-    private List<LatLng> currentMarkerFieldPositions;
-    private List<LatLng> currentDamageMarkerPosition;
     private List<LatLng> currentBorderPoints = new ArrayList<>();
     private LocationManager locationManager;
     private boolean isFABOpen;
     private MapFragment mapFragment;
-    private OfflineRegion[] offlineRegions;
-    private List<Field> allSavedFields = new ArrayList<>();
-    private AppModus currentModus = AppModus.OFFLINE;
-    private boolean onPolygonClicked = false;
-    private FloatingActionButton newDamage;
     private NewAreaMode currentMODE = NewAreaMode.GPS;
-    private MapboxMap mapboxMapGlobal;
-    private Field damageInField;
+    private static MapboxMap mapboxMapGlobal;
     private Field creatingNewField = new Field();
-    private Damage creatingNewDamage;
     private double gpsLat;
     private double gpsLng;
-    private MarkerOptions lastGPSLocation;
-    private int foundFieldID = -1;
+
+    FieldCreation fieldCreation;
+
 
     public MapFragment() {
-        // Required empty public constructor
-        currentMarkerFieldPositions = new ArrayList<>();
         mapFragment = this;
-        offlineRegions = new OfflineRegion[10];
-        currentDamageMarkerPosition = new ArrayList<>();
     }
 
     /**
@@ -195,8 +162,8 @@ public class MapFragment extends Fragment implements
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
 
-        final FloatingActionButton fabGPS = rootView.findViewById(R.id.fab_gps);
-        final TextView fabGPSLabel = rootView.findViewById(R.id.gps_button_label);
+
+        FloatingActionButton fabGPS = rootView.findViewById(R.id.fab_gps);
         menuFAB = rootView.findViewById(R.id.fab);
         fieldsFAB = rootView.findViewById(R.id.fab1_and_label);
         damagesFAB = rootView.findViewById(R.id.fab2_and_label);
@@ -238,28 +205,30 @@ public class MapFragment extends Fragment implements
             public void onClick(View v) {
                 if (currentMapEditingStatus == MapEditingStatus.DEFAULT) {
                     currentMapEditingStatus = MapEditingStatus.START_CREATE_FIELD_COORDINATES;
-                    Snackbar.make(getView(), "Add Marker", Snackbar.LENGTH_SHORT).show();
-                    disableDamagesFAB();
-                    disableSettingsFAB();
-                    disableMenuFAB();
-                    showAndEnableGPSButton(fabGPS, fabGPSLabel);
+                    fieldCreation = new FieldCreation(mapFragment);
+                    damagesFAB.animate().alpha(0.3f).setDuration(100);
+                    damagesFAB.setEnabled(false);
+                    settingsFAB.setEnabled(false);
+                    menuFAB.animate().alpha(0.3f).setDuration(100);
+                    menuFAB.setEnabled(false);
                     TextView label = rootView.findViewById(R.id.field_button_label);
                     label.setText("Finish adding points");
+                    Snackbar.make(getView(), "Add Marker", Snackbar.LENGTH_SHORT).show();
+
                 } else if (currentMapEditingStatus == MapEditingStatus.START_CREATE_FIELD_COORDINATES) {
-                    if (currentMarkerFieldPositions.size() < 3) {
-                        Snackbar.make(getView(), "Please add at least 3 markers", Snackbar.LENGTH_SHORT).show();
-                    } else {
-                        currentMapEditingStatus = MapEditingStatus.END_CREATE_FIELD_COORDINATES;
-                        FragmentManager fm = getActivity().getFragmentManager();
-                        enableDamagesFAB();
-                        enableSettingsFAB();
-                        enableMenuFAB();
-                        hideAndDisableGPSButton(fabGPS, fabGPSLabel);
-                        TextView label = rootView.findViewById(R.id.field_button_label);
-                        label.setText("Add field");
-                        addFieldDialogFragment = AddFieldDialog.newInstance("Add Field");
-                        addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
-                    }
+
+
+                    fieldCreation.drawFieldPolygon();
+                    currentMapEditingStatus = MapEditingStatus.DEFAULT;
+                    damagesFAB.animate().alpha(1.0f).setDuration(100);
+                    damagesFAB.setEnabled(true);
+                    //settingsFAB.animate().alpha(1.0f).setDuration(100);
+                    settingsFAB.setEnabled(true);
+                    menuFAB.animate().alpha(1.0f).setDuration(100);
+                    menuFAB.setEnabled(true);
+                    TextView label = rootView.findViewById(R.id.field_button_label);
+                    label.setText("Add field");
+
                 }
             }
         });
@@ -279,12 +248,19 @@ public class MapFragment extends Fragment implements
                         label.setText("Finish adding points");
                         break;
                     case START_CREATE_DAMAGE_COORDINATES:
-                        if (currentDamageMarkerPosition.size() < 3) {
+
+                        currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
+                        if(!fieldCreation.isDrawReady()){
                             Snackbar.make(getView(), "Please add at least 3 markers", Snackbar.LENGTH_SHORT).show();
+                        }
+
+                        break;
+                     /*
                         } else {
-                            currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
-                            enableFieldsFAB();
-                            enableSettingsFAB();
+                            fieldsFAB.animate().alpha(1.0f).setDuration(100);
+                            fieldsFAB.setEnabled(true);
+                            //settingsFAB.animate().alpha(1.0f).setDuration(100);
+                            settingsFAB.setEnabled(true);
                             label.setText("Report Damage");
                             enableMenuFAB();
                             hideAndDisableGPSButton(fabGPS, fabGPSLabel);
@@ -292,8 +268,7 @@ public class MapFragment extends Fragment implements
                             FragmentManager fm = getActivity().getFragmentManager();
                             addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage");
                             addDamageDialogFragment.show(fm, "dialog_fragment_add_damage");
-                        }
-                        break;
+                        } */
                 }
 
 
@@ -409,6 +384,15 @@ public class MapFragment extends Fragment implements
     @Override
     public void onMapReady(final MapboxMap mapboxMap) {
         mapboxMapGlobal = mapboxMap;
+        MapInitialization initialization = new MapInitialization();
+        initialization.loadFields(mapFragment);
+
+        mapboxMap.setOnMapClickListener(this);
+
+         /* Campus coordinates*/
+        mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                .target(new LatLng(48.74641, 9.10623))
+                .zoom(15).build());
     }
 
     private void uploadMapForOfflineMode() {
@@ -423,6 +407,35 @@ public class MapFragment extends Fragment implements
 
     @Override
     public void onMapClick(@NonNull LatLng point) {
+        switch (currentMapEditingStatus){
+
+            case START_CREATE_FIELD_COORDINATES:
+                if( fieldCreation.addMarkerPosition(point)){
+                    fieldCreation.drawMarker(point);
+                }else{
+                    Snackbar.make(getView(),"Marker within a field",Snackbar.LENGTH_SHORT).show();
+                }
+                break;
+            case END_CREATE_FIELD_COORDINATES:
+                break;
+            case CREATE_FIELD_DONE:
+                break;
+            case START_CREATE_DAMAGE_COORDINATES:
+                break;
+            case CREATED_DAMAGE_DONE:
+                break;
+            case CREATED_FIELD_DONE:
+                break;
+            case CREATE_DAMAGE:
+                break;
+            case MODIFY_FIELD:
+                break;
+            case END_CREATE_DAMAGE_COORDINATES:
+                break;
+            case DEFAULT:
+                break;
+        }
+
     }
 
 
@@ -484,6 +497,13 @@ public class MapFragment extends Fragment implements
         mapView.getMapAsync(this);
     }
 
+    public MapboxMap getMapBox() {
+        return mapboxMapGlobal;
+    }
+
+    public MapView getMapView() {
+        return mapView;
+    }
 
 
     /**
@@ -499,10 +519,6 @@ public class MapFragment extends Fragment implements
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    public int getFoundFieldID() {
-        return foundFieldID;
     }
 
     @Override
@@ -521,6 +537,7 @@ public class MapFragment extends Fragment implements
     public void onPause() {
         super.onPause();
         mapView.onPause();
+        App.dataService.saveFields();
     }
 
     @Override

@@ -61,7 +61,7 @@ public class DataService implements IDataService{
     }
 
     @Override
-    public void saveFields() throws IOException{
+    public void saveFields(){
         Gson gsonHander = new Gson();
         String fieldsToJSon = gsonHander.toJson(this.allFields);
 
