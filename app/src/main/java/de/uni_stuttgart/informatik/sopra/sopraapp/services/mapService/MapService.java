@@ -18,25 +18,11 @@ public class MapService {
 
     public static MapService instance = null;
 
-    private ArrayList<Field> fieldsOnMap = new ArrayList<>();
-    private ArrayList<Damage> damagesOnMap = new ArrayList<>();
-
-
     public static MapService getInstance() {
         if (instance == null) {
             instance = new MapService();
         }
         return instance;
     }
-
-
-    public void saveNewField() {
-
-    }
-
-    public void PositionToJson(LatLng position) {
-
-    }
-
 
 }

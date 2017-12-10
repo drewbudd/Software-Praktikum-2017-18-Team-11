@@ -81,16 +81,6 @@ public class ContractsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_contracts, container, false);
 
         recycler = rootView.findViewById(R.id.recycler_contracts);
-        if (App.dataService.getAllContracts() != null) {
-            contracts = App.dataService.getAllContracts();
-        } else {
-            if (Debug.isDebuggerConnected()) {
-                Contract newContract = new Contract();
-                newContract.setContractType("Hello World");
-                contracts.add(newContract);
-            }
-        }
-        adapter = new ContractListAdapter(getContext(), contracts);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
         return rootView;

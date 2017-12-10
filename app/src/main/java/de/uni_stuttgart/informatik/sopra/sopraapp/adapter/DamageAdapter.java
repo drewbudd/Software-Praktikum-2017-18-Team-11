@@ -54,7 +54,7 @@ public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder
 
         holder.associateDamage = event;
 
-        holder.inscuredPerson.setText(App.dataService.getCurrentLoggedInUser().getName());
+        holder.inscuredPerson.setText(App.userService.getCurrentUser().getName());
 
     }
 

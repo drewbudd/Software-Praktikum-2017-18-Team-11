@@ -35,8 +35,8 @@ public class User {
      * @param userRole UserRole
      */
     public User(UserRole userRole){
-        this.initRights();
         this.currentUserRole = userRole;
+        this.initRights();
     }
 
     /**
@@ -105,5 +105,9 @@ public class User {
 
     public ArrayList<Contract> getContracts() {
         return contracts;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

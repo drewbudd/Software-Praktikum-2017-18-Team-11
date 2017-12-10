@@ -80,13 +80,6 @@ public class FieldsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_fields, container, false);
         recycler = rootView.findViewById(R.id.recycler_fieldsview);
 
-        if (App.dataService.getAllFields() == null) {
-
-        } else {
-            fields = App.dataService.getAllFields();
-
-        }
-
         adapter = new FieldListAdapter(getContext(), fields);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
@@ -135,9 +128,5 @@ public class FieldsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (App.dataStorageService.getAllFields() != null) {
-            this.fields = App.dataStorageService.getAllFields();
-            adapter.notifyDataSetChanged();
-        }
     }
 }

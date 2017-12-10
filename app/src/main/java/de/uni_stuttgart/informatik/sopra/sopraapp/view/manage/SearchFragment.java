@@ -85,7 +85,6 @@ public class SearchFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
         recycler = rootView.findViewById(R.id.recycler_search);
-        damages = App.dataService.getAllDamages();
         adapter = new SearchAdapter(getContext(), damages);
         searchView = rootView.findViewById(R.id.searchView);
         searchView.setActivated(true);
@@ -112,7 +111,6 @@ public class SearchFragment extends Fragment {
     public void updateAdapter() {
         if (adapter != null) {
             damages.clear();
-            damages = App.dataService.getAllDamages();
             adapter.notifyDataSetChanged();
         }
     }
@@ -163,7 +161,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        this.damages = App.dataStorageService.getAllDamages();
         adapter.notifyDataSetChanged();
     }
 }

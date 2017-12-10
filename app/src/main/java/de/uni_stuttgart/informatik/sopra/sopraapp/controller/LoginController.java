@@ -30,7 +30,7 @@ public class LoginController {
      */
     public void login() {
 
-        App.dataService.setCurrentLoggedInUser(this.currentLoggingUser);
+        App.userService.setCurrentUser(this.currentLoggingUser);
         Intent loggedInActivity = new Intent(parentActivity, MapActivity.class);
         parentActivity.startActivity(loggedInActivity);
 
@@ -46,7 +46,7 @@ public class LoginController {
      * @return
      */
     public boolean checkLoginData(User loggingInUser){
-        if (App.dataService.loginUser(loggingInUser)) {
+        if (App.userService.loginUser(loggingInUser)) {
             this.currentLoggingUser = loggingInUser;
             return true;
         }

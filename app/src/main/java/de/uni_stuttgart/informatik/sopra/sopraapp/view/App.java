@@ -34,7 +34,8 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.controller.LoginController;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.ConfigService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataStorageService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.IUserService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -67,10 +68,10 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     /**
      *
      */
-    public static DataStorageService dataStorageService;
     public static DataService dataService;
     public static ConfigService configService;
     public static MapService mapService;
+    public static UserService userService;
 
     private static Context context;
 
@@ -86,10 +87,10 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        dataStorageService = DataStorageService.getInstance(getApplicationContext());
         dataService = DataService.getInstance();
         configService = ConfigService.getInstance();
         mapService = MapService.getInstance();
+        userService = UserService.getInstance();
 
         context = getApplicationContext();
 
@@ -333,16 +334,16 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     }
 
     public void startGutachter(View view) {
-        this.mUsernameView.setText("Andrew");
-        this.mPasswordView.setText("admin");
+        this.mUsernameView.setText(App.userService.getUsers().get(0).getName());
+        this.mPasswordView.setText(App.userService.getUsers().get(0).getPassword());
 
         attemptLogin();
 
     }
 
     public void startLandwart(View view) {
-        this.mUsernameView.setText("Stefan");
-        this.mPasswordView.setText("a");
+        this.mUsernameView.setText(App.userService.getUsers().get(1).getName());
+        this.mPasswordView.setText(App.userService.getUsers().get(1).getPassword());
 
         attemptLogin();
     }

@@ -20,7 +20,6 @@ public class DamageHistoryActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.damages);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
-        recyclerView.setAdapter(new DamageAdapter(this, App.dataService.getAllDamages()));
 
     }
 }
