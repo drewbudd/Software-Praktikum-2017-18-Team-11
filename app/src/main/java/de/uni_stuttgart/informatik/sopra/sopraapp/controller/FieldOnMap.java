@@ -1,4 +1,4 @@
-package de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService;
+package de.uni_stuttgart.informatik.sopra.sopraapp.controller;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
