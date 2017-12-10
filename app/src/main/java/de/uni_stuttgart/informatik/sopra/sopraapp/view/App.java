@@ -89,7 +89,6 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
         dataService = DataService.getInstance(this);
         configService = ConfigService.getInstance();
-        mapService = MapService.getInstance();
         userService = UserService.getInstance();
 
         context = getApplicationContext();

@@ -69,10 +69,6 @@ public class Field implements OnMapElement {
         this.damages = damages;
     }
 
-    public List<LatLng> getMarkerPosition() {
-        return markerPosition;
-    }
-
     public void setMarkerPosition(List<LatLng> markerPosition) {
         this.markerPosition = markerPosition;
 
@@ -241,5 +237,14 @@ public class Field implements OnMapElement {
 
     public void setGutachter(User gutachter) {
         this.gutachter = gutachter;
+    }
+
+
+    public void addMarkerPosition(LatLng point) {
+        this.markerPosition.add(point);
+    }
+
+    public List<LatLng> getMarkerPositions(){
+        return markerPosition;
     }
 }
