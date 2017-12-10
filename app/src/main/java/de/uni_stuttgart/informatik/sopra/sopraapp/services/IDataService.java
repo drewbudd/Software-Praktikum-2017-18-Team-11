@@ -1,5 +1,6 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
@@ -13,6 +14,9 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 
 public interface IDataService {
 
-    void saveField(Field damage);
-    List<Field> loadFields();
+    void addField(Field damage);
+    void loadFields();
+
+    void saveFields () throws IOException;
+    List<Field> getFields();
 }
