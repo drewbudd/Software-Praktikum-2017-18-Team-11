@@ -22,6 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
+import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
+import com.mapbox.mapboxsdk.annotations.Polygon;
+import com.mapbox.mapboxsdk.annotations.PolygonOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -80,6 +87,8 @@ public class MapFragment extends Fragment implements
     private Field creatingNewField = new Field();
     private double gpsLat;
     private double gpsLng;
+    private MarkerOptions lastGPSLocation;
+    private int foundFieldID = -1;
 
     FieldCreation fieldCreation;
 
@@ -162,8 +171,8 @@ public class MapFragment extends Fragment implements
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
 
-
-        FloatingActionButton fabGPS = rootView.findViewById(R.id.fab_gps);
+        final FloatingActionButton fabGPS = rootView.findViewById(R.id.fab_gps);
+        final TextView fabGPSLabel = rootView.findViewById(R.id.gps_button_label);
         menuFAB = rootView.findViewById(R.id.fab);
         fieldsFAB = rootView.findViewById(R.id.fab1_and_label);
         damagesFAB = rootView.findViewById(R.id.fab2_and_label);
@@ -174,8 +183,14 @@ public class MapFragment extends Fragment implements
             @Override
             public void onClick(View view) {
                 if (Math.round(gpsLat) != 0 || Math.round(gpsLng) != 0) {
-                    mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder()
-                            .target(new LatLng(gpsLat, gpsLng)).build());
+                    switch (currentMapEditingStatus) {
+                        case START_CREATE_FIELD_COORDINATES:
+                            // TODO: add GPS coordinates
+                            break;
+                        case START_CREATE_DAMAGE_COORDINATES:
+                            // TODO:
+                            break;
+                    }
                 } else {
                     Snackbar.make(rootView, "No GPS connection", Snackbar.LENGTH_SHORT).show();
                 }
@@ -210,8 +225,6 @@ public class MapFragment extends Fragment implements
                     Snackbar.make(getView(), "Add Marker", Snackbar.LENGTH_SHORT).show();
 
                 } else if (currentMapEditingStatus == MapEditingStatus.START_CREATE_FIELD_COORDINATES) {
-
-
                     fieldCreation.drawFieldPolygon();
                     currentMapEditingStatus = MapEditingStatus.DEFAULT;
                     damagesFAB.animate().alpha(1.0f).setDuration(100);
@@ -222,9 +235,11 @@ public class MapFragment extends Fragment implements
                     menuFAB.setEnabled(true);
                     TextView label = rootView.findViewById(R.id.field_button_label);
                     label.setText("Add field");
-
                 }
+
+
             }
+
         });
 
         rootView.findViewById(R.id.damages_button).setOnClickListener(new View.OnClickListener() {
@@ -235,12 +250,10 @@ public class MapFragment extends Fragment implements
                     case DEFAULT:
                         currentMapEditingStatus = MapEditingStatus.START_CREATE_DAMAGE_COORDINATES;
                         Snackbar.make(getView(), "Create a damage within a field", Snackbar.LENGTH_SHORT).show();
-                        fieldsFAB.animate().alpha(0.3f).setDuration(100);
-                        fieldsFAB.setEnabled(false);
-                        //settingsFAB.animate().alpha(0.3f).setDuration(100);
-                        settingsFAB.setEnabled(false);
-                        menuFAB.animate().alpha(0.3f).setDuration(100);
-                        menuFAB.setEnabled(false);
+                        disableFieldsFAB();
+                        disableSettingsFAB();
+                        disableMenuFAB();
+                        showAndEnableGPSButton(fabGPS, fabGPSLabel);
                         label.setText("Finish adding points");
                         break;
                     case START_CREATE_DAMAGE_COORDINATES:
@@ -253,13 +266,16 @@ public class MapFragment extends Fragment implements
                         break;
                      /*
                         } else {
+                            currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
+                            enableFieldsFAB();
+                            enableSettingsFAB();
                             fieldsFAB.animate().alpha(1.0f).setDuration(100);
                             fieldsFAB.setEnabled(true);
                             //settingsFAB.animate().alpha(1.0f).setDuration(100);
                             settingsFAB.setEnabled(true);
                             label.setText("Report Damage");
-                            menuFAB.animate().alpha(1.0f).setDuration(100);
-                            menuFAB.setEnabled(true);
+                            enableMenuFAB();
+                            hideAndDisableGPSButton(fabGPS, fabGPSLabel);
                             creatingNewField.setMarkerPosition(currentMarkerFieldPositions);
                             FragmentManager fm = getActivity().getFragmentManager();
                             addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage");
@@ -279,6 +295,58 @@ public class MapFragment extends Fragment implements
         });
 
         return rootView;
+    }
+
+    private void disableDamagesFAB() {
+        damagesFAB.animate().alpha(0.3f).setDuration(100);
+        damagesFAB.setEnabled(false);
+    }
+
+    private void enableDamagesFAB() {
+        damagesFAB.animate().alpha(1.0f).setDuration(100);
+        damagesFAB.setEnabled(true);
+    }
+
+    private void disableFieldsFAB() {
+        fieldsFAB.animate().alpha(0.3f).setDuration(100);
+        fieldsFAB.setEnabled(false);
+    }
+
+    private void disableSettingsFAB() {
+        settingsFAB.animate().alpha(0.3f).setDuration(100);
+        settingsFAB.setEnabled(false);
+    }
+
+    private void disableMenuFAB() {
+        menuFAB.animate().alpha(0.3f).setDuration(100);
+        menuFAB.setEnabled(false);
+    }
+
+    private void enableSettingsFAB() {
+        settingsFAB.animate().alpha(1.0f).setDuration(100);
+        settingsFAB.setEnabled(true);
+    }
+
+    private void enableFieldsFAB() {
+        fieldsFAB.animate().alpha(1.0f).setDuration(100);
+        fieldsFAB.setEnabled(true);
+    }
+
+    private void enableMenuFAB() {
+        menuFAB.animate().alpha(1.0f).setDuration(100);
+        menuFAB.setEnabled(true);
+    }
+
+    private void hideAndDisableGPSButton(FloatingActionButton fabGPS, TextView fabGPSLabel) {
+        fabGPS.animate().alpha(0.0f).setDuration(100);
+        fabGPS.setEnabled(false);
+        fabGPSLabel.animate().alpha(0.0f).setDuration(100);
+    }
+
+    private void showAndEnableGPSButton(FloatingActionButton fabGPS, TextView fabGPSLabel) {
+        fabGPS.animate().alpha(1.0f).setDuration(100);
+        fabGPS.setEnabled(true);
+        fabGPSLabel.animate().alpha(1.0f).setDuration(100);
     }
 
     private void showFABMenu() {
@@ -391,6 +459,22 @@ public class MapFragment extends Fragment implements
 
         gpsLat = location.getLatitude();
         gpsLng = location.getLongitude();
+
+        IconFactory iconFactory = IconFactory.getInstance(rootView.getContext());
+        Icon icon = iconFactory.fromResource(R.drawable.mapbox_mylocation_icon_default);
+
+        switch(currentMapEditingStatus) {
+            case START_CREATE_FIELD_COORDINATES:
+            case START_CREATE_DAMAGE_COORDINATES:
+                if (lastGPSLocation != null){
+                    mapboxMapGlobal.removeMarker(lastGPSLocation.getMarker());
+                }
+                lastGPSLocation = new MarkerOptions().position(new LatLng(gpsLat, gpsLng)).icon(icon);
+                mapboxMapGlobal.addMarker(lastGPSLocation);
+                mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
+                break;
+        }
+
     }
 
     @Override

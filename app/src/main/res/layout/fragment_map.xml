@@ -109,12 +109,27 @@
         app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_gps"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/mapbox_mylocation_icon_bearing"
-        android:layout_gravity="bottom"
-        android:layout_margin="@dimen/fab_margin"/>
+        android:layout_gravity="bottom">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@android:drawable/ic_menu_mylocation"
+            android:alpha="0"/>
+
+        <TextView
+            android:id="@+id/gps_button_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_weight="1"
+            android:text="Add marker per GPS"
+            android:alpha="0"/>
+    </LinearLayout>
 
 </FrameLayout>
