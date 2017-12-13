@@ -1,13 +1,13 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.model.damage;
 
+import android.graphics.Color;
+
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapElement;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
 
 /**
  * @author Stefan Zindl
@@ -16,16 +16,21 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapEleme
  * Represents a Damage.
  */
 
-public class Damage implements OnMapElement{
+public class Damage extends MapObject{
 
-    private DamageEventStatus currentStatus;
-    private List<LatLng> markerPosition = new ArrayList<>();
+    private DamageEventStatus currentStatus = DamageEventStatus.CREATED;
     private User owner;
-    private Field field;
-    String damageType;
+    private transient Field field;
+    String damageType ="";
 
-    public Damage(Field field) {
+    public Damage() {
         this.currentStatus = DamageEventStatus.CREATED;
+        super.color = Color.GRAY;
+        owner = new User(UserRole.GUTACHTER);
+    }
+
+    @Override
+    public void setField(Field field){
         this.field = field;
     }
 
@@ -45,16 +50,42 @@ public class Damage implements OnMapElement{
         this.damageType = damageType;
     }
 
-    public void setMarkerPosition(List<LatLng> markerPosition) {
-        this.markerPosition = markerPosition;
-    }
-
     public Field getField() {
         return field;
     }
 
-    public List<LatLng> getMarkerPosition() {
-        return markerPosition;
+    @Override
+    public void addMarkerPosition(LatLng point) {
+
     }
 
+    @Override
+    public boolean addMarker(LatLng point) {
+        if (field.contains(point)) {
+            markerPosition.add(point);
+
+            for (LatLng latLng : markerPosition) {
+                double lat = latLng.getLatitude();
+                double lng = latLng.getLongitude();
+
+                if (lat < minLat) {
+                    minLat = lat;
+                }
+
+                if (lat > maxLat) {
+                    maxLat = lat;
+                }
+
+                if (lng < minLng) {
+                    minLng = lng;
+                }
+
+                if (lng > maxLng) {
+                    maxLng = lng;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 }

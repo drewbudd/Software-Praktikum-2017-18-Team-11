@@ -10,6 +10,7 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 
 import java.util.List;
 
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
@@ -28,16 +29,14 @@ public class MapInitialization {
         App.dataService.loadFields();
         List<Field> allFields = App.dataService.getFields();
         for(Field field : allFields){
-            drawFieldPolygon(field);
+            field.setContext(mapboxMap,mapView);
+            field.draw();
+            for(Damage damage : field.getDamages()){
+                damage.setContext(mapboxMap,mapView);
+                damage.draw();
+            }
         }
 
     }
 
-    private void drawFieldPolygon(Field field) {
-        PolygonOptions polygonOptions = new PolygonOptions();
-        polygonOptions.addAll(field.getMarkerPositions());
-        Polygon newPolygon = mapboxMap.addPolygon(polygonOptions);
-        newPolygon.setFillColor(Color.RED);
-        mapView.refreshDrawableState();
-    }
 }
