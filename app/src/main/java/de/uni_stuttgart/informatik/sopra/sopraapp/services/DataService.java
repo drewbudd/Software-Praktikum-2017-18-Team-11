@@ -2,6 +2,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 
 import android.content.Context;
 import android.os.Environment;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -38,6 +39,7 @@ public class DataService implements IDataService{
 
     private DataService(Context context) {
        this.context = context.getApplicationContext();
+
     }
 
     public static DataService getInstance(App activity) {
@@ -57,15 +59,15 @@ public class DataService implements IDataService{
 
         Gson gson = new Gson();
         List<Field> fields =  gson.fromJson(Helpers.loadFieldsFromStorage(), new TypeToken<List<Field>>(){}.getType());
-        this.allFields = fields;
+        if(fields != null) {
+            this.allFields = fields;
+        }
     }
 
     @Override
     public void saveFields(){
-        Gson gsonHander = new Gson();
-        String fieldsToJSon = gsonHander.toJson(this.allFields);
-
-        Helpers.saveAllFieldsToStorage(context,this.allFields);
+        List<Field> fields = allFields;
+        Helpers.saveAllFieldsToStorage(context,fields);
     }
 
     @Override

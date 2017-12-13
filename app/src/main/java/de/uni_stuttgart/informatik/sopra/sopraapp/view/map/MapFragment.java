@@ -34,9 +34,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.controller.FieldCreation;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapInitialization;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddDamageDialog;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddFieldDialog;
@@ -60,6 +62,7 @@ public class MapFragment extends Fragment implements
     private static final int REQUEST_LOCATION_COURSE = 42;
     private static final int REQUEST_LOCATION_FINE = 7;
     public static MapEditingStatus currentMapEditingStatus = MapEditingStatus.DEFAULT;
+    private static MapboxMap mapboxMapGlobal;
     final java.lang.String TAG = "TAG";
     FloatingActionButton menuFAB;
     LinearLayout fieldsFAB;
@@ -67,6 +70,8 @@ public class MapFragment extends Fragment implements
     LinearLayout settingsFAB;
     AddFieldDialog addFieldDialogFragment;
     AddDamageDialog addDamageDialogFragment;
+    MapObject newMapObject;
+    Field fieldFromDamage = null;
     // TODO: Rename and change types of parameters
     private java.lang.String mParam1;
     private java.lang.String mParam2;
@@ -78,14 +83,10 @@ public class MapFragment extends Fragment implements
     private boolean isFABOpen;
     private MapFragment mapFragment;
     private NewAreaMode currentMODE = NewAreaMode.GPS;
-    private static MapboxMap mapboxMapGlobal;
-    private Field creatingNewField = new Field();
     private double gpsLat;
     private double gpsLng;
     private MarkerOptions lastGPSLocation;
     private int foundFieldID = -1;
-
-    FieldCreation fieldCreation;
 
 
     public MapFragment() {
@@ -209,7 +210,8 @@ public class MapFragment extends Fragment implements
             public void onClick(View v) {
                 if (currentMapEditingStatus == MapEditingStatus.DEFAULT) {
                     currentMapEditingStatus = MapEditingStatus.START_CREATE_FIELD_COORDINATES;
-                    fieldCreation = new FieldCreation(mapFragment);
+                    newMapObject = new Field();
+                    newMapObject.setContext(mapboxMapGlobal, mapView);
                     damagesFAB.animate().alpha(0.3f).setDuration(100);
                     damagesFAB.setEnabled(false);
                     settingsFAB.setEnabled(false);
@@ -220,7 +222,9 @@ public class MapFragment extends Fragment implements
                     Snackbar.make(getView(), "Add Marker", Snackbar.LENGTH_SHORT).show();
 
                 } else if (currentMapEditingStatus == MapEditingStatus.START_CREATE_FIELD_COORDINATES) {
-                    fieldCreation.drawFieldPolygon();
+                    newMapObject.draw();
+                    App.dataService.addField((Field) newMapObject);
+                    App.dataService.saveFields();
                     currentMapEditingStatus = MapEditingStatus.DEFAULT;
                     damagesFAB.animate().alpha(1.0f).setDuration(100);
                     damagesFAB.setEnabled(true);
@@ -245,19 +249,22 @@ public class MapFragment extends Fragment implements
                     case DEFAULT:
                         currentMapEditingStatus = MapEditingStatus.START_CREATE_DAMAGE_COORDINATES;
                         Snackbar.make(getView(), "Create a damage within a field", Snackbar.LENGTH_SHORT).show();
+                        newMapObject = new Damage();
+                        newMapObject.setContext(mapboxMapGlobal,mapView);
                         disableFieldsFAB();
                         disableSettingsFAB();
                         disableMenuFAB();
                         showAndEnableGPSButton(fabGPS, fabGPSLabel);
                         label.setText("Finish adding points");
+
+
                         break;
                     case START_CREATE_DAMAGE_COORDINATES:
-
                         currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
-                        if(!fieldCreation.isDrawReady()){
-                            Snackbar.make(getView(), "Please add at least 3 markers", Snackbar.LENGTH_SHORT).show();
-                        }
-
+                        newMapObject.draw();
+                        fieldFromDamage.addDamage((Damage) newMapObject);
+                        App.dataService.saveFields();
+                        fieldFromDamage = null;
                         break;
                      /*
                         } else {
@@ -391,9 +398,10 @@ public class MapFragment extends Fragment implements
     @Override
     public void onMapReady(final MapboxMap mapboxMap) {
         mapboxMapGlobal = mapboxMap;
-        MapInitialization initialization = new MapInitialization();
+        MapInitialization initialization = new
+         MapInitialization();        mapboxMap.setOnMapClickListener(this);
         initialization.loadFields(mapFragment);
-
+       mapboxMap.setOnMapClickListener(this);
         mapboxMap.setOnMapClickListener(this);
 
          /* Campus coordinates*/
@@ -414,13 +422,13 @@ public class MapFragment extends Fragment implements
 
     @Override
     public void onMapClick(@NonNull LatLng point) {
-        switch (currentMapEditingStatus){
+        switch (currentMapEditingStatus) {
 
             case START_CREATE_FIELD_COORDINATES:
-                if( fieldCreation.addMarkerPosition(point)){
-                    fieldCreation.drawMarker(point);
-                }else{
-                    Snackbar.make(getView(),"Marker within a field",Snackbar.LENGTH_SHORT).show();
+                if (newMapObject.addMarker(point)) {
+                    newMapObject.drawMarker(point);
+                } else {
+                    Snackbar.make(getView(), "Marker outside of a field", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case END_CREATE_FIELD_COORDINATES:
@@ -428,6 +436,16 @@ public class MapFragment extends Fragment implements
             case CREATE_FIELD_DONE:
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
+                if (fieldFromDamage == null) {
+                    if (MapService.findCurrentField(point) != null) {
+                        fieldFromDamage = MapService.findCurrentField(point);
+                        newMapObject.setField(fieldFromDamage);
+                    }
+                }
+                if (fieldFromDamage.contains(point)) {
+                    newMapObject.addMarker(point);
+                    newMapObject.drawMarker(point);
+                }
                 break;
             case CREATED_DAMAGE_DONE:
                 break;
@@ -544,7 +562,7 @@ public class MapFragment extends Fragment implements
     public void onPause() {
         super.onPause();
         mapView.onPause();
-        App.dataService.saveFields();
+     //   App.dataService.saveFields();
     }
 
     @Override
@@ -552,4 +570,5 @@ public class MapFragment extends Fragment implements
         super.onStop();
         mapView.onStop();
     }
+
 }
