@@ -39,6 +39,10 @@ public class User {
         this.initRights();
     }
 
+    public boolean isGutachter(){
+        return currentUserRole == UserRole.GUTACHTER;
+    }
+
     /**
      * initialize Rights for each Role
      */

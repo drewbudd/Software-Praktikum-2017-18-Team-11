@@ -21,6 +21,7 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.Helpers;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.Contract;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
@@ -35,6 +36,7 @@ public class DataService implements IDataService{
 
     public static DataService instance = null;
     private List<Field> allFields = new ArrayList<>();
+    private List<Damage> damages = new ArrayList<>();
     private Context context;
 
     private DataService(Context context) {
@@ -74,4 +76,24 @@ public class DataService implements IDataService{
     public List<Field> getFields(){
         return allFields;
     }
+
+    public List<Damage> getDamages() {
+        return damages;
+    }
+
+    public void loadDamages(){
+        this.damages.clear();
+        for(Field field : allFields){
+            this.damages.addAll(field.getDamages());
+        }
+    }
+
+    @Override
+    public void deleteFieldById(int itemId) {
+        allFields.remove(itemId);
+        App.mapService.deleteFieldById(itemId);
+        saveFields();
+    }
+
+
 }

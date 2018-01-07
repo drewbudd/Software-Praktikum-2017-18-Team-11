@@ -19,15 +19,15 @@ public class UserService implements IUserService {
     public  static UserService instance = null;
     private User currentUser = null;
 
-    public UserService(){
-        loadStubUser();
-    }
-
     public static UserService getInstance() {
         if (instance == null) {
             instance = new UserService();
         }
         return instance;
+    }
+
+    public void init(){
+        loadStubUser();
     }
 
     @Override

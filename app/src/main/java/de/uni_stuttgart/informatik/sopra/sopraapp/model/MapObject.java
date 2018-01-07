@@ -2,6 +2,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.model;
 
 import android.graphics.Color;
 
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.annotations.Polygon;
 import com.mapbox.mapboxsdk.annotations.PolygonOptions;
@@ -177,6 +178,7 @@ public abstract class MapObject implements IMapObject{
         polygonOptions.addAll(markerPosition);
         Polygon newPolygon = mapboxMap.addPolygon(polygonOptions);
         newPolygon.setFillColor(color);
+        newPolygon.setAlpha(0.2f);
         mapView.refreshDrawableState();
     }
 
