@@ -19,4 +19,9 @@ public interface IDataService {
 
     void saveFields ();
     List<Field> getFields();
+
+    List<Damage> getDamages();
+    void loadDamages();
+
+    void deleteFieldById(int itemId);
 }

@@ -53,13 +53,17 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(SearchAdapter.ViewHolder holder, int position) {
-        Damage event = damageList.get(position);
-        String insuranceHolder;
+        switch (holder.getItemViewType()){
+        }
+        if(damageList.get(position) instanceof Damage) {
+            Damage event = damageList.get(position);
+            String insuranceHolder;
 
-        holder.associateDamage = event;
+            holder.associateDamage = event;
 
-        holder.damageType.setText(event.getDamageType());
-        holder.inscuredPerson.setText(event.getOwner().getName());
+            holder.damageType.setText(event.getDamageType());
+            holder.inscuredPerson.setText(event.getOwner().getName());
+        }
 
     }
 
@@ -87,6 +91,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             super(itemView);
 
             card = (CardView) itemView;
+
             inscuredPerson = itemView.findViewById(R.id.insuredPerson);
             damageType = itemView.findViewById(R.id.card_damage_type);
         }

@@ -16,6 +16,8 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.FieldListAdapter;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.IDataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
@@ -79,11 +81,19 @@ public class FieldsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_fields, container, false);
         recycler = rootView.findViewById(R.id.recycler_fieldsview);
-
+        fields = new ArrayList<>();
+        IDataService dataService = App.dataService;
+        fields = dataService.getFields();
         adapter = new FieldListAdapter(getContext(), fields);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
         return rootView;
+    }
+
+    public void updateAdapter() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

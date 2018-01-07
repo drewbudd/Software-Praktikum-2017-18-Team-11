@@ -34,6 +34,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.controller.LoginController;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.ConfigService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.IDataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.IUserService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
@@ -68,10 +69,10 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     /**
      *
      */
-    public static DataService dataService;
+    public static IDataService dataService;
     public static ConfigService configService;
     public static MapService mapService;
-    public static UserService userService;
+    public static IUserService userService;
 
     private static Context context;
 
@@ -90,10 +91,13 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
         dataService = DataService.getInstance(this);
         configService = ConfigService.getInstance();
         userService = UserService.getInstance();
+        mapService = MapService.getInstance();
 
         context = getApplicationContext();
 
 
+
+        userService.init();
         // Set up the login form.
         mUsernameView = findViewById(R.id.username);
         populateAutoComplete();
@@ -394,6 +398,7 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 finish();
+
                 loginController.login();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

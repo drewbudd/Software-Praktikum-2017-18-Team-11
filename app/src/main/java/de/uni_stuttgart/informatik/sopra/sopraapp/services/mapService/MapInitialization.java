@@ -26,15 +26,15 @@ public class MapInitialization {
     public void loadFields(de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapFragment mapFragment){
         mapboxMap = mapFragment.getMapBox();
         mapView = mapFragment.getMapView();
-        App.dataService.loadFields();
+
         List<Field> allFields = App.dataService.getFields();
         for(Field field : allFields){
             field.setContext(mapboxMap,mapView);
             field.draw();
-            for(Damage damage : field.getDamages()){
-                damage.setContext(mapboxMap,mapView);
-                damage.draw();
-            }
+        }
+        for(Damage damage : App.dataService.getDamages()){
+            damage.setContext(mapboxMap,mapView);
+            damage.draw();
         }
 
     }

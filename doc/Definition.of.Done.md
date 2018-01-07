@@ -8,6 +8,12 @@
 - [ ] Alle relevanten Dokumente (Sprint backlog, Readme-Datei, Begriffslexikon) wurden aktualisiert.
 - [ ] Code ist fertiggestellt und im Versionierungssystem (GitLab) hochgeladen.
 
+
+## Merge Request Template
+
+Im [Merge Request Template](/.gitlab/merge_request_templates/General.md) muss die Definition of Done ebenso angepasst werden!
+
+
 ## Was ist die Definition of Done?
 
 > Es müssen alle verstehen, was "Done" bedeutet, sobald ein Product Backlog‐Eintrag oder ein

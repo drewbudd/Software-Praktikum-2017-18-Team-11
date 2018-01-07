@@ -1,13 +1,19 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService;
 
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
 
 import java.security.acl.NotOwnerException;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapFragment;
 
 /**
  * @author Stefan Zindl
@@ -19,6 +25,19 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 public class MapService {
 
 
+    public static MapService instance = null;
+    private MapboxMap mapboxMap;
+    private MapView mapView;
+    private MapFragment mapFragment;
+
+
+    public static MapService getInstance() {
+        if (instance == null) {
+            instance = new MapService();
+        }
+        return instance;
+    }
+
     public static Field findCurrentField(LatLng markerPosition){
         for(Field field : App.dataService.getFields()){
             if(field.contains(markerPosition)){
@@ -26,5 +45,31 @@ public class MapService {
             }
         }
        return null;
+    }
+
+    public void drawAllFields(){
+        List<Field> allFields = App.dataService.getFields();
+        for(Field field : allFields){
+            field.setContext(mapboxMap,mapView);
+            field.draw();
+        }
+        for(Damage damage : App.dataService.getDamages()){
+            damage.setContext(mapboxMap,mapView);
+            damage.draw();
+        }
+        mapView.refreshDrawableState();
+
+    }
+
+    public void deleteFieldById(int id){
+        int idd = id;
+        mapboxMap.removePolygon(mapboxMap.getPolygons().get(id));
+        mapView.refreshDrawableState();
+    }
+
+    public void setMap(MapFragment mapFragment) {
+        this.mapFragment = mapFragment;
+        this.mapView = mapFragment.getMapView();
+        this.mapboxMap = mapFragment.getMapBox();
     }
 }

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * @author Stefan Zindl
@@ -26,13 +29,13 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 public class FieldListAdapter extends RecyclerView.Adapter<FieldListAdapter.ViewHolder> {
 
 
-    private List<Field> damageList;
+    private List<Field> fieldList;
     private List<Field> filterdList;
     private List<ViewHolder> views = new ArrayList<>();
     private Context context;
 
     public FieldListAdapter(Context context, List<Field> events) {
-        this.damageList = events;
+        this.fieldList = events;
         this.context = context;
         filterdList = events;
     }
@@ -50,7 +53,7 @@ public class FieldListAdapter extends RecyclerView.Adapter<FieldListAdapter.View
 
     @Override
     public void onBindViewHolder(FieldListAdapter.ViewHolder holder, int position) {
-        Field event = damageList.get(position);
+        Field event = fieldList.get(position);
         String insuranceHolder;
 
         holder.associatedField = event;
@@ -70,7 +73,7 @@ public class FieldListAdapter extends RecyclerView.Adapter<FieldListAdapter.View
 
     @Override
     public int getItemCount() {
-        return damageList.size();
+        return fieldList.size();
     }
 
 
@@ -81,6 +84,7 @@ public class FieldListAdapter extends RecyclerView.Adapter<FieldListAdapter.View
         public Field associatedField;
         public TextView fieldType;
         public TextView gutachter;
+        public ImageButton deleteFieldButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -88,6 +92,20 @@ public class FieldListAdapter extends RecyclerView.Adapter<FieldListAdapter.View
             inscuredPerson = itemView.findViewById(R.id.insuredPerson);
             fieldType = itemView.findViewById(R.id.card_field_type);
             gutachter = itemView.findViewById(R.id.gutachter);
+            deleteFieldButton = itemView.findViewById(R.id.deleteFieldButton);
+            deleteFieldButton.setVisibility(View.GONE);
+            if(App.userService.getCurrentUser().isGutachter()) {
+                deleteFieldButton.setVisibility(View.VISIBLE);
+                deleteFieldButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        App.dataService.deleteFieldById(getAdapterPosition());
+                        notifyItemChanged(getAdapterPosition());
+                        notifyItemChanged(getAdapterPosition(), fieldList.size());
+                        notifyDataSetChanged();
+                    }
+                });
+            }
         }
     }
 }

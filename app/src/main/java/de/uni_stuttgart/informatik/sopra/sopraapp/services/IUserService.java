@@ -11,6 +11,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 
 public interface IUserService {
 
+    void init();
     void loadStubUser();
     void saveUser(User user);
     List<User> getUsers();
