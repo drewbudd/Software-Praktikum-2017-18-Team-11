@@ -27,6 +27,10 @@ public class MapService {
     private MapFragment mapFragment;
 
 
+    /**
+     * gets the instance of the MapService
+     * @return
+     */
     public static MapService getInstance() {
         if (instance == null) {
             instance = new MapService();
@@ -34,6 +38,11 @@ public class MapService {
         return instance;
     }
 
+    /**
+     * checks if the point is within a field and returns this field
+     * @param markerPosition
+     * @return
+     */
     public static Field findCurrentField(LatLng markerPosition){
         for(Field field : MapActivity.dataService.getFields()){
             if(field.contains(markerPosition)){
@@ -43,6 +52,9 @@ public class MapService {
        return null;
     }
 
+    /**
+     * draws all Fields on the map
+     */
     public void drawAllFields(){
         List<Field> allFields = MapActivity.dataService.getFields();
         for(Field field : allFields){
@@ -57,12 +69,20 @@ public class MapService {
 
     }
 
+    /**
+     * deletes a field by id
+     * @param id
+     */
     public void deleteFieldById(int id){
         int idd = id;
         mapboxMap.removePolygon(mapboxMap.getPolygons().get(id));
         mapView.refreshDrawableState();
     }
 
+    /**
+     * initilizes the attributes using the map form the app.
+     * @param mapFragment
+     */
     public void setMap(MapFragment mapFragment) {
         this.mapFragment = mapFragment;
         this.mapView = mapFragment.getMapView();

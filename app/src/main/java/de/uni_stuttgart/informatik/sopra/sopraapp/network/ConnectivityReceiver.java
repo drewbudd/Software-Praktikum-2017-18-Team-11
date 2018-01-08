@@ -12,6 +12,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
  * @author Stefan Zindl
  * @since 2018/01/08
  *
+ * ConnectivityReceiver to check if the network connection changed
  * code from: https://www.androidhive.info/2012/07/android-detect-internet-connection-status/
  */
 
@@ -39,6 +40,10 @@ public class ConnectivityReceiver
 
     }
 
+    /**
+     * returns if the app is connected to a networkservice
+     * @return
+     */
     public static boolean isConnected() {
         ConnectivityManager
                 cm = (ConnectivityManager) MapActivity.getInstance().getApplicationContext()
@@ -49,6 +54,9 @@ public class ConnectivityReceiver
     }
 
 
+    /**
+     * interface for the receiver
+     */
     public interface ConnectivityReceiverListener {
         void onNetworkConnectionChanged(boolean isConnected);
     }

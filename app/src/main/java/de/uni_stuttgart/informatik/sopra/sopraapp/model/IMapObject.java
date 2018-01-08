@@ -7,6 +7,8 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapEleme
 /**
  * @author Stefan Zindl
  * @since 2017/12/11
+ * interface for a object on the map
+ * eg damage, field
  */
 
 public interface IMapObject extends OnMapElement{

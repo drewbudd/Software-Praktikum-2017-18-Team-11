@@ -14,14 +14,43 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 
 public interface IDataService {
 
-    void addField(Field damage);
+    /**
+     * adds a new field
+     * @param field
+     */
+    void addField(Field field);
+
+    /**
+     * loads all fields from the storage
+     */
     void loadFields();
 
+    /**
+     * saves all Fields to the storage
+     */
     void saveFields ();
+
+    /**
+     * returns all loaded field
+     * @return
+     */
     List<Field> getFields();
 
+    /**
+     * returns all Damages
+     * not used at the moment
+     * @return
+     */
     List<Damage> getDamages();
+
+    /**
+     * loads all Damages.
+     */
     void loadDamages();
 
+    /**
+     * deletes a Field by id.
+     * @param itemId
+     */
     void deleteFieldById(int itemId);
 }

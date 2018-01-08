@@ -55,6 +55,11 @@ public abstract class MapObject implements IMapObject{
         return markerPosition;
     }
 
+    /**
+     * checks of the point is within this object
+     * @param point
+     * @return
+     */
     public boolean contains(LatLng point) {
         int delta = 1000;
         double lat = point.getLatitude();
@@ -168,11 +173,18 @@ public abstract class MapObject implements IMapObject{
         return true;
     }
 
+    /**
+     * updates this element
+     * @param updatedField
+     */
     @Override
     public void modify(OnMapElement updatedField) {
 
     }
 
+    /**
+     * draws the polygon
+     */
     @Override
     public void draw() {
         PolygonOptions polygonOptions = new PolygonOptions();

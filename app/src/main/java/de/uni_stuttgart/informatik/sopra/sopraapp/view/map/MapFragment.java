@@ -122,39 +122,6 @@ public class MapFragment extends Fragment implements
         MapFragment.currentMapEditingStatus = currentMapEditingStatus;
     }
 
-    /**
-     * checks if network is available
-     *
-     * @param context
-     * @param networkTypes
-     * @return
-     */
-    public static boolean isNetworkAvailable(Context context, int[] networkTypes) {
-        /*
-        try {
-            ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            for (int networkType : networkTypes) {
-                NetworkInfo netInfo = cm.getNetworkInfo(networkType);
-                if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            return false;
-        }
-        return false;
-        */
-
-        ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        return isConnected;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -565,15 +532,6 @@ public class MapFragment extends Fragment implements
         mapView.addOnMapChangedListener(this);
 
         mapView.getMapAsync(this);
-
-
-        int[] networkTypes = {ConnectivityManager.TYPE_MOBILE, ConnectivityManager.TYPE_WIFI};
-        if (isNetworkAvailable(this.getContext(), networkTypes)) {
-            statusText.setText(R.string.onlineStatusText);
-        } else {
-            statusText.setText(R.string.offlineStatusText);
-        }
-
     }
 
     public MapboxMap getMapBox() {
@@ -647,17 +605,6 @@ public class MapFragment extends Fragment implements
             statusText.setText(R.string.offlineStatusText);
         }
     }
-
-    // Method to manually check connection status
-    private void checkConnection() {
-        boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            statusText.setText(R.string.onlineStatusText);
-        } else {
-            statusText.setText(R.string.offlineStatusText);
-        }
-    }
-
 
     /**
      * This interface must be implemented by activities that contain this

@@ -20,7 +20,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
  * @since 2017/11/15
  *
  *
- * //TODO implement Adapater, aufbau
+ * list of Damages
  * https://github.com/codepath/android_guides/wiki/Using-the-RecyclerView
  *
  */
@@ -32,6 +32,11 @@ public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder
     private List<ViewHolder> views = new ArrayList<>();
     private Context context;
 
+    /**
+     * constructor
+     * @param context
+     * @param events
+     */
     public DamageAdapter(Context context, List<Damage> events) {
         this.damages = events;
         this.context = context;

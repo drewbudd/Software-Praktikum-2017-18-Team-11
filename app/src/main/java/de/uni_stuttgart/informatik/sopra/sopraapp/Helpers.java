@@ -18,6 +18,10 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 
 public class Helpers {
 
+    /**
+     * loads all Fields from the Storage
+     * @return
+     */
     public static String loadFieldsFromStorage() {
 
         Gson gsonHandler = new Gson();
@@ -35,6 +39,7 @@ public class Helpers {
 
 
     static Gson gsonHandler = new Gson();
+
 
 
     /**

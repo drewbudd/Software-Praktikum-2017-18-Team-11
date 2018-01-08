@@ -22,8 +22,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class MapActivityTest {
 
-    @Rule
-    public ActivityTestRule<LoginActivity> appRule = new ActivityTestRule<LoginActivity>(LoginActivity.class);
+
 
     @Rule
     public ActivityTestRule<MapActivity> rule = new ActivityTestRule<MapActivity>(MapActivity.class);

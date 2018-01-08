@@ -133,11 +133,21 @@ public class MapActivity extends AppCompatActivity implements
     }
 
 
+    /**
+     * saves a new Field
+     * used from the button in the dialog
+     * @param view
+     */
     public void saveNewField(View view) {
         mapFragment.saveField();
         manageServiceFragment.getFieldFragment().updateAdapter();
     }
 
+    /**
+     * saves a new damage
+     * uses from the button in the dialog
+     * @param view
+     */
     public void saveNewDamage(View view) {
         Damage damage = new Damage();
         EditText damageType = mapFragment.getAddDamageDialog().getDialog().findViewById(R.id.text_damage_typeText);
@@ -148,6 +158,10 @@ public class MapActivity extends AppCompatActivity implements
         manageServiceFragment.getSearchFragment().updateAdapter();
     }
 
+    /**
+     * sets the listener for networking listening
+     * @param listener
+     */
     public static void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
         ConnectivityReceiver.connectivityReceiverListener = listener;
     }

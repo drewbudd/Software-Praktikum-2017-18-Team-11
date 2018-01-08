@@ -39,6 +39,11 @@ public class User {
         this.initRights();
     }
 
+    /**
+     * returns if this user is a Gutachter.
+     * or not
+     * @return
+     */
     public boolean isGutachter(){
         return currentUserRole == UserRole.GUTACHTER;
     }
