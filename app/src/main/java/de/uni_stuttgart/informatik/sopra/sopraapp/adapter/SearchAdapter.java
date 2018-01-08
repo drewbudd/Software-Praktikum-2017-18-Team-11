@@ -15,6 +15,8 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * @author Stefan Zindl
@@ -120,8 +122,17 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 results.count = filterList.size();
                 results.values = filterList;
             } else {
-                results.count = damageList.size();
-                results.values = damageList;
+                int count =0;
+                List<Damage> damages = new ArrayList<>();
+                for(Field field : App.dataService.getFields()){
+                    for(Damage damage : field.getDamages()){
+                        count++;
+                        damages.add(damage);
+                    }
+                }
+
+                results.count =  count;
+                results.values = damages;
             }
             return results;
 
