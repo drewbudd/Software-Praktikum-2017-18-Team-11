@@ -3,23 +3,13 @@ package de.uni_stuttgart.informatik.sopra.sopraapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.List;
 
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.Contract;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 
 /**
  * @author Stefan Zindl
@@ -33,7 +23,7 @@ public class Helpers {
         Gson gsonHandler = new Gson();
         java.lang.String fieldsAsJSon = null;
         try {
-            SharedPreferences sharedPreferences = App.getCurrentContext().getSharedPreferences("App_STORAGE", Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = LoginActivity.getCurrentContext().getSharedPreferences("App_STORAGE", Context.MODE_PRIVATE);
             fieldsAsJSon = sharedPreferences.getString("allFields", null);
         } catch (Exception e) {
             e.printStackTrace();

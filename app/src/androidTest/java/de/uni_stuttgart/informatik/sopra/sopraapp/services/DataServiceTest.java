@@ -1,8 +1,5 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 
-import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
 
 import org.junit.Before;
@@ -13,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 
 import static org.junit.Assert.*;
 
@@ -26,7 +23,7 @@ public class DataServiceTest {
     private DataService dataService;
 
     @Rule
-    public ActivityTestRule<App> rule = new ActivityTestRule<App>(App.class);
+    public ActivityTestRule<LoginActivity> rule = new ActivityTestRule<LoginActivity>(LoginActivity.class);
     List<Field> fields = new ArrayList<>();
     @Before
     public void init(){

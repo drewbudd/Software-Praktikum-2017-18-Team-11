@@ -14,9 +14,8 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * @author Stefan Zindl
@@ -100,7 +99,7 @@ public class FieldListAdapter extends RecyclerView.Adapter<FieldListAdapter.View
                 deleteFieldButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        App.dataService.deleteFieldById(getAdapterPosition());
+                        MapActivity.dataService.deleteFieldById(getAdapterPosition());
                         notifyItemChanged(getAdapterPosition());
                         notifyItemChanged(getAdapterPosition(), fieldList.size());
                         notifyDataSetChanged();

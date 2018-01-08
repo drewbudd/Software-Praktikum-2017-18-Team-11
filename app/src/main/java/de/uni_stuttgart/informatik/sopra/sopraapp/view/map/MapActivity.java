@@ -1,5 +1,6 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.widget.EditText;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.IDataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.DamagesFragment;
@@ -24,7 +27,8 @@ public class MapActivity extends AppCompatActivity implements
         DamagesFragment.OnFragmentInteractionListener,
         FieldsFragment.OnFragmentInteractionListener,
         SearchFragment.OnFragmentInteractionListener,
-        BlankFragment.OnFragmentInteractionListener {
+        BlankFragment.OnFragmentInteractionListener,
+        ConnectivityReceiver.ConnectivityReceiverListener {
 
 
     private static final int REQUEST_LOCATION_FINE = 100;
@@ -32,20 +36,29 @@ public class MapActivity extends AppCompatActivity implements
     private static final int REQUEST_LOCATION_HARDWARE = 103;
     private MapFragment mapFragment;
     private ManageServiceFragment manageServiceFragment;
+    private static MapActivity context;
+
+    public static IDataService dataService = null;
+
+    public static Context getInstance() {
+        return context;
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        App.dataService.loadFields();
-        App.dataService.loadDamages();
-
-
+        dataService = DataService.getInstance(this);
+        dataService.loadFields();
+        dataService.loadDamages();
+        setConnectivityListener(this);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.activity_map);
+
 
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
         manageServiceFragment = (ManageServiceFragment) getFragmentManager().findFragmentById(R.id.manageServiceFragment);
@@ -57,6 +70,7 @@ public class MapActivity extends AppCompatActivity implements
     public void onFragmentInteraction(Uri uri) {
 
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -128,5 +142,14 @@ public class MapActivity extends AppCompatActivity implements
         damage.setSize(damageSize.getText().toString());
         mapFragment.saveDamage(damage);
         manageServiceFragment.getSearchFragment().updateAdapter();
+    }
+
+    public static void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        String x = "";
     }
 }

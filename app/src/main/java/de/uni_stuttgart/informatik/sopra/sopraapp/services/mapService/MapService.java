@@ -1,18 +1,14 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService;
 
-import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 
-import java.security.acl.NotOwnerException;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapFragment;
 
 /**
@@ -39,7 +35,7 @@ public class MapService {
     }
 
     public static Field findCurrentField(LatLng markerPosition){
-        for(Field field : App.dataService.getFields()){
+        for(Field field : MapActivity.dataService.getFields()){
             if(field.contains(markerPosition)){
                 return field;
             }
@@ -48,12 +44,12 @@ public class MapService {
     }
 
     public void drawAllFields(){
-        List<Field> allFields = App.dataService.getFields();
+        List<Field> allFields = MapActivity.dataService.getFields();
         for(Field field : allFields){
             field.setContext(mapboxMap,mapView);
             field.draw();
         }
-        for(Damage damage : App.dataService.getDamages()){
+        for(Damage damage : MapActivity.dataService.getDamages()){
             damage.setContext(mapboxMap,mapView);
             damage.draw();
         }

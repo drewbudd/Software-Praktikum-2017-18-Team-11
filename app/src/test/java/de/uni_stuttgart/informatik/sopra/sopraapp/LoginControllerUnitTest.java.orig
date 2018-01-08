@@ -6,7 +6,7 @@ import org.junit.Test;
 import de.uni_stuttgart.informatik.sopra.sopraapp.controller.LoginController;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 <<<<<<< HEAD
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 =======
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 >>>>>>> 6d5a44b... added Location Permission,

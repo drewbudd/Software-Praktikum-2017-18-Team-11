@@ -32,12 +32,7 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.controller.LoginController;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.ConfigService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.IDataService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.IUserService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -46,7 +41,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 /**
  * A login screen that offers login via email/password.
  */
-public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -69,11 +64,6 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     /**
      *
      */
-    public static IDataService dataService;
-    public static ConfigService configService;
-    public static MapService mapService;
-    public static IUserService userService;
-
     private static Context context;
 
 
@@ -83,13 +73,14 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
         return context;
     }
 
+    public static Context getInstance() {
+        return context;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        dataService = DataService.getInstance(this);
-        configService = ConfigService.getInstance();
 
         context = getApplicationContext();
 
@@ -325,7 +316,7 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(App.this,
+                new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mUsernameView.setAdapter(adapter);

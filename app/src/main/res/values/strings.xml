@@ -42,5 +42,8 @@
     <string name="damage_size">Estimated Size</string>
     <string name="size_units">sq. m</string>
     <string name="add_pictures">Add Pictures</string>
+    <string name="modeStatus">Offline</string>
+    <string name="offlineStatusText">You are offline</string>
+    <string name="onlineStatusText">You are online</string>
 
 </resources>

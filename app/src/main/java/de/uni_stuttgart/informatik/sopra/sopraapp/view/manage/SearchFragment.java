@@ -18,7 +18,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.SearchAdapter;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -86,7 +86,7 @@ public class SearchFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
 
-        for(Field field : App.dataService.getFields()){
+        for(Field field : MapActivity.dataService.getFields()){
             for(Damage damage : field.getDamages()){
                 damages.add(damage);
             }

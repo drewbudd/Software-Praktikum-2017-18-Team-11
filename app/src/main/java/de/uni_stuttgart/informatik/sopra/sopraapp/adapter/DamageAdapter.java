@@ -14,7 +14,6 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * @author Stefan Zindl

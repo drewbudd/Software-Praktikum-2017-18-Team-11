@@ -16,9 +16,7 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.FieldListAdapter;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.IDataService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,8 +80,7 @@ public class FieldsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_fields, container, false);
         recycler = rootView.findViewById(R.id.recycler_fieldsview);
         fields = new ArrayList<>();
-        IDataService dataService = App.dataService;
-        fields = dataService.getFields();
+        fields = MapActivity.dataService.getFields();
         adapter = new FieldListAdapter(getContext(), fields);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);

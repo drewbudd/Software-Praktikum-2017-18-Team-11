@@ -5,7 +5,7 @@ import android.util.Log;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
@@ -18,10 +18,10 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 public class LoginController {
 
 
-    App parentActivity;
+    LoginActivity parentActivity;
     private User currentLoggingUser;
 
-    public LoginController(App parentActivity) {
+    public LoginController(LoginActivity parentActivity) {
         this.parentActivity = parentActivity;
     }
 
