@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ManageServiceFragment;
 
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertThat;
 public class MapActivityTest {
 
     @Rule
-    public ActivityTestRule<App> appRule = new ActivityTestRule<App>(App.class);
+    public ActivityTestRule<LoginActivity> appRule = new ActivityTestRule<LoginActivity>(LoginActivity.class);
 
     @Rule
     public ActivityTestRule<MapActivity> rule = new ActivityTestRule<MapActivity>(MapActivity.class);

@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -39,13 +41,11 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapInitialization;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddDamageDialog;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddFieldDialog;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +58,8 @@ public class MapFragment extends Fragment implements
         OnMapReadyCallback,
         MapView.OnMapChangedListener,
         MapboxMap.OnMapClickListener,
-        LocationListener {
+        LocationListener,
+        ConnectivityReceiver.ConnectivityReceiverListener {
     private static final int REQUEST_LOCATION_COURSE = 42;
     private static final int REQUEST_LOCATION_FINE = 7;
     public static MapEditingStatus currentMapEditingStatus = MapEditingStatus.DEFAULT;
@@ -84,6 +85,7 @@ public class MapFragment extends Fragment implements
     private MarkerOptions lastGPSLocation;
     private List<Marker> displayingMarkerOptions = new ArrayList<Marker>();
     private int foundFieldID = -1;
+    private TextView statusText;
 
 
     public MapFragment() {
@@ -120,6 +122,39 @@ public class MapFragment extends Fragment implements
         MapFragment.currentMapEditingStatus = currentMapEditingStatus;
     }
 
+    /**
+     * checks if network is available
+     *
+     * @param context
+     * @param networkTypes
+     * @return
+     */
+    public static boolean isNetworkAvailable(Context context, int[] networkTypes) {
+        /*
+        try {
+            ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            for (int networkType : networkTypes) {
+                NetworkInfo netInfo = cm.getNetworkInfo(networkType);
+                if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+        */
+
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        return isConnected;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +177,7 @@ public class MapFragment extends Fragment implements
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mapFragment);
 
+
     }
 
     private void askPermission(java.lang.String accessCoarseLocation, int requestLocationCourse) {
@@ -150,13 +186,11 @@ public class MapFragment extends Fragment implements
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
 
         final FloatingActionButton fabGPS = rootView.findViewById(R.id.fab_gps);
         final TextView fabGPSLabel = rootView.findViewById(R.id.gps_button_label);
@@ -164,6 +198,7 @@ public class MapFragment extends Fragment implements
         fieldsFAB = rootView.findViewById(R.id.fab1_and_label);
         damagesFAB = rootView.findViewById(R.id.fab2_and_label);
         settingsFAB = rootView.findViewById(R.id.fab3_and_label);
+        statusText = rootView.findViewById(R.id.networkStatus);
         isFABOpen = false;
 
         fabGPS.setOnClickListener(new View.OnClickListener() {
@@ -273,8 +308,8 @@ public class MapFragment extends Fragment implements
 
     public void saveField() {
         newMapObject.draw();
-        App.dataService.addField((Field) newMapObject);
-        App.dataService.saveFields();
+        MapActivity.dataService.addField((Field) newMapObject);
+        MapActivity.dataService.saveFields();
         currentMapEditingStatus = MapEditingStatus.DEFAULT;
         damagesFAB.animate().alpha(1.0f).setDuration(100);
         damagesFAB.setEnabled(true);
@@ -476,7 +511,6 @@ public class MapFragment extends Fragment implements
 
     }
 
-
     @Override
     public void onLocationChanged(Location location) {
         if (this.currentMODE == NewAreaMode.GPS) {
@@ -519,7 +553,6 @@ public class MapFragment extends Fragment implements
 
     }
 
-
     /**
      * @param view
      * @param savedInstanceState
@@ -535,6 +568,15 @@ public class MapFragment extends Fragment implements
         mapView.addOnMapChangedListener(this);
 
         mapView.getMapAsync(this);
+
+
+        int[] networkTypes = {ConnectivityManager.TYPE_MOBILE, ConnectivityManager.TYPE_WIFI};
+        if (isNetworkAvailable(this.getContext(), networkTypes)) {
+            statusText.setText(R.string.onlineStatusText);
+        } else {
+            statusText.setText(R.string.offlineStatusText);
+        }
+
     }
 
     public MapboxMap getMapBox() {
@@ -547,11 +589,11 @@ public class MapFragment extends Fragment implements
 
     public void saveDamage(Damage damage) {
         newMapObject.draw();
-        Damage createdDamage = (Damage)newMapObject;
+        Damage createdDamage = (Damage) newMapObject;
         createdDamage.setDamageType(damage.getDamageType());
         createdDamage.setSize(damage.getSize());
         fieldFromDamage.addDamage((Damage) newMapObject);
-        App.dataService.saveFields();
+        MapActivity.dataService.saveFields();
         fieldFromDamage = null;
 
     }
@@ -574,13 +616,18 @@ public class MapFragment extends Fragment implements
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        mapFragment.setConnectivityListener(this);
+    }
+
+    public static void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mapView.onPause();
-        App.dataService.saveFields();
+        MapActivity.dataService.saveFields();
     }
 
     @Override
@@ -588,6 +635,30 @@ public class MapFragment extends Fragment implements
         super.onStop();
         mapView.onStop();
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        updateNetworkStatus(isConnected);
+    }
+
+    private void updateNetworkStatus(boolean isConnected) {
+        if (isConnected) {
+            statusText.setText(R.string.onlineStatusText);
+        } else {
+            statusText.setText(R.string.offlineStatusText);
+        }
+    }
+
+    // Method to manually check connection status
+    private void checkConnection() {
+        boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            statusText.setText(R.string.onlineStatusText);
+        } else {
+            statusText.setText(R.string.offlineStatusText);
+        }
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

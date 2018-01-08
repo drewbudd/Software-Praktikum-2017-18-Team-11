@@ -16,7 +16,7 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * @author Stefan Zindl
@@ -124,7 +124,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             } else {
                 int count =0;
                 List<Damage> damages = new ArrayList<>();
-                for(Field field : App.dataService.getFields()){
+                for(Field field : MapActivity.dataService.getFields()){
                     for(Damage damage : field.getDamages()){
                         count++;
                         damages.add(damage);
