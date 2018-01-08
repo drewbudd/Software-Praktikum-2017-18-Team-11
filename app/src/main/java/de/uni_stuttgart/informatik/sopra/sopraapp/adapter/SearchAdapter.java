@@ -28,8 +28,8 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> implements Filterable {
 
 
-    private List<Damage> damageList;
-    private List<Damage> filterdList;
+    private List<Damage> damageList = new ArrayList<>();
+    private List<Damage> filterdList = new ArrayList<>();
     private List<ViewHolder> views = new ArrayList<>();
     private Context context;
     private ValueFilter valueFilter;
@@ -53,17 +53,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(SearchAdapter.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()){
-        }
-        if(damageList.get(position) instanceof Damage) {
-            Damage event = damageList.get(position);
-            String insuranceHolder;
+        Damage event = damageList.get(position);
+        String insuranceHolder;
 
-            holder.associateDamage = event;
+        holder.associateDamage = event;
 
-            holder.damageType.setText(event.getDamageType());
-            holder.inscuredPerson.setText(event.getOwner().getName());
-        }
+        holder.damageType.setText(event.getDamageType());
+        holder.inscuredPerson.setText(event.getOwner().getName());
 
     }
 
@@ -106,10 +102,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 List filterList = new ArrayList();
 
                 for (Damage damage : damageList) {
-                    if (damage.getOwner() != null) {
-                        if (damage.getOwner().getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                    if (damage.getDamageType() != null) {
+                        if (damage.getDamageType().toLowerCase().contains(constraint.toString().toLowerCase())) {
                             filterList.add(damage);
                         }
+                    }
+                    if (damage.getOwner() != null) {
+                        if (damage.getOwner().getName() != null) {
+                            if (damage.getOwner().getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                                filterList.add(damage);
+                            }
+                        }
+
                     }
                 }
 
@@ -126,7 +130,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-            damageList = (List) results.values;
+            if ((List) results.values == null) {
+
+            } else {
+
+                damageList = (List) results.values;
+            }
             notifyDataSetChanged();
         }
 

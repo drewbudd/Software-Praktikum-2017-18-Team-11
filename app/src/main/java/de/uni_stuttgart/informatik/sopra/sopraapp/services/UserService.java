@@ -26,10 +26,10 @@ public class UserService implements IUserService {
         return instance;
     }
 
-    public void init(){
+    private UserService(){
         loadStubUser();
-    }
 
+    }
     @Override
     public void loadStubUser() {
         User gutachter = new User(UserRole.GUTACHTER);

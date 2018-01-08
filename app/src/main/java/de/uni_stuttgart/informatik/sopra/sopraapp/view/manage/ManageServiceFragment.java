@@ -91,6 +91,7 @@ public class ManageServiceFragment extends Fragment {
                         break;
                     case 3:
                         replaceFragment(searchFragment);
+                        searchFragment.updateAdapter();
                         break;
                     default:
                         // do nothing

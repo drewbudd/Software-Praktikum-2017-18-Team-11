@@ -22,6 +22,7 @@ public class Damage extends MapObject{
     private User owner;
     private transient Field field;
     String damageType ="";
+    String size;
 
     public Damage() {
         this.currentStatus = DamageEventStatus.CREATED;
@@ -87,5 +88,13 @@ public class Damage extends MapObject{
             return true;
         }
         return false;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }

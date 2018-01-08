@@ -17,6 +17,7 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.SearchAdapter;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
@@ -83,7 +84,14 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_search, container, false);
-        damages = App.dataService.getDamages();
+
+
+        for(Field field : App.dataService.getFields()){
+            for(Damage damage : field.getDamages()){
+                damages.add(damage);
+            }
+        }
+
         recycler = rootView.findViewById(R.id.recycler_search);
         adapter = new SearchAdapter(getContext(), damages);
         searchView = rootView.findViewById(R.id.searchView);
@@ -110,8 +118,8 @@ public class SearchFragment extends Fragment {
 
     public void updateAdapter() {
         if (adapter != null) {
-            damages.clear();
-            damages = App.dataService.getDamages();
+          //  damages.clear();
+            //damages = App.dataService.getDamages();
             adapter.notifyDataSetChanged();
         }
     }
