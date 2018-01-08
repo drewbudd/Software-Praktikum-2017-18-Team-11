@@ -12,6 +12,9 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 /**
  * @author Stefan Zindl
  * @since 2017/12/10
+ *
+ * Initilizes/ draws the map with the saved fields and damages
+ *
  */
 
 public class MapInitialization {

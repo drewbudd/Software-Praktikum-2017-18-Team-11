@@ -56,6 +56,10 @@ public class Damage extends MapObject{
         return field;
     }
 
+    /**
+     * adds a LatLng to this damage for the polygon
+     * @param point
+     */
     @Override
     public void addMarkerPosition(LatLng point) {
 
@@ -91,6 +95,10 @@ public class Damage extends MapObject{
         return false;
     }
 
+    /**
+     * returns the size of the damage
+     * @return
+     */
     public String getSize() {
         return size;
     }

@@ -23,7 +23,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
  * @since 2017/11/15
  * <p>
  * <p>
- * //TODO implement Adapater, aufbau
+ * Adapter for the searchList
  * https://github.com/codepath/android_guides/wiki/Using-the-RecyclerView
  */
 

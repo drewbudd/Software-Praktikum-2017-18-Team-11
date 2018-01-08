@@ -22,6 +22,4 @@ public enum Permissions {
     CREATE_OWN_DAMAGEEVENTS,
     CREATE_FOREIGN_DAMAGEEVENTS,
     EDIT_OWN_DAMAGEEVENTS
-
-    // TODO: Add all permissions
 }
