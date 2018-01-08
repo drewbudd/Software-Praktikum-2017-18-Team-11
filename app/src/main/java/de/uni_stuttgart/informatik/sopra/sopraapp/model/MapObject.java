@@ -30,6 +30,7 @@ public abstract class MapObject implements IMapObject{
     protected double maxLat;
     protected double minLng;
     protected double maxLng;
+    protected float alphaValue = 0.1f;
 
     protected transient MapboxMap mapboxMap;
     protected transient MapView mapView;
@@ -178,7 +179,7 @@ public abstract class MapObject implements IMapObject{
         polygonOptions.addAll(markerPosition);
         Polygon newPolygon = mapboxMap.addPolygon(polygonOptions);
         newPolygon.setFillColor(color);
-        newPolygon.setAlpha(0.2f);
+        newPolygon.setAlpha(alphaValue);
         mapView.refreshDrawableState();
     }
 

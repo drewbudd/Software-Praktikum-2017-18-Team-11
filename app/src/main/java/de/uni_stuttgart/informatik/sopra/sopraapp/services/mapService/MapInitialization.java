@@ -18,19 +18,26 @@ public class MapInitialization {
 
     private MapboxMap mapboxMap;
     private MapView mapView;
-    public void loadFields(de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapFragment mapFragment){
+
+    public void loadFields(de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapFragment mapFragment) {
         mapboxMap = mapFragment.getMapBox();
         mapView = mapFragment.getMapView();
 
         List<Field> allFields = MapActivity.dataService.getFields();
-        for(Field field : allFields){
-            field.setContext(mapboxMap,mapView);
+        for (Field field : allFields) {
+            field.setContext(mapboxMap, mapView);
             field.draw();
         }
-        for(Damage damage : MapActivity.dataService.getDamages()){
-            damage.setContext(mapboxMap,mapView);
-            damage.draw();
+
+
+        for (Field field : allFields) {
+            field.setContext(mapboxMap, mapView);
+            for (Damage damage : field.getDamages()) {
+                damage.setContext(mapboxMap, mapView);
+                damage.draw();
+            }
         }
+
 
     }
 

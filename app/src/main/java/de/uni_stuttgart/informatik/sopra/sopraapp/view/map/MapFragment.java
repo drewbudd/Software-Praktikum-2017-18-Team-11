@@ -315,6 +315,7 @@ public class MapFragment extends Fragment implements
         menuFAB.setEnabled(true);
         TextView label = rootView.findViewById(R.id.field_button_label);
         label.setText("Add field");
+        getAddFieldDialog().dismiss();
     }
 
     private void createField() {
@@ -591,6 +592,7 @@ public class MapFragment extends Fragment implements
         fieldFromDamage.addDamage((Damage) newMapObject);
         MapActivity.dataService.saveFields();
         fieldFromDamage = null;
+        addDamageDialogFragment.dismiss();
 
     }
 
@@ -624,6 +626,7 @@ public class MapFragment extends Fragment implements
         super.onPause();
         mapView.onPause();
         MapActivity.dataService.saveFields();
+
     }
 
     @Override

@@ -1,7 +1,9 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +52,8 @@ public class MapActivity extends AppCompatActivity implements
         dataService = DataService.getInstance(this);
         dataService.loadFields();
         dataService.loadDamages();
+
+        registerReceiver(new ConnectivityReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         setConnectivityListener(this);
     }
 
