@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
@@ -30,7 +31,7 @@ public class LoginController {
      */
     public void login() {
 
-        App.userService.setCurrentUser(currentLoggingUser);
+        UserService.getInstance().setCurrentUser(currentLoggingUser);
         Intent loggedInActivity = new Intent(parentActivity, MapActivity.class);
         parentActivity.startActivity(loggedInActivity);
 
@@ -46,8 +47,8 @@ public class LoginController {
      * @return
      */
     public boolean checkLoginData(User loggingInUser){
-        if (App.userService.loginUser(loggingInUser)) {
-            this.currentLoggingUser = App.userService.getCurrentUser();
+        if (UserService.getInstance().loginUser(loggingInUser)) {
+            this.currentLoggingUser = UserService.getInstance().getCurrentUser();
             return true;
         }
         return  false;

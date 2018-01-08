@@ -5,8 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment;
@@ -119,6 +121,12 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     public void saveNewDamage(View view) {
-        mapFragment.saveDamage();
+        Damage damage = new Damage();
+        EditText damageType = mapFragment.getAddDamageDialog().getDialog().findViewById(R.id.text_damage_typeText);
+        EditText damageSize = mapFragment.getAddDamageDialog().getDialog().findViewById(R.id.text_damage_size);
+        damage.setDamageType(damageType.getText().toString());
+        damage.setSize(damageSize.getText().toString());
+        mapFragment.saveDamage(damage);
+        manageServiceFragment.getSearchFragment().updateAdapter();
     }
 }

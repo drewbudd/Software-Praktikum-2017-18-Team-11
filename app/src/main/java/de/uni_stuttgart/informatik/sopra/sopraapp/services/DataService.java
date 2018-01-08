@@ -23,6 +23,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.Contract;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
@@ -91,9 +92,7 @@ public class DataService implements IDataService{
     @Override
     public void deleteFieldById(int itemId) {
         allFields.remove(itemId);
-        App.mapService.deleteFieldById(itemId);
+        MapService.getInstance().deleteFieldById(itemId);
         saveFields();
     }
-
-
 }

@@ -39,11 +39,13 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapInitialization;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddDamageDialog;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddFieldDialog;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -231,11 +233,10 @@ public class MapFragment extends Fragment implements
                         break;
                     case START_CREATE_DAMAGE_COORDINATES:
                         currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
-
-
                         FragmentManager fm = getActivity().getFragmentManager();
                         addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage");
                         addDamageDialogFragment.show(fm, "dialog_fragment_add_damage");
+
                         break;
                      /*
                         } else {
@@ -402,8 +403,8 @@ public class MapFragment extends Fragment implements
         MapInitialization initialization = new
                 MapInitialization();
         initialization.loadFields(mapFragment);
-        App.mapService.setMap(this);
-        App.mapService.drawAllFields();
+        MapService.getInstance().setMap(this);
+        MapService.getInstance().drawAllFields();
         mapboxMap.setOnMapClickListener(this);
         mapboxMap.setOnMapClickListener(this);
         mapboxMap.setOnMapClickListener(this);
@@ -449,10 +450,15 @@ public class MapFragment extends Fragment implements
                         newMapObject.setField(fieldFromDamage);
                     }
                 }
-                if (fieldFromDamage.contains(point)) {
-                    newMapObject.addMarker(point);
-                    newMapObject.drawMarker(point);
+                if (fieldFromDamage == null) {
+                    Snackbar.make(getView(), "Marker inside of a field", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    if (fieldFromDamage.contains(point)) {
+                        newMapObject.addMarker(point);
+                        newMapObject.drawMarker(point);
+                    }
                 }
+
                 break;
             case CREATED_DAMAGE_DONE:
                 break;
@@ -539,19 +545,23 @@ public class MapFragment extends Fragment implements
         return mapView;
     }
 
-    public void saveDamage() {
+    public void saveDamage(Damage damage) {
         newMapObject.draw();
+        Damage createdDamage = (Damage)newMapObject;
+        createdDamage.setDamageType(damage.getDamageType());
+        createdDamage.setSize(damage.getSize());
         fieldFromDamage.addDamage((Damage) newMapObject);
         App.dataService.saveFields();
         fieldFromDamage = null;
+
     }
 
-    public AddFieldDialog getAddDamageDialog() {
-        return addFieldDialogFragment;
-    }
-
-    public AddDamageDialog getAddFieldDialog() {
+    public AddDamageDialog getAddDamageDialog() {
         return addDamageDialogFragment;
+    }
+
+    public AddFieldDialog getAddFieldDialog() {
+        return addFieldDialogFragment;
     }
 
     @Override

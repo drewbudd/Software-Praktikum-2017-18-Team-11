@@ -90,14 +90,9 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
         dataService = DataService.getInstance(this);
         configService = ConfigService.getInstance();
-        userService = UserService.getInstance();
-        mapService = MapService.getInstance();
 
         context = getApplicationContext();
 
-
-
-        userService.init();
         // Set up the login form.
         mUsernameView = findViewById(R.id.username);
         populateAutoComplete();
@@ -337,16 +332,16 @@ public class App extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     }
 
     public void startGutachter(View view) {
-        this.mUsernameView.setText(App.userService.getUsers().get(0).getName());
-        this.mPasswordView.setText(App.userService.getUsers().get(0).getPassword());
+        this.mUsernameView.setText(UserService.getInstance().getUsers().get(0).getName());
+        this.mPasswordView.setText(UserService.getInstance().getUsers().get(0).getPassword());
 
         attemptLogin();
 
     }
 
     public void startLandwart(View view) {
-        this.mUsernameView.setText(App.userService.getUsers().get(1).getName());
-        this.mPasswordView.setText(App.userService.getUsers().get(1).getPassword());
+        this.mUsernameView.setText(UserService.getInstance().getUsers().get(1).getName());
+        this.mPasswordView.setText(UserService.getInstance().getUsers().get(1).getPassword());
 
         attemptLogin();
     }
