@@ -7,7 +7,6 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.DamageAdapter;
 
 public class DamageHistoryActivity extends AppCompatActivity {
 
