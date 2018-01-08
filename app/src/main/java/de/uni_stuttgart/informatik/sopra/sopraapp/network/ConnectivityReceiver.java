@@ -34,7 +34,9 @@ public class ConnectivityReceiver
 
         if (connectivityReceiverListener != null) {
             connectivityReceiverListener.onNetworkConnectionChanged(isConnected);
+
         }
+
     }
 
     public static boolean isConnected() {

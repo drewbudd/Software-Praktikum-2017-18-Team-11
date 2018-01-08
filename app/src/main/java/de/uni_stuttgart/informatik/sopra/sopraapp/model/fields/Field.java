@@ -30,6 +30,7 @@ public class Field extends MapObject {
     public Field() {
         damages = new ArrayList<>();
         super.color = Color.GREEN;
+        alphaValue = 0.25f;
     }
 
     @Override

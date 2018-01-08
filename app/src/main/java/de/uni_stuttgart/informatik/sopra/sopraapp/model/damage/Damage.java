@@ -26,8 +26,9 @@ public class Damage extends MapObject{
 
     public Damage() {
         this.currentStatus = DamageEventStatus.CREATED;
-        super.color = Color.GRAY;
+        super.color = Color.RED;
         owner = new User(UserRole.GUTACHTER);
+        alphaValue = 0.5f;
     }
 
     @Override
