@@ -118,8 +118,7 @@ public class SearchFragment extends Fragment {
 
     public void updateAdapter() {
         if (adapter != null) {
-          //  damages.clear();
-            //damages = App.dataService.getDamages();
+            damages.clear();
             adapter.notifyDataSetChanged();
         }
     }
