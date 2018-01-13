@@ -96,7 +96,7 @@ public class SearchFragment extends Fragment {
         adapter = new SearchAdapter(getContext(), damages);
         searchView = rootView.findViewById(R.id.searchView);
         searchView.setActivated(true);
-        searchView.setQueryHint("Search for the owner of the damages");
+        searchView.setQueryHint( getResources().getString( R.string.searchBoxHint));
         searchView.onActionViewExpanded();
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

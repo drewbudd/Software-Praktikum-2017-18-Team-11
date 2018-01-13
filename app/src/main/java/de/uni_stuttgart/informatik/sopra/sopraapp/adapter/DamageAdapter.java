@@ -99,7 +99,7 @@ public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder
                 deleteFieldButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MapActivity.dataService.deleteFieldById(getAdapterPosition());
+                        MapActivity.dataService.deleteFieldByIdWithDamages(getAdapterPosition());
                         notifyItemChanged(getAdapterPosition());
                         notifyItemChanged(getAdapterPosition(), fieldList.size());
                         notifyDataSetChanged();
