@@ -3,6 +3,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 import java.io.IOException;
 import java.util.List;
 
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
@@ -16,6 +17,7 @@ public interface IDataService {
 
     /**
      * adds a new field
+     *
      * @param field
      */
     void addField(Field field);
@@ -28,10 +30,11 @@ public interface IDataService {
     /**
      * saves all Fields to the storage
      */
-    void saveFields ();
+    void saveFields();
 
     /**
      * returns all loaded field
+     *
      * @return
      */
     List<Field> getFields();
@@ -39,18 +42,19 @@ public interface IDataService {
     /**
      * returns all Damages
      * not used at the moment
+     *
      * @return
      */
     List<Damage> getDamages();
 
-    /**
-     * loads all Damages.
-     */
-    void loadDamages();
 
     /**
      * deletes a Field by id.
+     *
      * @param itemId
      */
-    void deleteFieldById(int itemId);
+    void deleteFieldByIdWithDamages(int itemId);
+
+    public List<MapObject> allElements();
+
 }

@@ -45,16 +45,16 @@ public class MapActivity extends AppCompatActivity implements
     public static Context getInstance() {
         return context;
     }
-
+    private ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver();
     @Override
     protected void onStart() {
         super.onStart();
         dataService = DataService.getInstance(this);
         dataService.loadFields();
-        dataService.loadDamages();
 
-        registerReceiver(new ConnectivityReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        setConnectivityListener(this);
+
+       registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+       setConnectivityListener(this);
     }
 
     @Override
@@ -75,6 +75,12 @@ public class MapActivity extends AppCompatActivity implements
 
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+       unregisterReceiver(connectivityReceiver);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,

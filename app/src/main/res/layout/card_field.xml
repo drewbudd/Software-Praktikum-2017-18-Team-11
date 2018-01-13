@@ -32,7 +32,7 @@
                     android:id="@+id/insuredPersonLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Besitzer: " />
+                    android:text="@string/owner" />
 
                 <TextView
                     android:id="@+id/insuredPerson"
@@ -46,7 +46,7 @@
 
                 <TextView
                     android:id="@+id/gutachterLabel"
-                    android:text="Zuständiger Gutachter"
+                    android:text="@string/expert_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
