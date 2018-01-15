@@ -4,24 +4,28 @@ import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.mapbox.mapboxsdk.geometry.LatLngBounds;
+import com.mapbox.mapboxsdk.geometry.ProjectedMeters;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Icon;
@@ -33,6 +37,16 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.offline.OfflineManager;
+import com.mapbox.mapboxsdk.offline.OfflineRegion;
+import com.mapbox.mapboxsdk.offline.OfflineRegionError;
+import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
+import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
+
+import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
+
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +101,7 @@ public class MapFragment extends Fragment implements
     private int foundFieldID = -1;
     private TextView statusText;
 
+    private OfflineRegion[] offlineRegions = new OfflineRegion[10];
 
     public MapFragment() {
         mapFragment = this;
@@ -143,7 +158,6 @@ public class MapFragment extends Fragment implements
         locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mapFragment);
-
 
     }
 
@@ -403,19 +417,29 @@ public class MapFragment extends Fragment implements
     @Override
     public void onMapReady(final MapboxMap mapboxMap) {
         mapboxMapGlobal = mapboxMap;
+        MapService.getInstance().setMap(this);
+        mapboxMap.setOnMapClickListener(this);
+        mapboxMap.setOnMapClickListener(this);
+        mapboxMap.setOnMapClickListener(this);
+
+
         MapInitialization initialization = new
                 MapInitialization();
         initialization.loadFields(mapFragment);
-        MapService.getInstance().setMap(this);
-        MapService.getInstance().drawAllFields();
-        mapboxMap.setOnMapClickListener(this);
-        mapboxMap.setOnMapClickListener(this);
-        mapboxMap.setOnMapClickListener(this);
+       //  MapService.getInstance().drawAllFields();
+
+
+
 
          /* Campus coordinates*/
         mapboxMap.setCameraPosition(new CameraPosition.Builder()
                 .target(new LatLng(48.74641, 9.10623))
                 .zoom(15).build());
+
+
+
+     //   downloadMap();
+
     }
 
     private void uploadMapForOfflineMode() {
@@ -427,6 +451,8 @@ public class MapFragment extends Fragment implements
 
 
     }
+
+
 
     @Override
     public void onMapClick(@NonNull LatLng point) {
@@ -536,6 +562,8 @@ public class MapFragment extends Fragment implements
         mapView.addOnMapChangedListener(this);
 
         mapView.getMapAsync(this);
+
+
     }
 
     public MapboxMap getMapBox() {
@@ -570,6 +598,8 @@ public class MapFragment extends Fragment implements
     public void onStart() {
         super.onStart();
         mapView.onStart();
+
+
     }
 
     @Override
@@ -623,6 +653,92 @@ public class MapFragment extends Fragment implements
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void downloadMap() {
+        String TAG = "Map";
+        OfflineManager offlineManager = OfflineManager.getInstance(getActivity());
+
+        LatLngBounds latLngBounds = new LatLngBounds.Builder()
+                .include(new LatLng(48.74241, 9.10623))
+                .include(new LatLng(48.74245, 9.10633))
+
+                .build();
+        mapboxMapGlobal.setStyle("Light");
+        OfflineTilePyramidRegionDefinition definition = new
+                OfflineTilePyramidRegionDefinition(
+                mapboxMapGlobal.getStyleUrl(),
+                latLngBounds,
+                10,
+                20,
+                getActivity().getResources().getDisplayMetrics().density);
+
+        // Implementation that uses JSON to store Yosemite National Park as the offline region name.
+        byte[] metadata;
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("REGION", "Yosemite National Park");
+            String json = jsonObject.toString();
+            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor prefEditor = sharedPref.edit();
+            prefEditor.putString("map", json);
+            prefEditor.apply();
+            metadata = json.getBytes();
+        } catch (Exception exception) {
+            Log.e(TAG, "Failed to encode metadata: " + exception.getMessage());
+            metadata = null;
+        }
+
+        // Create the region asynchronously
+        offlineManager.createOfflineRegion(definition, metadata,
+                new OfflineManager.CreateOfflineRegionCallback() {
+                    @Override
+                    public void onCreate(final OfflineRegion offlineRegion) {
+                        offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE);
+
+                        // Monitor the download progress using setObserver
+                        offlineRegion.setObserver(new OfflineRegion.OfflineRegionObserver() {
+                            @Override
+                            public void onStatusChanged(OfflineRegionStatus status) {
+
+                                // Calculate the download percentage
+                                double percentage = status.getRequiredResourceCount() >= 0
+                                        ? (100.0 * status.getCompletedResourceCount() / status.getRequiredResourceCount()) :
+                                        0.0;
+                                Snackbar.make(mapFragment.getView(), percentage+"", Snackbar.LENGTH_LONG).show();
+
+                                if (status.isComplete()) {
+                                    offlineRegions[0] = offlineRegion;
+                                    // TODO: save to file and load
+                                    Snackbar.make(mapFragment.getView(), "Download done", Snackbar.LENGTH_LONG).show();
+                                    Log.d(TAG, "Region downloaded successfully.");
+                                } else if (status.isRequiredResourceCountPrecise()) {
+                                    Log.d(TAG, "");
+                                }
+                            }
+
+                            @Override
+                            public void onError(OfflineRegionError error) {
+                                // If an error occurs, print to logcat
+                                Log.e(TAG, "onError reason: " + error.getReason());
+                                Log.e(TAG, "onError message: " + error.getMessage());
+                            }
+
+                            @Override
+                            public void mapboxTileCountLimitExceeded(long limit) {
+                                // Notify if offline region exceeds maximum tile count
+                                Log.e(TAG, "Mapbox tile count limit exceeded: " + limit);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.e(TAG, "Error: " + error);
+                    }
+                });
+
+
     }
 
 }

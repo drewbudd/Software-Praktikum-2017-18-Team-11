@@ -6,8 +6,10 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 
 import java.util.List;
 
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapFragment;
 
@@ -44,9 +46,11 @@ public class MapService {
      * @return
      */
     public static Field findCurrentField(LatLng markerPosition){
-        for(Field field : MapActivity.dataService.getFields()){
-            if(field.contains(markerPosition)){
-                return field;
+        for(MapObject mapObject : MapActivity.dataService.allElements()){
+            if(mapObject instanceof Field) {
+                if (mapObject.contains(markerPosition)) {
+                    return (Field) mapObject;
+                }
             }
         }
        return null;
@@ -56,14 +60,9 @@ public class MapService {
      * draws all Fields on the map
      */
     public void drawAllFields(){
-        List<Field> allFields = MapActivity.dataService.getFields();
-        for(Field field : allFields){
-            field.setContext(mapboxMap,mapView);
-            field.draw();
-        }
-        for(Damage damage : MapActivity.dataService.getDamages()){
-            damage.setContext(mapboxMap,mapView);
-            damage.draw();
+        for(MapObject mapObject : MapActivity.dataService.allElements()){
+            mapObject.setContext(mapboxMap,mapView);
+            mapObject.draw();
         }
         mapView.refreshDrawableState();
 
@@ -73,8 +72,7 @@ public class MapService {
      * deletes a field by id
      * @param id
      */
-    public void deleteFieldById(int id){
-        int idd = id;
+    public void deletePolygonById(int id){
         mapboxMap.removePolygon(mapboxMap.getPolygons().get(id));
         mapView.refreshDrawableState();
     }

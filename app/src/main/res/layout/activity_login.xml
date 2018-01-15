@@ -64,12 +64,12 @@
             </android.support.design.widget.TextInputLayout>
 
                 <Button
-                    android:text="Landwirt Login"
+                    android:text="@string/lanwirt_login"
                     android:onClick="startLandwart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <Button
-                    android:text="Gutachter Login"
+                    android:text="@string/gutachter_login"
                     android:onClick="startGutachter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

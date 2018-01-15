@@ -45,5 +45,10 @@
     <string name="modeStatus">Offline</string>
     <string name="offlineStatusText">You are offline</string>
     <string name="onlineStatusText">You are online</string>
+    <string name="lanwirt_login">Farmer Login</string>
+    <string name="gutachter_login">Expert Login</string>
+    <string name="searchBoxHint">Search for the owner or type of the damages</string>
+    <string name="owner">Owner:</string>
+    <string name="expert_text">Belonging Expert:</string>
 
 </resources>
