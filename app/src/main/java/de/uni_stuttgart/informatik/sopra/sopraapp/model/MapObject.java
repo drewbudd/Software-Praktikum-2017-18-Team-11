@@ -173,6 +173,7 @@ public abstract class MapObject implements IMapObject{
         return true;
     }
 
+
     /**
      * updates this element
      * @param updatedField
@@ -204,6 +205,84 @@ public abstract class MapObject implements IMapObject{
 
     @Override
     public abstract boolean addMarker(LatLng point);
+
+    // checks to see if point q is co-linear to p and r, helper function for addMarker
+    private boolean onSegment(LatLng p, LatLng q, LatLng r) {
+        if ((q.getLatitude() <= Math.max(p.getLatitude(), r.getLatitude())) && (q.getLatitude() <= Math.min(p.getLatitude(), r.getLatitude())) &&
+                (q.getLongitude() <= Math.max(p.getLongitude(), r.getLongitude())) && (q.getLongitude() <= Math.min(p.getLongitude(), r.getLongitude()))) {
+            return true;
+        }
+        return false;
+    }
+
+    // checks the orientation of three points, helper function for addMarker
+    private int orientation(LatLng p, LatLng q, LatLng r) {
+        double val = ((q.getLongitude() - p.getLongitude()) * (r.getLatitude() - q.getLatitude())) -
+                     ((q.getLatitude() - p.getLatitude()) * (r.getLongitude() - q.getLongitude()));
+
+        /*if (Math.round(val * 1000) == 0) {
+            return 0; // co-linear
+        }*/
+
+        if (val > 0) {
+            return 1; // clockwise
+        } else {
+            return 2; // counter-clockwise
+        }
+    }
+
+    private boolean checkIntersection(LatLng p1, LatLng q1, LatLng p2, LatLng q2) {
+        // get orientations
+        int o1 = orientation(p1, q1, p2);
+        int o2 = orientation(p1, q1, q2);
+        int o3 = orientation(p2, q2, p1);
+        int o4 = orientation(p2, q2, q1);
+
+        // check simple case
+        if (o1 != o2 && o3 != o4) {
+            return true;
+        }
+
+        // check special cases (co-linear)
+        // p1, q1 and p2 are co-linear and p2 lies on segment p1q1
+        if (o1 == 0 && onSegment(p1, p2, q1)) { return true; }
+
+        // p1, q1 and q2 are co-linear and q2 lies on segment p1q1
+        if (o2 == 0 && onSegment(p1, q2, q1)) { return true; }
+
+        // p2, q2 and p1 are co-linear and p1 lies on segment p2q2
+        if (o3 == 0 && onSegment(p2, p1, q2)) { return true; }
+
+        // p2, q2 and q1 are co-linear and q1 lies on segment p2q2
+        if (o4 == 0 && onSegment(p2, q1, q2)) { return true; }
+
+        // no intersection
+        return false;
+    }
+
+    protected void checkAndReorder(LatLng point) {
+        for (int i = 1; i < markerPosition.size() - 1; i++) {
+            if (checkIntersection(markerPosition.get(0), point, markerPosition.get(i-1), markerPosition.get(i))) {
+                //markerPosition.remove(point);
+                LatLng temp = point;
+                for (int j = i; j < markerPosition.size(); j++) {
+                    temp = markerPosition.set(j, temp);
+                }
+                //markerPosition.add(temp);
+                break;
+            }
+
+            if (checkIntersection(markerPosition.get(markerPosition.size() - 2), point, markerPosition.get(i-1), markerPosition.get(i))) {
+                //markerPosition.remove(point);
+                LatLng temp = point;
+                for (int j = i; j < markerPosition.size(); j++) {
+                    temp = markerPosition.set(j, temp);
+                }
+                //markerPosition.add(temp);
+                break;
+            }
+        }
+    }
 
     @Override
     public boolean isDrawReady(){

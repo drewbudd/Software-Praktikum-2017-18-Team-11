@@ -68,6 +68,8 @@ public class Field extends MapObject {
         if (!contains(point)) {
             markerPosition.add(point);
 
+            checkAndReorder(point);
+
             for (LatLng latLng : markerPosition) {
                 double lat = latLng.getLatitude();
                 double lng = latLng.getLongitude();
@@ -92,6 +94,8 @@ public class Field extends MapObject {
         }
         return false;
     }
+
+
 
     @Override
     public void setField(Field fieldFromDamage) {
