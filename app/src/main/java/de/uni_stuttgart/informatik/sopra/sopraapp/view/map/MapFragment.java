@@ -292,9 +292,9 @@ public class MapFragment extends Fragment implements
         return rootView;
     }
 
-    public void saveField() {
+    public void saveField(Field field) {
         newMapObject.draw();
-        MapActivity.dataService.addField((Field) newMapObject);
+        MapActivity.dataService.addField((Field)newMapObject);
         MapActivity.dataService.saveFields();
         currentMapEditingStatus = MapEditingStatus.DEFAULT;
         damagesFAB.animate().alpha(1.0f).setDuration(100);
