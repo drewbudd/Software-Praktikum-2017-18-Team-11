@@ -195,7 +195,7 @@ public class MapFragment extends Fragment implements
                             break;
                     }
                 } else {
-                    Snackbar.make(rootView, "No GPS connection", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(rootView, R.string.error_no_gps_connection, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -221,7 +221,7 @@ public class MapFragment extends Fragment implements
                         break;
                     case START_CREATE_FIELD_COORDINATES:
                         FragmentManager fm = getActivity().getFragmentManager();
-                        addFieldDialogFragment = AddFieldDialog.newInstance("Add Field");
+                        addFieldDialogFragment = AddFieldDialog.newInstance("Add Field", newMapObject.calculateArea());
                         addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
                         break;
                 }
@@ -235,14 +235,14 @@ public class MapFragment extends Fragment implements
                 switch (currentMapEditingStatus) {
                     case DEFAULT:
                         currentMapEditingStatus = MapEditingStatus.START_CREATE_DAMAGE_COORDINATES;
-                        Snackbar.make(getView(), "Create a damage within a field", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getView(), R.string.message_create_damage, Snackbar.LENGTH_SHORT).show();
                         newMapObject = new Damage();
                         newMapObject.setContext(mapboxMapGlobal, mapView);
                         disableFieldsFAB();
                         disableSettingsFAB();
                         disableMenuFAB();
                         showAndEnableGPSButton(fabGPS, fabGPSLabel);
-                        label.setText("Finish adding points");
+                        label.setText(R.string.fab_finish_adding);
 
 
                         break;
@@ -295,7 +295,7 @@ public class MapFragment extends Fragment implements
         menuFAB.animate().alpha(1.0f).setDuration(100);
         menuFAB.setEnabled(true);
         TextView label = rootView.findViewById(R.id.field_button_label);
-        label.setText("Add field");
+        label.setText(R.string.fab_add_field);
         getAddFieldDialog().dismiss();
     }
 
@@ -309,8 +309,8 @@ public class MapFragment extends Fragment implements
         menuFAB.animate().alpha(0.3f).setDuration(100);
         menuFAB.setEnabled(false);
         TextView label = rootView.findViewById(R.id.field_button_label);
-        label.setText("Finish adding points");
-        Snackbar.make(getView(), "Add Marker", Snackbar.LENGTH_SHORT).show();
+        label.setText(R.string.fab_finish_adding);
+        Snackbar.make(getView(), R.string.notify_add_marker, Snackbar.LENGTH_SHORT).show();
     }
 
     private void disableDamagesFAB() {
@@ -461,7 +461,7 @@ public class MapFragment extends Fragment implements
                     newMapObject.drawMarker(point);
                     this.displayingMarkerOptions.add(marker);
                 } else {
-                    Snackbar.make(getView(), "Marker outside of a field", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), R.string.notify_outside_of_other_fields, Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case END_CREATE_FIELD_COORDINATES:
@@ -476,7 +476,7 @@ public class MapFragment extends Fragment implements
                     }
                 }
                 if (fieldFromDamage == null) {
-                    Snackbar.make(getView(), "Marker inside of a field", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), R.string.notify_inside_of_field, Snackbar.LENGTH_SHORT).show();
                 } else {
                     if (fieldFromDamage.contains(point)) {
                         newMapObject.addMarker(point);
@@ -652,7 +652,7 @@ public class MapFragment extends Fragment implements
     }
 
     private void downloadMap() {
-        String TAG = "Map";
+        final String TAG = "Map";
         OfflineManager offlineManager = OfflineManager.getInstance(getActivity());
 
         LatLngBounds latLngBounds = new LatLngBounds.Builder()
