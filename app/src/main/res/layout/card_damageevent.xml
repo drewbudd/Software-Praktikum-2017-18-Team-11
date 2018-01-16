@@ -1,55 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dEventCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
-    app:contentPadding="2dp"
-    tools:layout_marginTop="8dp"
     android:minHeight="100dp"
-    android:id="@+id/dEventCard">
+    android:orientation="vertical"
+    app:contentPadding="2dp"
+    tools:layout_marginTop="8dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:layout_marginTop="2dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/insuredPerson"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/card_damage_type" />
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-                <ImageButton
-                    android:id="@+id/deleteDamageButton"
+                android:layout_height="wrap_content"
+                android:gravity="bottom|start">
+
+                <TextView
+                    android:id="@+id/card_damage_typeView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_delete"
-                    />
-                <ImageButton
-                    android:id="@+id/infoDamageButton"
+                    android:text="@string/card_damage_typeView" />
+
+                <TextView
+                    android:id="@+id/card_damage_type"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_info_details"
-                    />
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="top|left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/insuredPersonView" />
+
+                <TextView
+                    android:id="@+id/insuredPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end">
+
+            <ImageButton
+                android:id="@+id/deleteDamageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_delete" />
+
+            <ImageButton
+                android:id="@+id/infoDamageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_info_details" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </android.support.v7.widget.CardView>

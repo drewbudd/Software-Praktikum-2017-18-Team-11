@@ -53,6 +53,7 @@ public class MapActivity extends AppCompatActivity implements
         super.onStart();
         dataService = DataService.getInstance(this);
         dataService.loadFields();
+        dataService.loadDamages();
 
 
        registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));

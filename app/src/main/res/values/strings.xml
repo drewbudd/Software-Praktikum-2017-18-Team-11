@@ -154,5 +154,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="takePhoto">Shoot a photo</string>
+    <string name="insuredPersonView">Owner</string>
+    <string name="card_damage_typeView">Type</string>
 
 </resources>

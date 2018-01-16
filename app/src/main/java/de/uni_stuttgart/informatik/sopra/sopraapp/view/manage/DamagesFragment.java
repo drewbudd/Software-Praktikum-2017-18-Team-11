@@ -16,6 +16,7 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.DamageAdapter;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
@@ -83,7 +84,7 @@ public class DamagesFragment extends Fragment {
         recycler = rootView.findViewById(R.id.recycler_fieldsview);
         fields = new ArrayList<>();
 
-        for (Damage damage : MapActivity.dataService.getDamages()) {
+        for (Damage damage : DataService.getInstance(rootView.getContext()).getDamages()) {
             fields.add(damage);
         }
         adapter = new DamageAdapter(getContext(), fields);
