@@ -31,7 +31,7 @@ public class LoginController {
      */
     public void login() {
 
-        UserService.getInstance().setCurrentUser(currentLoggingUser);
+        UserService.getInstance(LoginActivity.getCurrentContext()).setCurrentUser(currentLoggingUser);
         Intent loggedInActivity = new Intent(parentActivity, MapActivity.class);
         parentActivity.startActivity(loggedInActivity);
 
@@ -47,8 +47,8 @@ public class LoginController {
      * @return
      */
     public boolean checkLoginData(User loggingInUser){
-        if (UserService.getInstance().loginUser(loggingInUser)) {
-            this.currentLoggingUser = UserService.getInstance().getCurrentUser();
+        if (UserService.getInstance(LoginActivity.getCurrentContext()).loginUser(loggingInUser)) {
+            this.currentLoggingUser = UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser();
             return true;
         }
         return  false;

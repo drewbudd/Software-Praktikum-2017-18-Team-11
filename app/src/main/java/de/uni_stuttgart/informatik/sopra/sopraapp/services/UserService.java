@@ -1,10 +1,14 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 
-import android.os.Debug;
+import android.content.Context;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.uni_stuttgart.informatik.sopra.sopraapp.Helpers;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
 
@@ -18,17 +22,19 @@ public class UserService implements IUserService {
     private List<User> allUsers = new ArrayList<>();
     public  static UserService instance = null;
     private User currentUser = null;
+    private Context context;
 
-    public static UserService getInstance() {
+    public static UserService getInstance(Context context) {
         if (instance == null) {
-            instance = new UserService();
+            context = context;
+            instance = new UserService(context);
         }
         return instance;
     }
 
-    private UserService(){
+    private UserService(Context context){
+        this.context = context.getApplicationContext();
         loadStubUser();
-
     }
     @Override
     public void loadStubUser() {
@@ -45,13 +51,25 @@ public class UserService implements IUserService {
 
     @Override
     public void saveUser(User user) {
+        this.allUsers.add(user);
+        saveUsers();
+    }
 
+    public void loadUsers(){
+        Gson gson = new Gson();
+        List<User> fields = gson.fromJson(Helpers.loadUsersFromStorage(), new TypeToken<List<User>>() {
+        }.getType());
+        if (fields != null) {
+            allUsers.addAll(fields);
+        }
+    }
+
+    public void saveUsers() {
+        Helpers.saveUsers(context, allUsers);
     }
 
     @Override
     public List<User> getUsers() {
-
-
         return this.allUsers;
     }
 

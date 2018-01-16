@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="de.uni_stuttgart.informatik.sopra.sopraapp.view.RegisterActivity"
+    tools:showIn="@layout/activity_register"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/Registerusername"
+        android:hint="@string/RegisterUsernameHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/password"
+        android:hint="@string/RegisterUsernameHint"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Spinner
+        android:id="@+id/userRole"
+        android:entries="@array/userRoles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Spinner>
+
+
+
+</LinearLayout>

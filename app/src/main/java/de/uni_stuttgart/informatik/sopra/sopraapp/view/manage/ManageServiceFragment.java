@@ -29,6 +29,7 @@ public class ManageServiceFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     SearchFragment searchFragment;
     FieldsFragment fieldFragment;
+    DamagesFragment damagesFragment;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -70,6 +71,8 @@ public class ManageServiceFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_manage, container, false);
         searchFragment = new SearchFragment();
         fieldFragment = new FieldsFragment();
+        damagesFragment = new DamagesFragment();
+
         tabLayout = rootView.findViewById(R.id.tab_layout);
         fieldFragment.updateAdapter();
 
@@ -84,7 +87,9 @@ public class ManageServiceFragment extends Fragment {
                         fieldFragment.updateAdapter();
                         break;
                     case 1:
-                        replaceFragment(new DamagesFragment());
+                        replaceFragment(damagesFragment);
+                        damagesFragment.updateAdapter();
+
                         break;
                     case 2:
                         replaceFragment(new ContractsFragment());

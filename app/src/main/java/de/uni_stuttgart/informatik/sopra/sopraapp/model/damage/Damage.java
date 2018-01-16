@@ -4,6 +4,9 @@ import android.graphics.Color;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
@@ -21,6 +24,7 @@ public class Damage extends MapObject{
     private DamageEventStatus currentStatus = DamageEventStatus.CREATED;
     private User owner;
     private transient Field field;
+    private List<Integer> fieldIds = new ArrayList<>();
     String damageType ="";
     String size;
 
@@ -107,5 +111,17 @@ public class Damage extends MapObject{
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    public List<Integer> getFieldIds() {
+        return fieldIds;
+    }
+
+    public void setFieldIds(List<Integer> fieldIds) {
+        this.fieldIds = fieldIds;
+    }
+
+    public void addFieldId(int id){
+        this.fieldIds.add(id);
     }
 }

@@ -122,16 +122,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 results.count = filterList.size();
                 results.values = filterList;
             } else {
-                int count =0;
-                List<Damage> damages = new ArrayList<>();
-                for(Field field : MapActivity.dataService.getFields()){
-                    for(Damage damage : field.getDamages()){
-                        count++;
-                        damages.add(damage);
-                    }
-                }
-
-                results.count =  count;
+                List<Damage> damages = MapActivity.dataService.getDamages();
+                results.count =  damages.size();
                 results.values = damages;
             }
             return results;
