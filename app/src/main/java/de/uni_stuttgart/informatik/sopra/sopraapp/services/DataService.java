@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.Helpers;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
@@ -55,15 +56,34 @@ public class DataService implements IDataService {
     @Override
     public void loadFields() {
         Gson gson = new Gson();
-        fields = gson.fromJson(Helpers.loadFieldsFromStorage(), new TypeToken<List<Field>>() {
+        List<Field> fields = gson.fromJson(Helpers.loadFieldsFromStorage(), new TypeToken<List<Field>>() {
         }.getType());
+
+        if(fields != null) {
+            this.fields = fields;
+        }
     }
 
     @Override
     public void loadDamages() {
+
+
+
         Gson gson = new Gson();
-        damages = gson.fromJson(Helpers.loadDamagesFromStorage(), new TypeToken<List<Damage>>() {
+        List<Damage> damages = gson.fromJson(Helpers.loadDamagesFromStorage(), new TypeToken<List<Damage>>() {
         }.getType());
+
+        if(damages != null){
+            this.damages = damages;
+        }
+
+
+        Damage damage = new Damage();
+
+        damage.setDamageType("TestType");
+        damage.setOwner(new User("bla", "blaaa"));
+
+        this.damages.add(damage);
     }
 
 
