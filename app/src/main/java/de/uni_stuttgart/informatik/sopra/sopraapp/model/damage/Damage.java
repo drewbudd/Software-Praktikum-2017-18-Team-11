@@ -74,6 +74,8 @@ public class Damage extends MapObject{
         if (field.contains(point)) {
             markerPosition.add(point);
 
+            checkAndReorder(point);
+
             for (LatLng latLng : markerPosition) {
                 double lat = latLng.getLatitude();
                 double lng = latLng.getLongitude();

@@ -46,6 +46,42 @@ public class Field extends MapObject {
         this.fieldType = fieldType;
     }
 
+
+    @Override
+    public boolean addMarker(LatLng point) {
+
+        if (!contains(point)) {
+            markerPosition.add(point);
+
+            checkAndReorder(point);
+
+            for (LatLng latLng : markerPosition) {
+                double lat = latLng.getLatitude();
+                double lng = latLng.getLongitude();
+
+                if (lat < minLat) {
+                    minLat = lat;
+                }
+
+                if (lat > maxLat) {
+                    maxLat = lat;
+                }
+
+                if (lng < minLng) {
+                    minLng = lng;
+                }
+
+                if (lng > maxLng) {
+                    maxLng = lng;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+
     @Override
     public void setField(Field fieldFromDamage) {
 

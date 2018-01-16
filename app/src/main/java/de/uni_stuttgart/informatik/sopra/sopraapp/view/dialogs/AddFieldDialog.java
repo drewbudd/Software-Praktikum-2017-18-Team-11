@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 
@@ -22,10 +23,11 @@ public class AddFieldDialog extends DialogFragment {
         // required empty constructor
     }
 
-    public static AddFieldDialog newInstance(String title) {
+    public static AddFieldDialog newInstance(String title, double size) {
         AddFieldDialog frag = new AddFieldDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putDouble("size", Math.round(size * 1000)/1000.0);
         frag.setArguments(args);
         return frag;
     }
@@ -42,8 +44,11 @@ public class AddFieldDialog extends DialogFragment {
 
         EditText mEditText = view.findViewById(R.id.text_field_name);
 
-        String title = getArguments().getString("title", "Enter Name");
+        String title = getArguments().getString("title");
         getDialog().setTitle(title);
+
+        TextView sizeText = view.findViewById(R.id.label_field_size);
+        sizeText.setText("" + getArguments().getDouble("size"));
 
         Spinner contract_spinner = view.findViewById(R.id.contract_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),

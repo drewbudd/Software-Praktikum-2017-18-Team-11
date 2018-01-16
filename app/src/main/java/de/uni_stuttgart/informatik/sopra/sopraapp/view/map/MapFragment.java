@@ -134,10 +134,6 @@ public class MapFragment extends Fragment implements
         MapFragment.currentMapEditingStatus = currentMapEditingStatus;
     }
 
-    public static void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
-        ConnectivityReceiver.connectivityReceiverListener = listener;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,7 +200,7 @@ public class MapFragment extends Fragment implements
                             break;
                     }
                 } else {
-                    Snackbar.make(rootView, "No GPS connection", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(rootView, R.string.error_no_gps_connection, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -230,7 +226,7 @@ public class MapFragment extends Fragment implements
                         break;
                     case START_CREATE_FIELD_COORDINATES:
                         FragmentManager fm = getActivity().getFragmentManager();
-                        addFieldDialogFragment = AddFieldDialog.newInstance("Add Field");
+                        addFieldDialogFragment = AddFieldDialog.newInstance("Add Field", newMapObject.calculateArea());
                         addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
                         break;
                 }
@@ -245,7 +241,7 @@ public class MapFragment extends Fragment implements
                 switch (currentMapEditingStatus) {
                     case DEFAULT:
                         currentMapEditingStatus = MapEditingStatus.START_CREATE_DAMAGE_COORDINATES;
-                        Snackbar.make(getView(), "Create a damage within a field", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getView(), R.string.message_create_damage, Snackbar.LENGTH_SHORT).show();
                         newMapObject = new Damage();
                         newMapObject.setContext(mapboxMapGlobal, mapView);
                         disableFieldsFAB();
@@ -253,6 +249,9 @@ public class MapFragment extends Fragment implements
                         disableMenuFAB();
                         showAndEnableGPSButton(fabGPS, fabGPSLabel);
                         label.setText("Finish adding points");
+                        label.setText(R.string.fab_finish_adding);
+
+
                         break;
                     case START_CREATE_DAMAGE_COORDINATES:
                         currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
@@ -305,7 +304,7 @@ public class MapFragment extends Fragment implements
         menuFAB.animate().alpha(1.0f).setDuration(100);
         menuFAB.setEnabled(true);
         TextView label = rootView.findViewById(R.id.field_button_label);
-        label.setText("Add field");
+        label.setText(R.string.fab_add_field);
         getAddFieldDialog().dismiss();
     }
 
@@ -319,8 +318,8 @@ public class MapFragment extends Fragment implements
         menuFAB.animate().alpha(0.3f).setDuration(100);
         menuFAB.setEnabled(false);
         TextView label = rootView.findViewById(R.id.field_button_label);
-        label.setText("Finish adding points");
-        Snackbar.make(getView(), "Add Marker", Snackbar.LENGTH_SHORT).show();
+        label.setText(R.string.fab_finish_adding);
+        Snackbar.make(getView(), R.string.notify_add_marker, Snackbar.LENGTH_SHORT).show();
     }
 
     private void disableDamagesFAB() {
@@ -473,7 +472,7 @@ public class MapFragment extends Fragment implements
                     newMapObject.drawMarker(point);
                     this.displayingMarkerOptions.add(marker);
                 } else {
-                    Snackbar.make(getView(), "Marker outside of a field", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), R.string.notify_outside_of_other_fields, Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case END_CREATE_FIELD_COORDINATES:
@@ -481,15 +480,19 @@ public class MapFragment extends Fragment implements
             case CREATE_FIELD_DONE:
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
-                if(fieldFromDamageID == -1) {
-                    int fieldId = MapService.findCurrentField(point);
-                    if(fieldId !=-1){
-                        newMapObject.addFieldId(fieldId);
-                        return;
-                    }
+                if (fieldFromDamage == null) {
+
 
                 }
                 Snackbar.make(getView(), "Marker outside of a field", Snackbar.LENGTH_SHORT).show();
+                if (fieldFromDamage == null) {
+                    Snackbar.make(getView(), R.string.notify_inside_of_field, Snackbar.LENGTH_SHORT).show();
+                } else {
+                    if (fieldFromDamage.contains(point)) {
+                        newMapObject.addMarker(point);
+                        newMapObject.drawMarker(point);
+                    }
+                }
 
                 break;
             case CREATED_DAMAGE_DONE:
@@ -513,26 +516,24 @@ public class MapFragment extends Fragment implements
         if (this.currentMODE == NewAreaMode.GPS) {
             this.currentBorderPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
         }
-        if (mapboxMapGlobal != null) {
-            mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
+        //mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
 
-            gpsLat = location.getLatitude();
-            gpsLng = location.getLongitude();
+        gpsLat = location.getLatitude();
+        gpsLng = location.getLongitude();
 
-            IconFactory iconFactory = IconFactory.getInstance(rootView.getContext());
-            Icon icon = iconFactory.fromResource(R.drawable.mapbox_mylocation_icon_default);
+        IconFactory iconFactory = IconFactory.getInstance(rootView.getContext());
+        Icon icon = iconFactory.fromResource(R.drawable.mapbox_mylocation_icon_default);
 
-            switch (currentMapEditingStatus) {
-                case START_CREATE_FIELD_COORDINATES:
-                case START_CREATE_DAMAGE_COORDINATES:
-                    if (lastGPSLocation != null) {
-                        mapboxMapGlobal.removeMarker(lastGPSLocation.getMarker());
-                    }
-                    lastGPSLocation = new MarkerOptions().position(new LatLng(gpsLat, gpsLng)).icon(icon);
-                    mapboxMapGlobal.addMarker(lastGPSLocation);
-                    mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
-                    break;
-            }
+        switch (currentMapEditingStatus) {
+            case START_CREATE_FIELD_COORDINATES:
+            case START_CREATE_DAMAGE_COORDINATES:
+                if (lastGPSLocation != null) {
+                    mapboxMapGlobal.removeMarker(lastGPSLocation.getMarker());
+                }
+                lastGPSLocation = new MarkerOptions().position(new LatLng(gpsLat, gpsLng)).icon(icon);
+                mapboxMapGlobal.addMarker(lastGPSLocation);
+                mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
+                break;
         }
 
     }
@@ -565,6 +566,7 @@ public class MapFragment extends Fragment implements
         mapView = getView().findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.addOnMapChangedListener(this);
+
         mapView.getMapAsync(this);
 
 
@@ -610,7 +612,6 @@ public class MapFragment extends Fragment implements
     public void onResume() {
         super.onResume();
         mapView.onResume();
-        mapFragment.setConnectivityListener(this);
         registerLocationListener();
     }
 
@@ -635,7 +636,7 @@ public class MapFragment extends Fragment implements
     }
 
     private void updateNetworkStatus(boolean isConnected) {
-        String status = "";
+        String status ="";
         if (isConnected) {
             status = getResources().getString(R.string.onlineStatusText);
             statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " " + status);
@@ -695,7 +696,7 @@ public class MapFragment extends Fragment implements
                                 double percentage = status.getRequiredResourceCount() >= 0
                                         ? (100.0 * status.getCompletedResourceCount() / status.getRequiredResourceCount()) :
                                         0.0;
-                                Snackbar.make(mapFragment.getView(), percentage + "", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(mapFragment.getView(), percentage+"", Snackbar.LENGTH_LONG).show();
 
                                 if (status.isComplete()) {
                                     offlineRegions[0] = offlineRegion;
@@ -704,9 +705,6 @@ public class MapFragment extends Fragment implements
                                     Log.d(TAG, "Region downloaded successfully.");
                                 } else if (status.isRequiredResourceCountPrecise()) {
                                     Log.d(TAG, "");
-                                    Snackbar.make(mapFragment.getView(), "Error", Snackbar.LENGTH_LONG).show();
-                                } else {
-                                    Snackbar.make(mapFragment.getView(), "Error 2", Snackbar.LENGTH_LONG).show();
                                 }
                             }
 
@@ -715,8 +713,6 @@ public class MapFragment extends Fragment implements
                                 // If an error occurs, print to logcat
                                 Log.e(TAG, "onError reason: " + error.getReason());
                                 Log.e(TAG, "onError message: " + error.getMessage());
-                                Snackbar.make(mapFragment.getView(), "onError", Snackbar.LENGTH_LONG).show();
-
                             }
 
                             @Override

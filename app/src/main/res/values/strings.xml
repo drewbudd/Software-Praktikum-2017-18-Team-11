@@ -50,6 +50,14 @@
     <string name="searchBoxHint">Search for the owner or type of the damages</string>
     <string name="owner">Owner:</string>
     <string name="expert_text">Belonging Expert:</string>
+    <string name="error_no_gps_connection">No GPS connection</string>
+    <string name="message_create_damage">Create a damage within a field</string>
+    <string name="fab_finish_adding">Finish adding points</string>
+    <string name="fab_add_field">Add field</string>
+    <string name="notify_add_marker">Add Marker</string>
+    <string name="notify_outside_of_other_fields">Marker must be outside of other fields</string>
+    <string name="notify_inside_of_field">Marker must be inside of a field</string>
+    <string name="field_size">Field Size</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="RegisterUsernameHint">Choose a username</string>
     <string name="saveUserButton">Save</string>

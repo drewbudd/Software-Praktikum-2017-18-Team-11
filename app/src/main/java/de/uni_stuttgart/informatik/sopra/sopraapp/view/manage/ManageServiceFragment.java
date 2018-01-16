@@ -116,6 +116,11 @@ public class ManageServiceFragment extends Fragment {
                 } else {
                     slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
                 }
+
+                if (tab.getPosition() == 0) {
+                    replaceFragment(fieldFragment);
+                    fieldFragment.updateAdapter();
+                }
             }
         });
 
