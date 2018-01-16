@@ -67,8 +67,6 @@ public class DataService implements IDataService {
     @Override
     public void loadDamages() {
 
-
-
         Gson gson = new Gson();
         List<Damage> damages = gson.fromJson(Helpers.loadDamagesFromStorage(), new TypeToken<List<Damage>>() {
         }.getType());
@@ -77,12 +75,9 @@ public class DataService implements IDataService {
             this.damages = damages;
         }
 
-
         Damage damage = new Damage();
-
         damage.setDamageType("TestType");
         damage.setOwner(new User("bla", "blaaa"));
-
         this.damages.add(damage);
     }
 

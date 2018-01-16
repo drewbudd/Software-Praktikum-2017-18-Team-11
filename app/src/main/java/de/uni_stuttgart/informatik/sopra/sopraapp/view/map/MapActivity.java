@@ -10,12 +10,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.IDataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.DamageDetailActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment;
@@ -148,7 +151,13 @@ public class MapActivity extends AppCompatActivity implements
      * @param view
      */
     public void saveNewField(View view) {
-        mapFragment.saveField();
+        Field field = new Field();
+        field.setOwner(UserService.getInstance(this).getCurrentUser());
+        Spinner fieldType = mapFragment.getAddFieldDialog().getDialog().findViewById(R.id.text_field_type);
+
+        field.setFieldType(fieldType.getSelectedItem().toString());
+
+        mapFragment.saveField(field);
         manageServiceFragment.getFieldFragment().updateAdapter();
     }
 
@@ -159,9 +168,9 @@ public class MapActivity extends AppCompatActivity implements
      */
     public void saveNewDamage(View view) {
         Damage damage = new Damage();
-        EditText damageType = mapFragment.getAddDamageDialog().getDialog().findViewById(R.id.text_damage_typeText);
+        Spinner damageType = mapFragment.getAddDamageDialog().getDialog().findViewById(R.id.text_damage_typeText);
         EditText damageSize = mapFragment.getAddDamageDialog().getDialog().findViewById(R.id.text_damage_size);
-        damage.setDamageType(damageType.getText().toString());
+        damage.setDamageType(damageType.getSelectedItem().toString());
         damage.setSize(damageSize.getText().toString());
         mapFragment.saveDamage(damage);
         manageServiceFragment.getSearchFragment().updateAdapter();
