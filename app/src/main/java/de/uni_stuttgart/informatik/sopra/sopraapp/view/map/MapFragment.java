@@ -24,9 +24,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mapbox.mapboxsdk.geometry.LatLngBounds;
-import com.mapbox.mapboxsdk.geometry.ProjectedMeters;
-
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
@@ -34,6 +31,7 @@ import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
@@ -42,9 +40,6 @@ import com.mapbox.mapboxsdk.offline.OfflineRegion;
 import com.mapbox.mapboxsdk.offline.OfflineRegionError;
 import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
-
-import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
-
 
 import org.json.JSONObject;
 
@@ -56,8 +51,9 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapInitialization;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddDamageDialog;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddFieldDialog;
 
@@ -102,6 +98,7 @@ public class MapFragment extends Fragment implements
     private TextView statusText;
 
     private OfflineRegion[] offlineRegions = new OfflineRegion[10];
+    private int fieldFromDamageID;
 
     public MapFragment() {
         mapFragment = this;
@@ -137,12 +134,21 @@ public class MapFragment extends Fragment implements
         MapFragment.currentMapEditingStatus = currentMapEditingStatus;
     }
 
+    public static void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         askPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION_FINE);
         askPermission(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_LOCATION_COURSE);
+
+
+    }
+
+    private void registerLocationListener() {
 
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -158,7 +164,10 @@ public class MapFragment extends Fragment implements
         locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mapFragment);
+    }
 
+    private void removeLocatonListener() {
+        locationManager.removeUpdates(this);
     }
 
     private void askPermission(java.lang.String accessCoarseLocation, int requestLocationCourse) {
@@ -244,15 +253,12 @@ public class MapFragment extends Fragment implements
                         disableMenuFAB();
                         showAndEnableGPSButton(fabGPS, fabGPSLabel);
                         label.setText("Finish adding points");
-
-
                         break;
                     case START_CREATE_DAMAGE_COORDINATES:
                         currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
                         FragmentManager fm = getActivity().getFragmentManager();
                         addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage");
                         addDamageDialogFragment.show(fm, "dialog_fragment_add_damage");
-
                         break;
                      /*
                         } else {
@@ -423,12 +429,7 @@ public class MapFragment extends Fragment implements
         mapboxMap.setOnMapClickListener(this);
 
 
-        MapInitialization initialization = new
-                MapInitialization();
-        initialization.loadFields(mapFragment);
-       //  MapService.getInstance().drawAllFields();
-
-
+        registerLocationListener();
 
 
          /* Campus coordinates*/
@@ -436,10 +437,19 @@ public class MapFragment extends Fragment implements
                 .target(new LatLng(48.74641, 9.10623))
                 .zoom(15).build());
 
+        AsyncTask.execute(() ->
+        {
+            //  downloadMap();
+        });
 
-
-     //   downloadMap();
-
+        for (Field field : MapActivity.dataService.getFields()) {
+            field.setContext(mapboxMapGlobal, mapView);
+            field.draw();
+        }
+        for (Damage field : MapActivity.dataService.getDamages()) {
+            field.setContext(mapboxMapGlobal, mapView);
+            field.draw();
+        }
     }
 
     private void uploadMapForOfflineMode() {
@@ -451,8 +461,6 @@ public class MapFragment extends Fragment implements
 
 
     }
-
-
 
     @Override
     public void onMapClick(@NonNull LatLng point) {
@@ -473,20 +481,15 @@ public class MapFragment extends Fragment implements
             case CREATE_FIELD_DONE:
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
-                if (fieldFromDamage == null) {
-                    if (MapService.findCurrentField(point) != null) {
-                        fieldFromDamage = MapService.findCurrentField(point);
-                        newMapObject.setField(fieldFromDamage);
+                if(fieldFromDamageID == -1) {
+                    int fieldId = MapService.findCurrentField(point);
+                    if(fieldId !=-1){
+                        newMapObject.addFieldId(fieldId);
+                        return;
                     }
+
                 }
-                if (fieldFromDamage == null) {
-                    Snackbar.make(getView(), "Marker inside of a field", Snackbar.LENGTH_SHORT).show();
-                } else {
-                    if (fieldFromDamage.contains(point)) {
-                        newMapObject.addMarker(point);
-                        newMapObject.drawMarker(point);
-                    }
-                }
+                Snackbar.make(getView(), "Marker outside of a field", Snackbar.LENGTH_SHORT).show();
 
                 break;
             case CREATED_DAMAGE_DONE:
@@ -510,24 +513,26 @@ public class MapFragment extends Fragment implements
         if (this.currentMODE == NewAreaMode.GPS) {
             this.currentBorderPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
         }
-        mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
+        if (mapboxMapGlobal != null) {
+            mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
 
-        gpsLat = location.getLatitude();
-        gpsLng = location.getLongitude();
+            gpsLat = location.getLatitude();
+            gpsLng = location.getLongitude();
 
-        IconFactory iconFactory = IconFactory.getInstance(rootView.getContext());
-        Icon icon = iconFactory.fromResource(R.drawable.mapbox_mylocation_icon_default);
+            IconFactory iconFactory = IconFactory.getInstance(rootView.getContext());
+            Icon icon = iconFactory.fromResource(R.drawable.mapbox_mylocation_icon_default);
 
-        switch (currentMapEditingStatus) {
-            case START_CREATE_FIELD_COORDINATES:
-            case START_CREATE_DAMAGE_COORDINATES:
-                if (lastGPSLocation != null) {
-                    mapboxMapGlobal.removeMarker(lastGPSLocation.getMarker());
-                }
-                lastGPSLocation = new MarkerOptions().position(new LatLng(gpsLat, gpsLng)).icon(icon);
-                mapboxMapGlobal.addMarker(lastGPSLocation);
-                mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
-                break;
+            switch (currentMapEditingStatus) {
+                case START_CREATE_FIELD_COORDINATES:
+                case START_CREATE_DAMAGE_COORDINATES:
+                    if (lastGPSLocation != null) {
+                        mapboxMapGlobal.removeMarker(lastGPSLocation.getMarker());
+                    }
+                    lastGPSLocation = new MarkerOptions().position(new LatLng(gpsLat, gpsLng)).icon(icon);
+                    mapboxMapGlobal.addMarker(lastGPSLocation);
+                    mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
+                    break;
+            }
         }
 
     }
@@ -560,7 +565,6 @@ public class MapFragment extends Fragment implements
         mapView = getView().findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.addOnMapChangedListener(this);
-
         mapView.getMapAsync(this);
 
 
@@ -579,8 +583,8 @@ public class MapFragment extends Fragment implements
         Damage createdDamage = (Damage) newMapObject;
         createdDamage.setDamageType(damage.getDamageType());
         createdDamage.setSize(damage.getSize());
-        fieldFromDamage.addDamage((Damage) newMapObject);
-        MapActivity.dataService.saveFields();
+        createdDamage.setField(fieldFromDamage);
+        MapActivity.dataService.addDamage(createdDamage);
         fieldFromDamage = null;
         addDamageDialogFragment.dismiss();
 
@@ -607,10 +611,7 @@ public class MapFragment extends Fragment implements
         super.onResume();
         mapView.onResume();
         mapFragment.setConnectivityListener(this);
-    }
-
-    public static void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
-        ConnectivityReceiver.connectivityReceiverListener = listener;
+        registerLocationListener();
     }
 
     @Override
@@ -618,6 +619,7 @@ public class MapFragment extends Fragment implements
         super.onPause();
         mapView.onPause();
         MapActivity.dataService.saveFields();
+        //removeLocatonListener();
 
     }
 
@@ -633,26 +635,14 @@ public class MapFragment extends Fragment implements
     }
 
     private void updateNetworkStatus(boolean isConnected) {
+        String status = "";
         if (isConnected) {
-            statusText.setText(R.string.onlineStatusText);
+            status = getResources().getString(R.string.onlineStatusText);
+            statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " " + status);
         } else {
-            statusText.setText(R.string.offlineStatusText);
+            status = getResources().getString(R.string.onlineStatusText);
+            statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " " + status);
         }
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 
     private void downloadMap() {
@@ -705,7 +695,7 @@ public class MapFragment extends Fragment implements
                                 double percentage = status.getRequiredResourceCount() >= 0
                                         ? (100.0 * status.getCompletedResourceCount() / status.getRequiredResourceCount()) :
                                         0.0;
-                                Snackbar.make(mapFragment.getView(), percentage+"", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(mapFragment.getView(), percentage + "", Snackbar.LENGTH_LONG).show();
 
                                 if (status.isComplete()) {
                                     offlineRegions[0] = offlineRegion;
@@ -714,6 +704,9 @@ public class MapFragment extends Fragment implements
                                     Log.d(TAG, "Region downloaded successfully.");
                                 } else if (status.isRequiredResourceCountPrecise()) {
                                     Log.d(TAG, "");
+                                    Snackbar.make(mapFragment.getView(), "Error", Snackbar.LENGTH_LONG).show();
+                                } else {
+                                    Snackbar.make(mapFragment.getView(), "Error 2", Snackbar.LENGTH_LONG).show();
                                 }
                             }
 
@@ -722,6 +715,8 @@ public class MapFragment extends Fragment implements
                                 // If an error occurs, print to logcat
                                 Log.e(TAG, "onError reason: " + error.getReason());
                                 Log.e(TAG, "onError message: " + error.getMessage());
+                                Snackbar.make(mapFragment.getView(), "onError", Snackbar.LENGTH_LONG).show();
+
                             }
 
                             @Override
@@ -738,7 +733,21 @@ public class MapFragment extends Fragment implements
                     }
                 });
 
+    }
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
 }

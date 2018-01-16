@@ -22,15 +22,23 @@ public interface IDataService {
      */
     void addField(Field field);
 
+
+    void addDamage(Damage damage);
+
     /**
      * loads all fields from the storage
      */
     void loadFields();
 
+
+    void loadDamages();
+
     /**
      * saves all Fields to the storage
      */
     void saveFields();
+
+    void saveDamages();
 
     /**
      * returns all loaded field
@@ -47,14 +55,13 @@ public interface IDataService {
      */
     List<Damage> getDamages();
 
+    void deleteField(int fieldId);
 
-    /**
-     * deletes a Field by id.
-     *
-     * @param itemId
-     */
-    void deleteFieldByIdWithDamages(int itemId);
+    void deleteDamage(int itemId);
 
-    public List<MapObject> allElements();
+    void setDetailDamage(Damage damage);
 
+    Damage getDetailDamage();
+
+    void setFields(List<Field> fields);
 }

@@ -1,23 +1,8 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService;
 
-import android.content.Context;
-import android.os.Environment;
-import android.util.Log;
-
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-
-import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
@@ -25,9 +10,8 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 /**
  * @author Stefan Zindl
  * @since 2017/12/10
- *
+ * <p>
  * Initilizes/ draws the map with the saved fields and damages
- *
  */
 
 public class MapInitialization {
@@ -39,8 +23,12 @@ public class MapInitialization {
         mapboxMap = mapFragment.getMapBox();
         mapView = mapFragment.getMapView();
 
-        for(MapObject mapObject : MapActivity.dataService.allElements()){
-            mapObject.setContext(mapboxMap,mapView);
+        for (Field mapObject : MapActivity.dataService.getFields()) {
+            mapObject.setContext(mapboxMap, mapView);
+            mapObject.draw();
+        }
+        for (Damage mapObject : MapActivity.dataService.getDamages()) {
+            mapObject.setContext(mapboxMap, mapView);
             mapObject.draw();
         }
     }

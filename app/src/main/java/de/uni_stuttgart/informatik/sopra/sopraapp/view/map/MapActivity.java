@@ -1,6 +1,7 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -15,6 +16,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.IDataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.DamageDetailActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.DamagesFragment;
@@ -175,5 +177,9 @@ public class MapActivity extends AppCompatActivity implements
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         String x = "";
+    }
+
+    public void openInfos(View view) {
+
     }
 }

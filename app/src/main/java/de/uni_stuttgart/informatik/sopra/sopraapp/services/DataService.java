@@ -1,16 +1,15 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.Helpers;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
@@ -25,90 +24,100 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService
 public class DataService implements IDataService {
 
     public static DataService instance = null;
-    private List<Field> allFields = new ArrayList<>();
+    private List<Field> fields = new ArrayList<>();
     private List<Damage> damages = new ArrayList<>();
     private Context context;
-    private List<MapObject> allElements = new ArrayList<>();
+    private Damage detailDamage;
 
     private DataService(Context context) {
         this.context = context.getApplicationContext();
-
     }
 
-    public static DataService getInstance(Activity activity) {
+    public static DataService getInstance(Context activity) {
         if (instance == null) {
             instance = new DataService(activity.getApplicationContext());
+
+
         }
         return instance;
     }
 
     @Override
     public void addField(Field field) {
-        this.allElements.add(field);
+        this.fields.add(field);
+    }
+
+    @Override
+    public void addDamage(Damage damage) {
+        this.damages.add(damage);
     }
 
     @Override
     public void loadFields() {
-
         Gson gson = new Gson();
-        List<Field> fields = gson.fromJson(Helpers.loadFieldsFromStorage(), new TypeToken<List<Field>>() {
+        fields = gson.fromJson(Helpers.loadFieldsFromStorage(), new TypeToken<List<Field>>() {
         }.getType());
-        if (fields != null) {
-            for(Field field : fields){
-                allElements.add(field);
-                for(Damage damage : field.getDamages()){
-                    allElements.add(damage);
-                }
-            }
-        }
-
-       updateFieldDamage();
-    }
-
-    private void updateFieldDamage(){
-        allFields.clear();
-        damages.clear();
-        for(MapObject mapObject: allElements){
-            if(mapObject instanceof Field){
-                allFields.add((Field)mapObject);
-            }
-            else{
-                damages.add((Damage)mapObject);
-            }
-        }
     }
 
     @Override
+    public void loadDamages() {
+        Gson gson = new Gson();
+        damages = gson.fromJson(Helpers.loadDamagesFromStorage(), new TypeToken<List<Damage>>() {
+        }.getType());
+    }
+
+
+    @Override
     public void saveFields() {
-        updateFieldDamage();
-        int size = allFields.size();
-        Helpers.saveAllFieldsToStorage(context, allFields);
+        Helpers.saveAllFieldsToStorage(context, fields);
+    }
+
+    @Override
+    public void saveDamages() {
+        Helpers.saveDamages(context, damages);
     }
 
     @Override
     public List<Field> getFields() {
-        return allFields;
+        return fields;
     }
 
+    @Override
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
+    }
+
+    @Override
     public List<Damage> getDamages() {
         return damages;
     }
 
     @Override
-    public void deleteFieldByIdWithDamages(int itemId) {
-        Field field =(Field) allElements.get(itemId);
-        for(Damage damage : field.getDamages()){
-            MapService.getInstance().deletePolygonById(allElements.indexOf(damage));
-            allElements.remove(damage);
+    public void deleteField(int fieldId) {
+        for (Damage damage : this.damages) {
+            damage.getFieldIds().remove(fieldId);
         }
-        allElements.remove(itemId);
-        MapService.getInstance().deletePolygonById(itemId);
-        updateFieldDamage();
+        MapService.getInstance().deletePolygonById(fields.get(fieldId));
+        fields.remove(fieldId);
         saveFields();
     }
 
     @Override
-    public List<MapObject> allElements() {
-        return allElements;
+    public void deleteDamage(int damageId) {
+        MapService.getInstance().deletePolygonById(damages.get(damageId));
+        this.damages.remove(damageId);
+        saveDamages();
+    }
+
+    @Override
+    public Damage getDetailDamage() {
+        return detailDamage;
+    }
+
+    @Override
+    public void setDetailDamage(Damage damage) {
+        if (damage != null) {
+            this.detailDamage = damage;
+        }
     }
 }

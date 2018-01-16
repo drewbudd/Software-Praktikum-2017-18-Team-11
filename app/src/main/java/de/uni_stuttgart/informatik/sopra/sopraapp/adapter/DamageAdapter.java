@@ -1,6 +1,7 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.DamageDetailActivity;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
@@ -29,12 +32,12 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder> {
 
 
-    private List<Field> fieldList;
-    private List<Field> filterdList;
+    private List<Damage> fieldList;
+    private List<Damage> filterdList;
     private List<ViewHolder> views = new ArrayList<>();
     private Context context;
 
-    public DamageAdapter(Context context, List<Field> events) {
+    public DamageAdapter(Context context, List<Damage> events) {
         this.fieldList = events;
         this.context = context;
         filterdList = events;
@@ -43,7 +46,7 @@ public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_field, parent, false);
+                .inflate(R.layout.card_damageevent, parent, false);
 
         ViewHolder vh = new ViewHolder(v);
         views.add(vh);
@@ -53,22 +56,18 @@ public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(DamageAdapter.ViewHolder holder, int position) {
-        Field event = fieldList.get(position);
+        Damage event = fieldList.get(position);
         String insuranceHolder;
 
         holder.associatedField = event;
 
-        if (event.getFieldType() != null) {
+        if (event.getDamageType() != null) {
 
-            holder.fieldType.setText(event.getFieldType());
+            holder.damageType.setText(event.getDamageType());
         }
         if (event.getOwner() != null) {
             holder.inscuredPerson.setText(event.getOwner().getName());
         }
-        if (event.getGutachter() != null) {
-            holder.gutachter.setText(event.getGutachter().getName());
-        }
-
     }
 
     @Override
@@ -81,25 +80,40 @@ public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder
 
         public CardView card;
         public TextView inscuredPerson;
-        public Field associatedField;
-        public TextView fieldType;
+        public Damage associatedField;
+        public TextView damageType;
         public TextView gutachter;
         public ImageButton deleteFieldButton;
+        public ImageButton detailButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
             card = (CardView) itemView;
             inscuredPerson = itemView.findViewById(R.id.insuredPerson);
-            fieldType = itemView.findViewById(R.id.card_field_type);
+            damageType = itemView.findViewById(R.id.card_damage_type);
             gutachter = itemView.findViewById(R.id.gutachter);
-            deleteFieldButton = itemView.findViewById(R.id.deleteFieldButton);
+            detailButton = itemView.findViewById(R.id.infoDamageButton);
+
+            detailButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MapActivity.dataService.setDetailDamage(fieldList.get(getAdapterPosition()));
+                    Intent detailIntent = new Intent(context, DamageDetailActivity.class);
+                    context.startActivity(detailIntent);
+                }
+            });
+
+            deleteFieldButton = itemView.findViewById(R.id.deleteDamageButton);
             deleteFieldButton.setVisibility(View.GONE);
-            if(UserService.getInstance().getCurrentUser().isGutachter()) {
+
+
+            if (UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().isGutachter()) {
                 deleteFieldButton.setVisibility(View.VISIBLE);
                 deleteFieldButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MapActivity.dataService.deleteFieldByIdWithDamages(getAdapterPosition());
+
+                        MapActivity.dataService.deleteDamage(getAdapterPosition());
                         notifyItemChanged(getAdapterPosition());
                         notifyItemChanged(getAdapterPosition(), fieldList.size());
                         notifyDataSetChanged();
