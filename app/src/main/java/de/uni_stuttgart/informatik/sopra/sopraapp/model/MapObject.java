@@ -263,25 +263,40 @@ public abstract class MapObject implements IMapObject{
     protected void checkAndReorder(LatLng point) {
         for (int i = 1; i < markerPosition.size() - 1; i++) {
             if (checkIntersection(markerPosition.get(0), point, markerPosition.get(i-1), markerPosition.get(i))) {
-                //markerPosition.remove(point);
                 LatLng temp = point;
                 for (int j = i; j < markerPosition.size(); j++) {
                     temp = markerPosition.set(j, temp);
                 }
-                //markerPosition.add(temp);
                 break;
             }
 
             if (checkIntersection(markerPosition.get(markerPosition.size() - 2), point, markerPosition.get(i-1), markerPosition.get(i))) {
-                //markerPosition.remove(point);
                 LatLng temp = point;
                 for (int j = i; j < markerPosition.size(); j++) {
                     temp = markerPosition.set(j, temp);
                 }
-                //markerPosition.add(temp);
                 break;
             }
         }
+    }
+
+    public double calculateArea() {
+        double area = 0.0;
+
+        for (int i = 0; i < markerPosition.size() - 2; i++) {
+            LatLng p1 = markerPosition.get(i);
+            LatLng p2 = markerPosition.get(i+1);
+            LatLng p3 = markerPosition.get(i+2);
+
+            double a = p1.distanceTo(p2);
+            double b = p1.distanceTo(p3);
+            double c = p2.distanceTo(p3);
+            double p = (a + b + c) / 2;
+
+            area += Math.sqrt(p * (p - a) * (p - b) * (p - c));
+        }
+
+        return area;
     }
 
     @Override
