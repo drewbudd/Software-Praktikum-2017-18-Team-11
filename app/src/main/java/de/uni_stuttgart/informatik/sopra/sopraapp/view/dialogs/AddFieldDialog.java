@@ -18,6 +18,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 
 public class AddFieldDialog extends DialogFragment {
 
+    private Spinner fieldTypeSpinner;
 
     public AddFieldDialog() {
         // required empty constructor
@@ -56,7 +57,13 @@ public class AddFieldDialog extends DialogFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         contract_spinner.setAdapter(adapter);
 
+        fieldTypeSpinner = view.findViewById(R.id.text_field_type);
+
         mEditText.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+
+    public String getFieldType() {
+        return fieldTypeSpinner.getSelectedItem().toString();
     }
 }

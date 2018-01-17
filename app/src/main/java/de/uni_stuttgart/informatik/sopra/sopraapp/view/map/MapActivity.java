@@ -151,13 +151,7 @@ public class MapActivity extends AppCompatActivity implements
      * @param view
      */
     public void saveNewField(View view) {
-        Field field = new Field();
-        field.setOwner(UserService.getInstance(this).getCurrentUser());
-        Spinner fieldType = mapFragment.getAddFieldDialog().getDialog().findViewById(R.id.text_field_type);
-
-        field.setFieldType(fieldType.getSelectedItem().toString());
-
-        mapFragment.saveField(field);
+        mapFragment.saveField();
         manageServiceFragment.getFieldFragment().updateAdapter();
     }
 
@@ -167,12 +161,7 @@ public class MapActivity extends AppCompatActivity implements
      * @param view
      */
     public void saveNewDamage(View view) {
-        Damage damage = new Damage();
-        Spinner damageType = mapFragment.getAddDamageDialog().getDialog().findViewById(R.id.text_damage_typeText);
-        EditText damageSize = mapFragment.getAddDamageDialog().getDialog().findViewById(R.id.text_damage_size);
-        damage.setDamageType(damageType.getSelectedItem().toString());
-        damage.setSize(damageSize.getText().toString());
-        mapFragment.saveDamage(damage);
+        mapFragment.saveDamage();
         manageServiceFragment.getSearchFragment().updateAdapter();
     }
 
