@@ -25,10 +25,12 @@
             android:background="@color/colorPrimary"/>
     </LinearLayout>
 
-    <EditText
+
+    <Spinner
         android:id="@+id/text_damage_typeText"
         android:layout_width="268dp"
         android:inputType="text"
+        android:entries="@array/damageTypes"
         android:imeOptions="actionDone"
         android:layout_height="@dimen/form_field_height"
         android:layout_marginBottom="@dimen/form_item_margin"

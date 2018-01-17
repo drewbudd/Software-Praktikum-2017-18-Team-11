@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 
@@ -17,6 +19,52 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
  */
 
 public class Helpers {
+
+    static Gson gsonHandler = new Gson();
+
+
+    /**
+     * load users
+     * @return
+     */
+    public static String loadUsersFromStorage(){
+        Gson gsonHandler = new Gson();
+        java.lang.String fieldsAsJSon = null;
+        try {
+            SharedPreferences sharedPreferences = LoginActivity.getCurrentContext().getSharedPreferences("App_STORAGE", Context.MODE_PRIVATE);
+            fieldsAsJSon = sharedPreferences.getString("users", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fieldsAsJSon;
+    }
+
+
+
+    /**
+     * saves all Users using SharedPreferences
+     */
+    public static void saveUsers(Context context, List<User> users) {
+
+
+        AsyncTask.execute(() -> {
+
+            SharedPreferences saveFields = null;
+            String allFieldsAsJSon = "";
+            try {
+                allFieldsAsJSon = gsonHandler.toJson(users);
+                saveFields = context.getSharedPreferences("App_STORAGE", context.getApplicationContext().MODE_PRIVATE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            SharedPreferences.Editor editor = saveFields.edit();
+            editor.putString("users", allFieldsAsJSon);
+            editor.apply();
+        });
+
+
+    }
+
 
     /**
      * loads all Fields from the Storage
@@ -32,13 +80,8 @@ public class Helpers {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //ArrayList<Field> allFields = gsonHandler.fromJson(fieldsAsJSon, new TypeToken<ArrayList<Field>>() {
-
         return fieldsAsJSon;
     }
-
-
-    static Gson gsonHandler = new Gson();
 
 
 
@@ -67,4 +110,11 @@ public class Helpers {
     }
 
 
+    public static void saveDamages(Context context, List<Damage> damages) {
+    }
+
+    public static String loadDamagesFromStorage() {
+
+        return "";
+    }
 }

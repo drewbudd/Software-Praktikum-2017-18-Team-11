@@ -23,12 +23,10 @@ public class Field extends MapObject {
 
 
     private String fieldType;
-    private List<Damage> damages;
     private User owner;
     private User gutachter;
 
     public Field() {
-        damages = new ArrayList<>();
         super.color = Color.GREEN;
         alphaValue = 0.25f;
     }
@@ -38,12 +36,6 @@ public class Field extends MapObject {
 
     }
 
-    /**
-     * @param damage
-     */
-    public void addDamage(Damage damage) {
-        this.damages.add(damage);
-    }
 
 
     public String getFieldType() {
@@ -54,13 +46,6 @@ public class Field extends MapObject {
         this.fieldType = fieldType;
     }
 
-    public List<Damage> getDamages() {
-        return damages;
-    }
-
-    public void setDamages(List<Damage> damages) {
-        this.damages = damages;
-    }
 
     @Override
     public boolean addMarker(LatLng point) {
@@ -99,6 +84,11 @@ public class Field extends MapObject {
 
     @Override
     public void setField(Field fieldFromDamage) {
+
+    }
+
+    @Override
+    public void addFieldId(int fieldId) {
 
     }
 

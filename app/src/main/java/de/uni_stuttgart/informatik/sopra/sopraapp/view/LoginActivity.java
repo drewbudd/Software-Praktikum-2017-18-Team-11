@@ -20,6 +20,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -41,7 +42,6 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.controller.LoginController;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapInitialization;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
 
     private Spinner langChooser;
+    private View rootView;
 
     /**
      *
@@ -93,7 +94,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        context = getApplicationContext();
+
+           context = getApplicationContext();
+        rootView = (View)findViewById(R.id.loginRoot);
 
         // Set up the login form.
         mUsernameView = findViewById(R.id.username);
@@ -101,7 +104,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mPasswordView = findViewById(R.id.password);
         langChooser = findViewById(R.id.langChooser);
-
 
 
         langChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -140,6 +142,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        UserService.getInstance(this).loadUsers();
     }
 
     @Override
@@ -411,20 +419,41 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public void startGutachter(View view) {
-        this.mUsernameView.setText(UserService.getInstance().getUsers().get(0).getName());
-        this.mPasswordView.setText(UserService.getInstance().getUsers().get(0).getPassword());
+        this.mUsernameView.setText(UserService.getInstance(this).getUsers().get(0).getName());
+        this.mPasswordView.setText(UserService.getInstance(this).getUsers().get(0).getPassword());
 
         attemptLogin();
 
     }
 
     public void startLandwart(View view) {
-        this.mUsernameView.setText(UserService.getInstance().getUsers().get(1).getName());
-        this.mPasswordView.setText(UserService.getInstance().getUsers().get(1).getPassword());
+        this.mUsernameView.setText(UserService.getInstance(this).getUsers().get(1).getName());
+        this.mPasswordView.setText(UserService.getInstance(this).getUsers().get(1).getPassword());
 
         attemptLogin();
     }
 
+    public void registerUser(View view) {
+
+        Intent newIntent = new Intent(this, RegisterActivity.class);
+        startActivityForResult(newIntent,100);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Snackbar.make(rootView,"User saved successully",Snackbar.LENGTH_SHORT).show();
+        switch (resultCode){
+            case 100:
+                break;
+        }
+
+    }
+
+    public void loginUser(View view) {
+        attemptLogin();
+    }
 
     private interface ProfileQuery {
         String[] PROJECTION = {

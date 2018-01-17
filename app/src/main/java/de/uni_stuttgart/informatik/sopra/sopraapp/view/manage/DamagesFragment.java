@@ -1,9 +1,9 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.manage;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,8 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.FieldListAdapter;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.DamageAdapter;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
@@ -38,8 +39,8 @@ public class DamagesFragment extends Fragment {
 
     private View rootView;
     private RecyclerView recycler;
-    private List<Field> fields = new ArrayList<>();
-    private FieldListAdapter adapter;
+    private List<Damage> fields = new ArrayList<>();
+    private DamageAdapter adapter;
 
 
     private OnFragmentInteractionListener mListener;
@@ -82,11 +83,20 @@ public class DamagesFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_fields, container, false);
         recycler = rootView.findViewById(R.id.recycler_fieldsview);
         fields = new ArrayList<>();
-        fields = MapActivity.dataService.getFields();
-        adapter = new FieldListAdapter(getContext(), fields);
+
+        for (Damage damage : DataService.getInstance(rootView.getContext()).getDamages()) {
+            fields.add(damage);
+        }
+        adapter = new DamageAdapter(getContext(), fields);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
         return rootView;
+    }
+
+    public void updateAdapter() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

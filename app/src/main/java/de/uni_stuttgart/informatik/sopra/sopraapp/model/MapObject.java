@@ -1,8 +1,7 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.model;
 
-import android.graphics.Color;
+import android.util.Log;
 
-import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.annotations.Polygon;
 import com.mapbox.mapboxsdk.annotations.PolygonOptions;
@@ -21,9 +20,10 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapEleme
  * @since 2017/12/11
  */
 
-public abstract class MapObject implements IMapObject{
+public abstract class MapObject implements IMapObject {
 
 
+    private static int id = 0;
     protected List<LatLng> markerPosition = new ArrayList<>();
     protected int color;
     protected double minLat;
@@ -31,33 +31,37 @@ public abstract class MapObject implements IMapObject{
     protected double minLng;
     protected double maxLng;
     protected float alphaValue = 0.1f;
-
     protected transient MapboxMap mapboxMap;
     protected transient MapView mapView;
     protected int minMarkers = 3;
+    private int currentId = 0;
     private double size;
 
-    public MapObject(){
+    public MapObject() {
 
         minLat = Double.MAX_VALUE;
         maxLat = Double.MIN_VALUE;
         minLng = Double.MAX_VALUE;
         maxLat = Double.MIN_VALUE;
+        id++;
+
+        currentId = id;
     }
 
-    public void setContext(MapboxMap map, MapView mapView){
+    public void setContext(MapboxMap map, MapView mapView) {
         mapboxMap = map;
         this.mapView = mapView;
     }
 
     public abstract void addMarkerPosition(LatLng point);
 
-    public List<LatLng> getMarkerPositions(){
+    public List<LatLng> getMarkerPositions() {
         return markerPosition;
     }
 
     /**
      * checks of the point is within this object
+     *
      * @param point
      * @return
      */
@@ -177,6 +181,7 @@ public abstract class MapObject implements IMapObject{
 
     /**
      * updates this element
+     *
      * @param updatedField
      */
     @Override
@@ -205,7 +210,34 @@ public abstract class MapObject implements IMapObject{
     }
 
     @Override
-    public abstract boolean addMarker(LatLng point);
+    public boolean addMarker(LatLng point) {
+        if (!contains(point)) {
+            markerPosition.add(point);
+            Log.d("Marker pos", point.getLatitude() + " " + point.getLongitude());
+            for (LatLng latLng : markerPosition) {
+                double lat = latLng.getLatitude();
+                double lng = latLng.getLongitude();
+
+                if (lat < minLat) {
+                    minLat = lat;
+                }
+
+                if (lat > maxLat) {
+                    maxLat = lat;
+                }
+
+                if (lng < minLng) {
+                    minLng = lng;
+                }
+
+                if (lng > maxLng) {
+                    maxLng = lng;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 
     // checks to see if point q is co-linear to p and r, helper function for addMarker
     private boolean onSegment(LatLng p, LatLng q, LatLng r) {
@@ -301,8 +333,8 @@ public abstract class MapObject implements IMapObject{
     }
 
     @Override
-    public boolean isDrawReady(){
-        return markerPosition.size()>= this.minMarkers;
+    public boolean isDrawReady() {
+        return markerPosition.size() >= this.minMarkers;
     }
 
 
@@ -317,4 +349,14 @@ public abstract class MapObject implements IMapObject{
 
 
     public abstract void setField(Field fieldFromDamage);
+
+    public int getCurrentId() {
+        return currentId;
+    }
+
+    public void setCurrentId(int currentId) {
+        this.currentId = currentId;
+    }
+
+    public abstract void addFieldId(int fieldId);
 }

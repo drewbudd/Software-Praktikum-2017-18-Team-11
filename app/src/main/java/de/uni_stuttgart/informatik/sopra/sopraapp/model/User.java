@@ -20,7 +20,8 @@ public class User {
     private String name;
     private UserRole currentUserRole;
     private String password;
-
+    private int currentId;
+    private static int id;
     private ArrayList<Permissions> userPermissions = new ArrayList<>();
     private ArrayList<Field> fields = new ArrayList<>();
     private ArrayList<Contract> contracts = new ArrayList<>();
@@ -28,6 +29,8 @@ public class User {
     public User(String username, String password){
         this.name = username;
         this.password = password;
+        id++;
+        currentId = id;
     }
 
     /**
