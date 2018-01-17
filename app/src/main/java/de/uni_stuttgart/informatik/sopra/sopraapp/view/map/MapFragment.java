@@ -77,7 +77,10 @@ public class MapFragment extends Fragment implements
     private static final int REQUEST_LOCATION_FINE = 7;
     public static MapEditingStatus currentMapEditingStatus = MapEditingStatus.DEFAULT;
     private static MapboxMap mapboxMapGlobal;
-
+    AddFieldDialog addFieldDialogFragment;
+    AddDamageDialog addDamageDialogFragment;
+    MapObject newMapObject;
+    Field fieldFromDamage = null;
     // variables related to the menu items
     private FloatingActionButton menuFAB;
     private FloatingActionButton fieldsFAB;
@@ -90,11 +93,6 @@ public class MapFragment extends Fragment implements
     private LinearLayout gpsFABLAyout;
     private boolean isFABOpen;
     private Map<LinearLayout, Float> fabsAndLabels = new HashMap<>();
-
-    AddFieldDialog addFieldDialogFragment;
-    AddDamageDialog addDamageDialogFragment;
-    MapObject newMapObject;
-    Field fieldFromDamage = null;
     private OnFragmentInteractionListener mListener;
     private MapView mapView;
     private View rootView;
@@ -313,7 +311,7 @@ public class MapFragment extends Fragment implements
 
     }
 
-    private void changeFABMenuState () {
+    private void changeFABMenuState() {
         if (!isFABOpen) {
             for (LinearLayout fabAndLabel : fabsAndLabels.keySet()) {
                 fabAndLabel.animate().translationY(fabsAndLabels.get(fabAndLabel)).setDuration(300);
@@ -401,7 +399,7 @@ public class MapFragment extends Fragment implements
         createdDamage.draw();
         createdDamage.setDamageType(addDamageDialogFragment.getDamageType());
         createdDamage.setSize(createdDamage.calculateArea());
-        createdDamage.setField(fieldFromDamage);
+        createdDamage.getFieldIds().add(fieldFromDamage.getCurrentId());
         MapActivity.dataService.addDamage(createdDamage);
         MapActivity.dataService.saveDamages();
         MapActivity.dataService.saveFields();
@@ -451,9 +449,6 @@ public class MapFragment extends Fragment implements
         mapboxMapGlobal = mapboxMap;
         MapService.getInstance().setMap(this);
         mapboxMap.setOnMapClickListener(this);
-        mapboxMap.setOnMapClickListener(this);
-        mapboxMap.setOnMapClickListener(this);
-
 
         registerLocationListener();
 
@@ -511,6 +506,7 @@ public class MapFragment extends Fragment implements
                     for (Field field : MapActivity.dataService.getFields()) {
                         if (field.contains(point)) {
                             fieldFromDamage = field;
+                            newMapObject.addFieldId(fieldFromDamage.getCurrentId());
                         }
                     }
                 }
@@ -610,7 +606,6 @@ public class MapFragment extends Fragment implements
     public MapView getMapView() {
         return mapView;
     }
-
 
 
     public AddDamageDialog getAddDamageDialog() {
