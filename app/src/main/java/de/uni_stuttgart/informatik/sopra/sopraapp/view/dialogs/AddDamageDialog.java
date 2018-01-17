@@ -19,10 +19,11 @@ public class AddDamageDialog extends DialogFragment {
         // required empty constructor
     }
 
-    public static AddDamageDialog newInstance(String title) {
+    public static AddDamageDialog newInstance(String title, double size) {
         AddDamageDialog frag = new AddDamageDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putDouble("size", Math.round(size * 100)/100.0);
         frag.setArguments(args);
         return frag;
     }
@@ -39,10 +40,16 @@ public class AddDamageDialog extends DialogFragment {
 
         EditText mEditText = view.findViewById(R.id.text_damage_typeText);
 
-        /*String title = getArguments().getFieldType("title", "Enter Name");
-        getDialog().setTitle(title);*/
-
         mEditText.requestFocus();
+
+
+
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
+
+    public String getDamageType() {
+        EditText damageType = getView().findViewById(R.id.text_damage_typeText);
+        return damageType.getText().toString();
+    }
+
 }

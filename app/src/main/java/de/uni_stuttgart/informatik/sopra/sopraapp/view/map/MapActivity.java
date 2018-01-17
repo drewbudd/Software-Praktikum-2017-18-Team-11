@@ -167,12 +167,7 @@ public class MapActivity extends AppCompatActivity implements
      * @param view
      */
     public void saveNewDamage(View view) {
-        Damage damage = new Damage();
-        Spinner damageType = mapFragment.getAddDamageDialog().getDialog().findViewById(R.id.text_damage_typeText);
-        EditText damageSize = mapFragment.getAddDamageDialog().getDialog().findViewById(R.id.text_damage_size);
-        damage.setDamageType(damageType.getSelectedItem().toString());
-        damage.setSize(damageSize.getText().toString());
-        mapFragment.saveDamage(damage);
+        mapFragment.saveDamage();
         manageServiceFragment.getSearchFragment().updateAdapter();
     }
 

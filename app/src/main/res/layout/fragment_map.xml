@@ -35,19 +35,21 @@
 
 
     <LinearLayout
-        android:id="@+id/fab3_and_label"
+        android:id="@+id/settings_fab_and_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="bottom|end">
+        android:layout_gravity="bottom|end"
+        android:alpha="0"
+        android:visibility="gone">
 
         <TextView
-            android:id="@+id/fab3_label"
+            android:id="@+id/settings_button_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:alpha="0"
+            android:alpha="0.3"
             android:text="Settings" />
 
         <android.support.design.widget.FloatingActionButton
@@ -64,7 +66,7 @@
 
 
     <LinearLayout
-        android:id="@+id/fab2_and_label"
+        android:id="@+id/damage_fab_and_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -76,8 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:text="Report Damage"
-            android:alpha="0"/>
+            android:text="Report Damage"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/damages_button"
@@ -91,10 +92,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/fab1_and_label"
+        android:id="@+id/field_fab_and_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:alpha="0"
+        android:visibility="gone"
         android:layout_gravity="bottom|end">
 
         <TextView
@@ -103,8 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:text="Add field"
-            android:alpha="0"/>
+            android:text="Add field"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/field_button"
@@ -127,18 +129,19 @@
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <LinearLayout
+        android:id="@+id/gps_fab_and_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:alpha="0"
+        android:visibility="gone">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_gps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
-            android:visibility="gone"
-            android:src="@android:drawable/ic_menu_mylocation"
-            android:alpha="0"/>
+            android:src="@android:drawable/ic_menu_mylocation" />
 
         <TextView
             android:id="@+id/gps_button_label"
@@ -146,8 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:text="Add marker per GPS"
-            android:alpha="0"/>
+            android:text="Add marker per GPS" />
     </LinearLayout>
 
 </FrameLayout>

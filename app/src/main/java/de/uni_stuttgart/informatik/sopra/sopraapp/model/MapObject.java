@@ -34,7 +34,7 @@ public abstract class MapObject implements IMapObject {
     protected transient MapboxMap mapboxMap;
     protected transient MapView mapView;
     protected int minMarkers = 3;
-    private int currentId = 0;
+    private double size;
 
     public MapObject() {
 
@@ -334,6 +334,16 @@ public abstract class MapObject implements IMapObject {
     @Override
     public boolean isDrawReady() {
         return markerPosition.size() >= this.minMarkers;
+    }
+
+
+
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
     }
 
 
