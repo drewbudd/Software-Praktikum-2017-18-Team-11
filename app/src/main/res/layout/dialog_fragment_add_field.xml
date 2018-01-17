@@ -102,19 +102,23 @@
                 android:text="@string/field_size"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/form_label_text_size"/>
+                android:textSize="@dimen/form_label_text_size"
+                android:paddingRight="2dp"/>
 
             <TextView
                 android:id="@+id/label_field_size"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/form_label_text_size"/>
+                android:textSize="@dimen/form_label_text_size"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"/>
 
             <TextView
                 android:text="@string/size_units"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/form_label_text_size"/>
+                android:textSize="@dimen/form_label_text_size"
+                android:paddingLeft="2dp"/>
 
         </LinearLayout>
 

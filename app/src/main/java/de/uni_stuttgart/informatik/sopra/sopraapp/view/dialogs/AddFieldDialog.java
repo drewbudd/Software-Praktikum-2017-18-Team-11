@@ -27,7 +27,7 @@ public class AddFieldDialog extends DialogFragment {
         AddFieldDialog frag = new AddFieldDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
-        args.putDouble("size", Math.round(size * 1000)/1000.0);
+        args.putDouble("size", Math.round(size * 100)/100.0);
         frag.setArguments(args);
         return frag;
     }

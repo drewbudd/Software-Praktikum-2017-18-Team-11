@@ -39,7 +39,7 @@
         <item>Full coverage</item>
     </string-array>
     <string name="damage_type">Type of Damage</string>
-    <string name="damage_size">Estimated Size</string>
+    <string name="damage_size">Damage Size</string>
     <string name="size_units">sq. m</string>
     <string name="add_pictures">Add Pictures</string>
     <string name="modeStatus">Offline</string>
@@ -58,5 +58,6 @@
     <string name="notify_outside_of_other_fields">Marker must be outside of other fields</string>
     <string name="notify_inside_of_field">Marker must be inside of a field</string>
     <string name="field_size">Field Size</string>
+    <string name="fab_report_damage">Report Damage</string>
 
 </resources>

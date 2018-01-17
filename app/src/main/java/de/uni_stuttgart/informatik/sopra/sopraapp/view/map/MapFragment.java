@@ -10,7 +10,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -25,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
-import com.mapbox.mapboxsdk.geometry.ProjectedMeters;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Icon;
@@ -47,15 +45,17 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
 
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapInitialization;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddDamageDialog;
@@ -78,10 +78,20 @@ public class MapFragment extends Fragment implements
     private static final int REQUEST_LOCATION_FINE = 7;
     public static MapEditingStatus currentMapEditingStatus = MapEditingStatus.DEFAULT;
     private static MapboxMap mapboxMapGlobal;
-    FloatingActionButton menuFAB;
-    LinearLayout fieldsFAB;
-    LinearLayout damagesFAB;
-    LinearLayout settingsFAB;
+
+    // variables related to the menu items
+    private FloatingActionButton menuFAB;
+    private FloatingActionButton fieldsFAB;
+    private FloatingActionButton damagesFAB;
+    private FloatingActionButton settingsFAB;
+    private FloatingActionButton fabGPS;
+    private LinearLayout fieldsFABLayout;
+    private LinearLayout damagesFABLayout;
+    private LinearLayout settingsFABLayout;
+    private LinearLayout gpsFABLAyout;
+    private boolean isFABOpen;
+    private Map<LinearLayout, Float> fabsAndLabels = new HashMap<>();
+
     AddFieldDialog addFieldDialogFragment;
     AddDamageDialog addDamageDialogFragment;
     MapObject newMapObject;
@@ -91,7 +101,6 @@ public class MapFragment extends Fragment implements
     private View rootView;
     private List<LatLng> currentBorderPoints = new ArrayList<>();
     private LocationManager locationManager;
-    private boolean isFABOpen;
     private MapFragment mapFragment;
     private NewAreaMode currentMODE = NewAreaMode.GPS;
     private double gpsLat;
@@ -173,14 +182,77 @@ public class MapFragment extends Fragment implements
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        final FloatingActionButton fabGPS = rootView.findViewById(R.id.fab_gps);
+        defineMenuButtons();
         final TextView fabGPSLabel = rootView.findViewById(R.id.gps_button_label);
-        menuFAB = rootView.findViewById(R.id.fab);
-        fieldsFAB = rootView.findViewById(R.id.fab1_and_label);
-        damagesFAB = rootView.findViewById(R.id.fab2_and_label);
-        settingsFAB = rootView.findViewById(R.id.fab3_and_label);
+        setUpListeners();
+
         statusText = rootView.findViewById(R.id.networkStatus);
+
+        return rootView;
+    }
+
+    private void defineMenuButtons() {
+        fabGPS = rootView.findViewById(R.id.fab_gps);
+        menuFAB = rootView.findViewById(R.id.fab);
+        fieldsFABLayout = rootView.findViewById(R.id.field_fab_and_label);
+        damagesFABLayout = rootView.findViewById(R.id.damage_fab_and_label);
+        settingsFABLayout = rootView.findViewById(R.id.settings_fab_and_label);
+        fabsAndLabels.put(fieldsFABLayout, -getResources().getDimension(R.dimen.standard_55));
+        fabsAndLabels.put(damagesFABLayout, -getResources().getDimension(R.dimen.standard_105));
+        fabsAndLabels.put(settingsFABLayout, -getResources().getDimension(R.dimen.standard_155));
         isFABOpen = false;
+    }
+
+    private void setUpListeners() {
+        // set method to control collapsing menu
+        menuFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFABMenuState();
+            }
+        });
+
+        // set up fields fab
+        fieldsFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (currentMapEditingStatus) {
+                    case DEFAULT:
+                        createField();
+                        break;
+                    case START_CREATE_FIELD_COORDINATES:
+                        FragmentManager fm = getActivity().getFragmentManager();
+                        addFieldDialogFragment = AddFieldDialog.newInstance("Add Field", newMapObject.calculateArea());
+                        addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
+                        break;
+                }
+            }
+        });
+
+        // set up damages fab
+        damagesFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (currentMapEditingStatus) {
+                    case DEFAULT:
+                        createDamage();
+                        break;
+                    case START_CREATE_DAMAGE_COORDINATES:
+                        FragmentManager fm = getActivity().getFragmentManager();
+                        addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage", newMapObject.calculateArea());
+                        addDamageDialogFragment.show(fm, "dialog_fragment_add_field");
+                        break;
+                }
+            }
+        });
+
+        // set up settings fab
+        settingsFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(rootView, "Placeholder button, not yet implemented", Snackbar.LENGTH_SHORT).show();
+            }
+        });
 
         fabGPS.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,168 +271,126 @@ public class MapFragment extends Fragment implements
                 }
             }
         });
-
-
-        menuFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isFABOpen) {
-                    showFABMenu();
-                } else {
-                    closeFABMenu();
-                }
-            }
-        });
-
-        rootView.findViewById(R.id.field_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (currentMapEditingStatus) {
-                    case DEFAULT:
-                        createField();
-                        break;
-                    case START_CREATE_FIELD_COORDINATES:
-                        FragmentManager fm = getActivity().getFragmentManager();
-                        addFieldDialogFragment = AddFieldDialog.newInstance("Add Field", newMapObject.calculateArea());
-                        addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
-                        break;
-                }
-            }
-
-        });
-
-        rootView.findViewById(R.id.damages_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TextView label = rootView.findViewById(R.id.damages_button_label);
-                switch (currentMapEditingStatus) {
-                    case DEFAULT:
-                        currentMapEditingStatus = MapEditingStatus.START_CREATE_DAMAGE_COORDINATES;
-                        Snackbar.make(getView(), R.string.message_create_damage, Snackbar.LENGTH_SHORT).show();
-                        newMapObject = new Damage();
-                        newMapObject.setContext(mapboxMapGlobal, mapView);
-                        disableFieldsFAB();
-                        disableSettingsFAB();
-                        disableMenuFAB();
-                        showAndEnableGPSButton(fabGPS, fabGPSLabel);
-                        label.setText(R.string.fab_finish_adding);
-
-
-                        break;
-                    case START_CREATE_DAMAGE_COORDINATES:
-                        currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
-                        FragmentManager fm = getActivity().getFragmentManager();
-                        addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage");
-                        addDamageDialogFragment.show(fm, "dialog_fragment_add_damage");
-
-                        break;
-                     /*
-                        } else {
-                            currentMapEditingStatus = MapEditingStatus.END_CREATE_DAMAGE_COORDINATES;
-                            enableFieldsFAB();
-                            enableSettingsFAB();
-                            fieldsFAB.animate().alpha(1.0f).setDuration(100);
-                            fieldsFAB.setEnabled(true);
-                            //settingsFAB.animate().alpha(1.0f).setDuration(100);
-                            settingsFAB.setEnabled(true);
-                            label.setText("Report Damage");
-                            enableMenuFAB();
-                            hideAndDisableGPSButton(fabGPS, fabGPSLabel);
-                            creatingNewField.setMarkerPosition(currentMarkerFieldPositions);
-                            FragmentManager fm = getActivity().getFragmentManager();
-                            addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage");
-                            addDamageDialogFragment.show(fm, "dialog_fragment_add_damage");
-                        } */
-                }
-
-
-            }
-        });
-
-        settingsFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(rootView, "Placeholder button, not yet implemented", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-
-        return rootView;
     }
 
-    public void saveField() {
-        newMapObject.draw();
-        MapActivity.dataService.addField((Field) newMapObject);
-        MapActivity.dataService.saveFields();
-        currentMapEditingStatus = MapEditingStatus.DEFAULT;
-        damagesFAB.animate().alpha(1.0f).setDuration(100);
-        damagesFAB.setEnabled(true);
-        //settingsFAB.animate().alpha(1.0f).setDuration(100);
-        settingsFAB.setEnabled(true);
-        menuFAB.animate().alpha(1.0f).setDuration(100);
-        menuFAB.setEnabled(true);
-        TextView label = rootView.findViewById(R.id.field_button_label);
-        label.setText(R.string.fab_add_field);
-        getAddFieldDialog().dismiss();
+    private void focusFABLayout(LinearLayout fabLayout) {
+        for (LinearLayout fabAndLabel : fabsAndLabels.keySet()) {
+            if (!fabLayout.equals(fabAndLabel)) {
+                fabAndLabel.setVisibility(View.GONE);
+            }
+        }
+        menuFAB.setVisibility(View.GONE);
+        fabLayout.animate().translationY(0).setDuration(300);
+    }
+
+    private void releaseFocusFABLayout(LinearLayout fabLayout) {
+        fabLayout.animate().translationY(fabsAndLabels.get(fabLayout)).setDuration(100);
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        menuFAB.setVisibility(View.VISIBLE);
+                        for (LinearLayout fabAndLabel : fabsAndLabels.keySet()) {
+                            fabAndLabel.setVisibility(View.VISIBLE);
+                        }
+                    }
+                },
+                100);
+
+    }
+
+    private void changeFABMenuState () {
+        if (!isFABOpen) {
+            for (LinearLayout fabAndLabel : fabsAndLabels.keySet()) {
+                fabAndLabel.animate().translationY(fabsAndLabels.get(fabAndLabel)).setDuration(300);
+                fabAndLabel.animate().alpha(1.0f).setDuration(300);
+                fabAndLabel.setVisibility(View.VISIBLE);
+            }
+            isFABOpen = true;
+        } else {
+            for (final LinearLayout fabAndLabel : fabsAndLabels.keySet()) {
+                fabAndLabel.animate().translationY(0).setDuration(300);
+                fabAndLabel.animate().alpha(0.0f).setDuration(300);
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                fabAndLabel.setVisibility(View.GONE);
+                            }
+                        },
+                        300);
+            }
+            isFABOpen = false;
+        }
     }
 
     private void createField() {
-        currentMapEditingStatus = MapEditingStatus.START_CREATE_FIELD_COORDINATES;
-        newMapObject = new Field();
-        newMapObject.setContext(mapboxMapGlobal, mapView);
-        damagesFAB.animate().alpha(0.3f).setDuration(100);
-        damagesFAB.setEnabled(false);
-        settingsFAB.setEnabled(false);
-        menuFAB.animate().alpha(0.3f).setDuration(100);
-        menuFAB.setEnabled(false);
+        // TODO add gps button logic
+
+        // gui changes
+        focusFABLayout(fieldsFABLayout);
         TextView label = rootView.findViewById(R.id.field_button_label);
         label.setText(R.string.fab_finish_adding);
         Snackbar.make(getView(), R.string.notify_add_marker, Snackbar.LENGTH_SHORT).show();
+
+        // status and variables
+        currentMapEditingStatus = MapEditingStatus.START_CREATE_FIELD_COORDINATES;
+        newMapObject = new Field();
+        newMapObject.setContext(mapboxMapGlobal, mapView);
     }
 
-    private void disableDamagesFAB() {
-        damagesFAB.animate().alpha(0.3f).setDuration(100);
-        damagesFAB.setEnabled(false);
+    public void createDamage() {
+        // TODO add gps button logic
+
+        // gui changes
+        focusFABLayout(damagesFABLayout);
+        TextView label = rootView.findViewById(R.id.damages_button_label);
+        label.setText(R.string.fab_finish_adding);
+        Snackbar.make(getView(), R.string.message_create_damage, Snackbar.LENGTH_SHORT).show();
+
+        // status and variables
+        currentMapEditingStatus = MapEditingStatus.START_CREATE_DAMAGE_COORDINATES;
+        newMapObject = new Damage();
+        newMapObject.setContext(mapboxMapGlobal, mapView);
     }
 
-    private void enableDamagesFAB() {
-        damagesFAB.animate().alpha(1.0f).setDuration(100);
-        damagesFAB.setEnabled(true);
+    public void saveField() {
+        // TODO add gps button logic
+
+        // gui changes
+        releaseFocusFABLayout(fieldsFABLayout);
+        TextView label = rootView.findViewById(R.id.field_button_label);
+        label.setText(R.string.fab_add_field);
+
+        // status, variables and cleanup
+        currentMapEditingStatus = MapEditingStatus.DEFAULT;
+        newMapObject.draw();
+        MapActivity.dataService.addField((Field) newMapObject);
+        MapActivity.dataService.saveFields();
+        getAddFieldDialog().dismiss();
     }
 
-    private void disableFieldsFAB() {
-        fieldsFAB.animate().alpha(0.3f).setDuration(100);
-        fieldsFAB.setEnabled(false);
-    }
+    public void saveDamage() {
+        // TODO add gps button logic
 
-    private void disableSettingsFAB() {
-        settingsFAB.animate().alpha(0.3f).setDuration(100);
-        settingsFAB.setEnabled(false);
-    }
+        // gui changes
+        releaseFocusFABLayout(damagesFABLayout);
+        TextView label = rootView.findViewById(R.id.damages_button_label);
+        label.setText(R.string.fab_report_damage);
 
-    private void disableMenuFAB() {
-        menuFAB.animate().alpha(0.3f).setDuration(100);
-        menuFAB.setEnabled(false);
-    }
-
-    private void enableSettingsFAB() {
-        settingsFAB.animate().alpha(1.0f).setDuration(100);
-        settingsFAB.setEnabled(true);
-    }
-
-    private void enableFieldsFAB() {
-        fieldsFAB.animate().alpha(1.0f).setDuration(100);
-        fieldsFAB.setEnabled(true);
-    }
-
-    private void enableMenuFAB() {
-        menuFAB.animate().alpha(1.0f).setDuration(100);
-        menuFAB.setEnabled(true);
+        // status, variables and cleanup
+        currentMapEditingStatus = MapEditingStatus.DEFAULT;
+        Damage createdDamage = (Damage) newMapObject;
+        createdDamage.draw();
+        createdDamage.setDamageType(addDamageDialogFragment.getDamageType());
+        createdDamage.setSize(createdDamage.calculateArea());
+        fieldFromDamage.addDamage(createdDamage);
+        MapActivity.dataService.saveFields();
+        fieldFromDamage = null;
+        addDamageDialogFragment.dismiss();
     }
 
     private void hideAndDisableGPSButton(FloatingActionButton fabGPS, TextView fabGPSLabel) {
         fabGPS.animate().alpha(0.0f).setDuration(100);
         fabGPS.setEnabled(false);
-        fabGPS.setVisibility(View.GONE);
         fabGPSLabel.animate().alpha(0.0f).setDuration(100);
     }
 
@@ -370,25 +400,6 @@ public class MapFragment extends Fragment implements
         fabGPSLabel.animate().alpha(1.0f).setDuration(100);
     }
 
-    private void showFABMenu() {
-        isFABOpen = true;
-        fieldsFAB.animate().translationY(-getResources().getDimension(R.dimen.standard_55)).setDuration(200);
-        damagesFAB.animate().translationY(-getResources().getDimension(R.dimen.standard_105)).setDuration(400);
-        settingsFAB.animate().translationY(-getResources().getDimension(R.dimen.standard_155)).setDuration(600);
-        rootView.findViewById(R.id.field_button_label).animate().alpha(1.0f).setDuration(300);
-        rootView.findViewById(R.id.damages_button_label).animate().alpha(1.0f).setDuration(600);
-        rootView.findViewById(R.id.fab3_label).animate().alpha(0.3f).setDuration(900);
-    }
-
-    private void closeFABMenu() {
-        isFABOpen = false;
-        fieldsFAB.animate().translationY(0);
-        damagesFAB.animate().translationY(0);
-        settingsFAB.animate().translationY(0);
-        rootView.findViewById(R.id.fab1_and_label).animate().alpha(0.0f).setDuration(200);
-        rootView.findViewById(R.id.fab2_and_label).animate().alpha(0.0f).setDuration(200);
-        rootView.findViewById(R.id.fab3_and_label).animate().alpha(0.0f).setDuration(200);
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
