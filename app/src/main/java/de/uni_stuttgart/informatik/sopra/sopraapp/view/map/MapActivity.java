@@ -151,13 +151,7 @@ public class MapActivity extends AppCompatActivity implements
      * @param view
      */
     public void saveNewField(View view) {
-        Field field = new Field();
-        field.setOwner(UserService.getInstance(this).getCurrentUser());
-        Spinner fieldType = mapFragment.getAddFieldDialog().getDialog().findViewById(R.id.text_field_type);
-
-        field.setFieldType(fieldType.getSelectedItem().toString());
-
-        mapFragment.saveField(field);
+        mapFragment.saveField();
         manageServiceFragment.getFieldFragment().updateAdapter();
     }
 

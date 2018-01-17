@@ -209,6 +209,9 @@ public class MapFragment extends Fragment implements
         fieldsFABLayout = rootView.findViewById(R.id.field_fab_and_label);
         damagesFABLayout = rootView.findViewById(R.id.damage_fab_and_label);
         settingsFABLayout = rootView.findViewById(R.id.settings_fab_and_label);
+        fieldsFAB = rootView.findViewById(R.id.field_button);
+        damagesFAB = rootView.findViewById(R.id.damages_button);
+        settingsFAB = rootView.findViewById(R.id.settings_button);
         fabsAndLabels.put(fieldsFABLayout, -getResources().getDimension(R.dimen.standard_55));
         fabsAndLabels.put(damagesFABLayout, -getResources().getDimension(R.dimen.standard_105));
         fabsAndLabels.put(settingsFABLayout, -getResources().getDimension(R.dimen.standard_155));
@@ -374,7 +377,11 @@ public class MapFragment extends Fragment implements
 
         // status, variables and cleanup
         currentMapEditingStatus = MapEditingStatus.DEFAULT;
-        newMapObject.draw();
+        Field createdField = (Field) newMapObject;
+        createdField.draw();
+        createdField.setFieldType(addFieldDialogFragment.getFieldType());
+        createdField.setSize(createdField.calculateArea());
+        createdField.setOwner(UserService.getInstance(this.getActivity()).getCurrentUser());
         MapActivity.dataService.addField((Field) newMapObject);
         MapActivity.dataService.saveFields();
         getAddFieldDialog().dismiss();
@@ -394,8 +401,8 @@ public class MapFragment extends Fragment implements
         createdDamage.draw();
         createdDamage.setDamageType(addDamageDialogFragment.getDamageType());
         createdDamage.setSize(createdDamage.calculateArea());
-        fieldFromDamage.addDamage(createdDamage);
-        MapActivity.dataService.saveFields();
+        createdDamage.setField(fieldFromDamage);
+        MapActivity.dataService.addDamage(createdDamage);
         fieldFromDamage = null;
         addDamageDialogFragment.dismiss();
     }
@@ -595,17 +602,7 @@ public class MapFragment extends Fragment implements
         return mapView;
     }
 
-    public void saveDamage(Damage damage) {
-        newMapObject.draw();
-        Damage createdDamage = (Damage) newMapObject;
-        createdDamage.setDamageType(damage.getDamageType());
-        createdDamage.setSize(damage.getSize());
-        createdDamage.setField(fieldFromDamage);
-        MapActivity.dataService.addDamage(createdDamage);
-        fieldFromDamage = null;
-        addDamageDialogFragment.dismiss();
 
-    }
 
     public AddDamageDialog getAddDamageDialog() {
         return addDamageDialogFragment;

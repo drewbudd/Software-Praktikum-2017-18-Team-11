@@ -26,7 +26,6 @@ public class Damage extends MapObject{
     private transient Field field;
     private List<Integer> fieldIds = new ArrayList<>();
     String damageType ="";
-    String size;
 
     public Damage() {
         this.currentStatus = DamageEventStatus.CREATED;
@@ -99,18 +98,6 @@ public class Damage extends MapObject{
             return true;
         }
         return false;
-    }
-
-    /**
-     * returns the size of the damage
-     * @return
-     */
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
     }
 
     public List<Integer> getFieldIds() {

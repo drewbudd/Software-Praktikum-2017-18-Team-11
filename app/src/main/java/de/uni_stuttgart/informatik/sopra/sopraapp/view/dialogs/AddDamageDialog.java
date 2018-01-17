@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 
 
 public class AddDamageDialog extends DialogFragment {
+
+    private Spinner damageType;
 
     public AddDamageDialog () {
         // required empty constructor
@@ -38,18 +41,13 @@ public class AddDamageDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        EditText mEditText = view.findViewById(R.id.text_damage_typeText);
-
-        mEditText.requestFocus();
-
-
+        damageType = view.findViewById(R.id.text_damage_typeText);
 
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
     public String getDamageType() {
-        EditText damageType = getView().findViewById(R.id.text_damage_typeText);
-        return damageType.getText().toString();
+        return damageType.getSelectedItem().toString();
     }
 
 }
