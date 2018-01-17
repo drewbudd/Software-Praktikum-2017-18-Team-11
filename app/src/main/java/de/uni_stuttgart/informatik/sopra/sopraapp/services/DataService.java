@@ -4,13 +4,11 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.Helpers;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
@@ -59,7 +57,7 @@ public class DataService implements IDataService {
         List<Field> fields = gson.fromJson(Helpers.loadFieldsFromStorage(), new TypeToken<List<Field>>() {
         }.getType());
 
-        if(fields != null) {
+        if (fields != null) {
             this.fields = fields;
         }
     }
@@ -71,14 +69,14 @@ public class DataService implements IDataService {
         List<Damage> damages = gson.fromJson(Helpers.loadDamagesFromStorage(), new TypeToken<List<Damage>>() {
         }.getType());
 
-        if(damages != null){
+        if (damages != null) {
             this.damages = damages;
         }
-
+        /*
         Damage damage = new Damage();
         damage.setDamageType("TestType");
         damage.setOwner(new User("bla", "blaaa"));
-        this.damages.add(damage);
+        this.damages.add(damage); */
     }
 
 
@@ -109,18 +107,20 @@ public class DataService implements IDataService {
 
     @Override
     public void deleteField(int fieldId) {
-        for (Damage damage : this.damages) {
-            damage.getFieldIds().remove(fieldId);
+        for (Damage damage : damages) {
+            if (damage.getFieldIds().contains(fields.get(fieldId).getCurrentId())) {
+                damages.remove(damage);
+            }
         }
-        MapService.getInstance().deletePolygonById(fields.get(fieldId));
         fields.remove(fieldId);
+        MapService.getInstance().deletePolygonById();
         saveFields();
     }
 
     @Override
     public void deleteDamage(int damageId) {
-        MapService.getInstance().deletePolygonById(damages.get(damageId));
         this.damages.remove(damageId);
+        MapService.getInstance().deletePolygonById();
         saveDamages();
     }
 
