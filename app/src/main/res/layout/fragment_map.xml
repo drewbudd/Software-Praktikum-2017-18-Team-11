@@ -70,7 +70,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="bottom|end">
+        android:layout_gravity="bottom|end"
+        android:alpha="0"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/damages_button_label"

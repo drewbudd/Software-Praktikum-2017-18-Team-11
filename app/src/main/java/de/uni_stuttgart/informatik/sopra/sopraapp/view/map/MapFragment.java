@@ -398,6 +398,8 @@ public class MapFragment extends Fragment implements
         createdDamage.setSize(createdDamage.calculateArea());
         createdDamage.setField(fieldFromDamage);
         MapActivity.dataService.addDamage(createdDamage);
+        MapActivity.dataService.saveDamages();
+        MapActivity.dataService.saveFields();
         fieldFromDamage = null;
         addDamageDialogFragment.dismiss();
     }
@@ -488,7 +490,7 @@ public class MapFragment extends Fragment implements
             case START_CREATE_FIELD_COORDINATES:
                 Marker marker = new Marker(new MarkerOptions());
                 marker.setPosition(point);
-                if (newMapObject.addMarker(marker.getPosition())) {
+                if (newMapObject.addMarker(marker.getPosition(), currentMapEditingStatus)) {
                     newMapObject.drawMarker(point);
                     this.displayingMarkerOptions.add(marker);
                 } else {
@@ -501,15 +503,18 @@ public class MapFragment extends Fragment implements
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
                 if (fieldFromDamage == null) {
-
-
+                    for (Field field : MapActivity.dataService.getFields()) {
+                        if (field.contains(point)) {
+                            fieldFromDamage = field;
+                        }
+                    }
                 }
                 Snackbar.make(getView(), "Marker outside of a field", Snackbar.LENGTH_SHORT).show();
                 if (fieldFromDamage == null) {
                     Snackbar.make(getView(), R.string.notify_inside_of_field, Snackbar.LENGTH_SHORT).show();
                 } else {
                     if (fieldFromDamage.contains(point)) {
-                        newMapObject.addMarker(point);
+                        newMapObject.addMarker(point, currentMapEditingStatus);
                         newMapObject.drawMarker(point);
                     }
                 }
