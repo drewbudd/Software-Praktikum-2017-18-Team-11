@@ -3,6 +3,7 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.model;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapElement;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapEditingStatus;
 
 /**
  * @author Stefan Zindl
@@ -16,7 +17,7 @@ public interface IMapObject extends OnMapElement{
 
     void modify(OnMapElement updatedField);
     void draw();
-    boolean addMarker(LatLng point);
+    boolean addMarker(LatLng point, MapEditingStatus status);
     void drawMarker(LatLng point);
     public boolean isDrawReady();
 }

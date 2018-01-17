@@ -14,6 +14,8 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.OnMapElement;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapEditingStatus;
 
 /**
  * @author Stefan Zindl
@@ -209,10 +211,36 @@ public abstract class MapObject implements IMapObject {
     }
 
     @Override
-    public boolean addMarker(LatLng point) {
-        if (!contains(point)) {
+    public boolean addMarker(LatLng point, MapEditingStatus status) {
+        boolean addPointAllowed = false;
+
+        switch (status) {
+            case START_CREATE_FIELD_COORDINATES:
+                if (MapActivity.dataService.getFields().size() == 0) {
+                    addPointAllowed = true;
+                }
+
+                for (Field field : MapActivity.dataService.getFields()) {
+                    if (field.contains(point)) {
+                        addPointAllowed = false;
+                        break;
+                    } else {
+                        addPointAllowed = true;
+                    }
+                }
+                break;
+            case START_CREATE_DAMAGE_COORDINATES:
+                addPointAllowed = true;
+                break;
+            case DEFAULT:
+                break;
+        }
+
+        if (addPointAllowed) {
             markerPosition.add(point);
-            Log.d("Marker pos", point.getLatitude() + " " + point.getLongitude());
+
+            checkAndReorder(point);
+
             for (LatLng latLng : markerPosition) {
                 double lat = latLng.getLatitude();
                 double lng = latLng.getLongitude();

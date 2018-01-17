@@ -68,37 +68,6 @@ public class Damage extends MapObject{
 
     }
 
-    @Override
-    public boolean addMarker(LatLng point) {
-        if (field.contains(point)) {
-            markerPosition.add(point);
-
-            checkAndReorder(point);
-
-            for (LatLng latLng : markerPosition) {
-                double lat = latLng.getLatitude();
-                double lng = latLng.getLongitude();
-
-                if (lat < minLat) {
-                    minLat = lat;
-                }
-
-                if (lat > maxLat) {
-                    maxLat = lat;
-                }
-
-                if (lng < minLng) {
-                    minLng = lng;
-                }
-
-                if (lng > maxLng) {
-                    maxLng = lng;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
 
     public List<Integer> getFieldIds() {
         return fieldIds;
