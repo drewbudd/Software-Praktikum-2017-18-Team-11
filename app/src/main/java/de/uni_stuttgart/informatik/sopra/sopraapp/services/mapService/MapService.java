@@ -1,8 +1,6 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService;
 
-import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.annotations.Polygon;
-import com.mapbox.mapboxsdk.annotations.PolygonOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -76,23 +74,12 @@ public class MapService {
      *
      * @param id
      */
-    public void deletePolygonById(MapObject mapObject) {
-        boolean delete = false;
-        Polygon delPolygon = null;
-        for(Polygon polygon : mapboxMap.getPolygons()){
-            for(LatLng options : mapObject.getMarkerPositions()){
-                if(polygon.getPoints().contains(options)){
-                    delete = true;
-                    delPolygon = polygon;
-                }else{
-                    delPolygon = null;
-                    return;
-                }
-            }
+    public void deletePolygonById() {
+        for (Polygon polygon : mapboxMap.getPolygons()) {
+
+            mapboxMap.removePolygon(polygon);
         }
-        if(delPolygon != null) {
-            mapboxMap.removePolygon(delPolygon);
-        }
+        drawAllFields();
         mapView.refreshDrawableState();
     }
 

@@ -111,10 +111,33 @@ public class Helpers {
 
 
     public static void saveDamages(Context context, List<Damage> damages) {
+        AsyncTask.execute(() -> {
+
+            SharedPreferences saveFields = null;
+            String allFieldsAsJSon = "";
+            try {
+                allFieldsAsJSon = gsonHandler.toJson(damages);
+                saveFields = context.getSharedPreferences("App_STORAGE", context.getApplicationContext().MODE_PRIVATE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            SharedPreferences.Editor editor = saveFields.edit();
+            editor.putString("damages", allFieldsAsJSon);
+            editor.apply();
+        });
+
     }
 
     public static String loadDamagesFromStorage() {
 
-        return "";
+        Gson gsonHandler = new Gson();
+        java.lang.String fieldsAsJSon = null;
+        try {
+            SharedPreferences sharedPreferences = LoginActivity.getCurrentContext().getSharedPreferences("App_STORAGE", Context.MODE_PRIVATE);
+            fieldsAsJSon = sharedPreferences.getString("damages", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fieldsAsJSon;
     }
 }
