@@ -13,8 +13,6 @@ import org.junit.Test;
 public class AddDamageDialogTest {
     @Test
     public void newInstance() throws Exception {
-      AddDamageDialog dialog = AddDamageDialog.newInstance("Title");
-       Assert.assertEquals(dialog.getArguments().get("title"),"Title");
     }
 
     @Test
