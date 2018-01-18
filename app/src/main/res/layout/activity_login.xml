@@ -72,12 +72,12 @@
                 tools:ignore="OnClick" />
                 <Button
                     android:text="@string/farmer_login"
-                    android:onClick="startLandwart"
+                    android:onClick="startFarmer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             <Button
                 android:text="@string/agent_login"
-                android:onClick="startGutachter"
+                android:onClick="startAgent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button

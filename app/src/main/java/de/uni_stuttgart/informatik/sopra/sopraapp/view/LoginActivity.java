@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
 
 
-           context = getApplicationContext();
+        context = getApplicationContext();
         rootView = (View)findViewById(R.id.loginRoot);
 
         // Set up the login form.
@@ -104,7 +104,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mPasswordView = findViewById(R.id.password);
         langChooser = findViewById(R.id.langChooser);
-
 
         langChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -418,7 +417,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mUsernameView.setAdapter(adapter);
     }
 
-    public void startGutachter(View view) {
+    public void startAgent(View view) {
         this.mUsernameView.setText(UserService.getInstance(this).getUsers().get(0).getName());
         this.mPasswordView.setText(UserService.getInstance(this).getUsers().get(0).getPassword());
 
@@ -426,7 +425,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-    public void startLandwart(View view) {
+    public void startFarmer(View view) {
         this.mUsernameView.setText(UserService.getInstance(this).getUsers().get(1).getName());
         this.mPasswordView.setText(UserService.getInstance(this).getUsers().get(1).getPassword());
 
