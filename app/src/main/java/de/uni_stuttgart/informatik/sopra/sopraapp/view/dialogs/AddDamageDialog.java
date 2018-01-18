@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 
@@ -42,6 +45,9 @@ public class AddDamageDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         damageType = view.findViewById(R.id.text_damage_typeText);
+
+        TextView sizeText = view.findViewById(R.id.damage_size);
+        sizeText.setText("" + getArguments().getDouble("size"));
 
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
