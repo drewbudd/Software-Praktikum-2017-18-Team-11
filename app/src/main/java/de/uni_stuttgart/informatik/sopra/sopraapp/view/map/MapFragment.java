@@ -54,7 +54,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapInitialization;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddDamageDialog;
@@ -71,8 +71,7 @@ public class MapFragment extends Fragment implements
         OnMapReadyCallback,
         MapView.OnMapChangedListener,
         MapboxMap.OnMapClickListener,
-        LocationListener,
-        ConnectivityReceiver.ConnectivityReceiverListener {
+        LocationListener {
     private static final int REQUEST_LOCATION_COURSE = 42;
     private static final int REQUEST_LOCATION_FINE = 7;
     public static MapEditingStatus currentMapEditingStatus = MapEditingStatus.DEFAULT;
@@ -81,6 +80,7 @@ public class MapFragment extends Fragment implements
     AddDamageDialog addDamageDialogFragment;
     MapObject newMapObject;
     Field fieldFromDamage = null;
+    Field createdField = null;
     // variables related to the menu items
     private FloatingActionButton menuFAB;
     private FloatingActionButton fieldsFAB;
@@ -105,7 +105,6 @@ public class MapFragment extends Fragment implements
     private List<Marker> displayingMarkerOptions = new ArrayList<Marker>();
     private int foundFieldID = -1;
     private TextView statusText;
-
     private OfflineRegion[] offlineRegions = new OfflineRegion[10];
     private int fieldFromDamageID;
 
@@ -367,31 +366,48 @@ public class MapFragment extends Fragment implements
     }
 
     public void saveField() {
-        // gui changes
-        releaseFocusFABLayout(fieldsFABLayout);
-        TextView label = rootView.findViewById(R.id.field_button_label);
-        label.setText(R.string.fab_add_field);
+        // TODO add gps button logic
 
         // status, variables and cleanup
         currentMapEditingStatus = MapEditingStatus.DEFAULT;
-        Field createdField = (Field) newMapObject;
-        createdField.draw();
-        createdField.setFieldType(addFieldDialogFragment.getFieldType());
+        createdField = (Field) newMapObject;
         createdField.setSize(createdField.calculateArea());
+        createdField.setFieldType(addFieldDialogFragment.getFieldType());
         createdField.setOwner(UserService.getInstance(this.getActivity()).getCurrentUser());
-        MapActivity.dataService.addField((Field) newMapObject);
+
+
+        saveFieldToStorage(createdField);
+        changeUISaveField();
+
+
+    }
+
+    public void setNewField(Field field) {
+        this.newMapObject = field;
+    }
+
+    public void saveFieldToStorage(Field field) {
+        MapActivity.dataService.addField(field);
         MapActivity.dataService.saveFields();
+    }
+
+    public void changeUISaveField() {
+        // gui changes
+        createdField.draw();
+        releaseFocusFABLayout(fieldsFABLayout);
+        TextView label = rootView.findViewById(R.id.field_button_label);
+        label.setText(R.string.fab_add_field);
         getAddFieldDialog().dismiss();
     }
 
-    public void saveDamage() {
-        // TODO add gps button logic
-
+    public void changeUISaveDamage() {
         // gui changes
         releaseFocusFABLayout(damagesFABLayout);
         TextView label = rootView.findViewById(R.id.damages_button_label);
         label.setText(R.string.fab_report_damage);
+    }
 
+    public void saveDamage() {
         // status, variables and cleanup
         currentMapEditingStatus = MapEditingStatus.DEFAULT;
         Damage createdDamage = (Damage) newMapObject;
@@ -399,11 +415,16 @@ public class MapFragment extends Fragment implements
         createdDamage.setDamageType(addDamageDialogFragment.getDamageType());
         createdDamage.setSize(createdDamage.calculateArea());
         createdDamage.getFieldIds().add(fieldFromDamage.getCurrentId());
-        MapActivity.dataService.addDamage(createdDamage);
+        saveDamageToStorage(createdDamage);
+        fieldFromDamage = null;
+        changeUISaveDamage();
+        addDamageDialogFragment.dismiss();
+    }
+
+    public void saveDamageToStorage(Damage damage) {
+        MapActivity.dataService.addDamage(damage);
         MapActivity.dataService.saveDamages();
         MapActivity.dataService.saveFields();
-        fieldFromDamage = null;
-        addDamageDialogFragment.dismiss();
     }
 
     private void hideAndDisableGPSButton(FloatingActionButton fabGPS, TextView fabGPSLabel) {
@@ -459,7 +480,7 @@ public class MapFragment extends Fragment implements
 
         AsyncTask.execute(() ->
         {
-            //  downloadMap();
+            //            downloadMap();
         });
 
         for (Field field : MapActivity.dataService.getFields()) {
@@ -651,18 +672,13 @@ public class MapFragment extends Fragment implements
         mapView.onStop();
     }
 
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        updateNetworkStatus(isConnected);
-    }
-
-    private void updateNetworkStatus(boolean isConnected) {
+    public void updateNetworkStatus(boolean isConnected) {
         String status = "";
         if (isConnected) {
             status = getResources().getString(R.string.onlineStatusText);
             statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " " + status);
         } else {
-            status = getResources().getString(R.string.onlineStatusText);
+            status = getResources().getString(R.string.offlineStatusText);
             statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " " + status);
         }
     }

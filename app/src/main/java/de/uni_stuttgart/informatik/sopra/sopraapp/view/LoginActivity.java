@@ -58,30 +58,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
     private static final int REQUEST_WRITE = 0;
     private static final int REQUEST_READ = 0;
-
+    /**
+     *
+     */
+    private static Context context;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
-
     // UI references.
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
     private Spinner langChooser;
     private View rootView;
-
-    /**
-     *
-     */
-    private static Context context;
-
-
     private LoginController loginController = new LoginController(this);
 
-    public static Context getCurrentContext(){
+    public static Context getCurrentContext() {
         return context;
     }
 
@@ -96,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
         context = getApplicationContext();
-        rootView = (View)findViewById(R.id.loginRoot);
+        rootView = (View) findViewById(R.id.loginRoot);
 
         // Set up the login form.
         mUsernameView = findViewById(R.id.username);
@@ -108,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         langChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 1:
                         setLanguage("de");
                         break;
@@ -161,9 +155,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     /**
      * updates the selected Language
+     *
      * @param languageToLoad
      */
-    private void setLanguage(String languageToLoad){
+    private void setLanguage(String languageToLoad) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -183,13 +178,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
                 */
-            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANG", languageToLoad).commit();
-            Configuration config = getBaseContext().getResources().getConfiguration();
-            Locale locale = new Locale(languageToLoad);
-            Locale.setDefault(locale);
-            config.locale = locale;
-            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-            recreate();
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANG", languageToLoad).commit();
+                Configuration config = getBaseContext().getResources().getConfiguration();
+                Locale locale = new Locale(languageToLoad);
+                Locale.setDefault(locale);
+                config.locale = locale;
+                getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+                recreate();
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
@@ -435,15 +430,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void registerUser(View view) {
 
         Intent newIntent = new Intent(this, RegisterActivity.class);
-        startActivityForResult(newIntent,100);
+        startActivityForResult(newIntent, 100);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Snackbar.make(rootView,"User saved successully",Snackbar.LENGTH_SHORT).show();
-        switch (resultCode){
+        Snackbar.make(rootView, "User saved successully", Snackbar.LENGTH_SHORT).show();
+        switch (resultCode) {
             case 100:
                 break;
         }

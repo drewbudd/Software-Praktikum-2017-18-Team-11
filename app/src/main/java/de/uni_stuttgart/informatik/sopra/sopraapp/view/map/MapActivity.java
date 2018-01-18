@@ -61,6 +61,7 @@ public class MapActivity extends AppCompatActivity implements
 
        registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
        setConnectivityListener(this);
+        registerReceiver(new ConnectivityReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Override
@@ -175,10 +176,14 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        String x = "";
+        mapFragment.updateNetworkStatus(isConnected);
     }
 
     public void openInfos(View view) {
 
+    }
+
+    public MapFragment mapFragment(){
+        return mapFragment;
     }
 }
