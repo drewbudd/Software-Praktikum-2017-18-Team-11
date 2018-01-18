@@ -25,11 +25,8 @@
     <string name="modeStatus">Offline</string>
     <string name="offlineStatusText">Du bist offline</string>
     <string name="onlineStatusText">Du bist online</string>
-    <string name="farmer_login">Farmer Login</string>
-    <string name="agent_login">Expert Login</string>
-    <string name="searchBoxHint">Search for the owner or type of the damages</string>
-    <string name="owner">Owner:</string>
-    <string name="expert_text">Belonging Expert:</string>
+    <string name="farmer_login">als Landwirt einloggen</string>
+    <string name="agent_login">als Gutachter einloggen</string>
     <string name="field_size">Größe</string>
     <string name="notify_add_marker">Eckpunkt hinzufügen</string>
     <string name="loginButton">EInloggen</string>
