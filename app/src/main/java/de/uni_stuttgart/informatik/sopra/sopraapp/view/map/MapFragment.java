@@ -85,11 +85,10 @@ public class MapFragment extends Fragment implements
     private FloatingActionButton fieldsFAB;
     private FloatingActionButton damagesFAB;
     private FloatingActionButton settingsFAB;
-    private FloatingActionButton fabGPS;
+    private LinearLayout gpsFABLayout;
     private LinearLayout fieldsFABLayout;
     private LinearLayout damagesFABLayout;
     private LinearLayout settingsFABLayout;
-    private LinearLayout gpsFABLAyout;
     private boolean isFABOpen;
     private Map<LinearLayout, Float> fabsAndLabels = new HashMap<>();
     private OnFragmentInteractionListener mListener;
@@ -197,7 +196,7 @@ public class MapFragment extends Fragment implements
     }
 
     private void defineMenuButtons() {
-        fabGPS = rootView.findViewById(R.id.fab_gps);
+        gpsFABLayout = rootView.findViewById(R.id.gps_fab_and_label);
         menuFAB = rootView.findViewById(R.id.fab);
         fieldsFABLayout = rootView.findViewById(R.id.field_fab_and_label);
         damagesFABLayout = rootView.findViewById(R.id.damage_fab_and_label);
@@ -262,16 +261,20 @@ public class MapFragment extends Fragment implements
             }
         });
 
-        fabGPS.setOnClickListener(new View.OnClickListener() {
+        // set up gps fab
+        gpsFABLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Math.round(gpsLat) != 0 || Math.round(gpsLng) != 0) {
+                if ((Math.round(gpsLat) != 0 || Math.round(gpsLng) != 0)) {
                     switch (currentMapEditingStatus) {
                         case START_CREATE_FIELD_COORDINATES:
-                            // TODO: add GPS coordinates
+                            addFieldCoordinate(new LatLng(gpsLat, gpsLng));
                             break;
                         case START_CREATE_DAMAGE_COORDINATES:
                             // TODO:
+                            addDamageCoordinate(new LatLng(gpsLat, gpsLng));
+                            break;
+                        default:
                             break;
                     }
                 } else {
@@ -288,6 +291,7 @@ public class MapFragment extends Fragment implements
             }
         }
         menuFAB.setVisibility(View.GONE);
+        gpsFABLayout.setVisibility(View.VISIBLE);
         fabLayout.animate().translationY(0).setDuration(300);
     }
 
@@ -297,6 +301,7 @@ public class MapFragment extends Fragment implements
                 new Runnable() {
                     public void run() {
                         menuFAB.setVisibility(View.VISIBLE);
+                        gpsFABLayout.setVisibility(View.GONE);
                         for (LinearLayout fabAndLabel : fabsAndLabels.keySet()) {
                             fabAndLabel.setVisibility(View.VISIBLE);
                         }
@@ -483,38 +488,14 @@ public class MapFragment extends Fragment implements
         switch (currentMapEditingStatus) {
 
             case START_CREATE_FIELD_COORDINATES:
-                Marker marker = new Marker(new MarkerOptions());
-                marker.setPosition(point);
-                if (newMapObject.addMarker(marker.getPosition(), currentMapEditingStatus)) {
-                    newMapObject.drawMarker(point);
-                    this.displayingMarkerOptions.add(marker);
-                } else {
-                    Snackbar.make(getView(), R.string.notify_outside_of_other_fields, Snackbar.LENGTH_SHORT).show();
-                }
+                addFieldCoordinate(point);
                 break;
             case END_CREATE_FIELD_COORDINATES:
                 break;
             case CREATE_FIELD_DONE:
                 break;
             case START_CREATE_DAMAGE_COORDINATES:
-                if (fieldFromDamage == null) {
-                    for (Field field : MapActivity.dataService.getFields()) {
-                        if (field.contains(point)) {
-                            fieldFromDamage = field;
-                            newMapObject.addFieldId(fieldFromDamage.getCurrentId());
-                        }
-                    }
-                }
-                Snackbar.make(getView(), "Marker outside of a field", Snackbar.LENGTH_SHORT).show();
-                if (fieldFromDamage == null) {
-                    Snackbar.make(getView(), R.string.notify_inside_of_field, Snackbar.LENGTH_SHORT).show();
-                } else {
-                    if (fieldFromDamage.contains(point)) {
-                        newMapObject.addMarker(point, currentMapEditingStatus);
-                        newMapObject.drawMarker(point);
-                    }
-                }
-
+                addDamageCoordinate(point);
                 break;
             case CREATED_DAMAGE_DONE:
                 break;
@@ -530,6 +511,37 @@ public class MapFragment extends Fragment implements
                 break;
         }
 
+    }
+
+    private void addDamageCoordinate(@NonNull LatLng point) {
+        if (fieldFromDamage == null) {
+            for (Field field : MapActivity.dataService.getFields()) {
+                if (field.contains(point)) {
+                    fieldFromDamage = field;
+                    newMapObject.addFieldId(fieldFromDamage.getCurrentId());
+                }
+            }
+        }
+        Snackbar.make(getView(), "Marker outside of a field", Snackbar.LENGTH_SHORT).show();
+        if (fieldFromDamage == null) {
+            Snackbar.make(getView(), R.string.notify_inside_of_field, Snackbar.LENGTH_SHORT).show();
+        } else {
+            if (fieldFromDamage.contains(point)) {
+                newMapObject.addMarker(point, currentMapEditingStatus);
+                newMapObject.drawMarker(point);
+            }
+        }
+    }
+
+    private void addFieldCoordinate(@NonNull LatLng point) {
+        Marker marker = new Marker(new MarkerOptions());
+        marker.setPosition(point);
+        if (newMapObject.addMarker(marker.getPosition(), currentMapEditingStatus)) {
+            newMapObject.drawMarker(point);
+            this.displayingMarkerOptions.add(marker);
+        } else {
+            Snackbar.make(getView(), R.string.notify_outside_of_other_fields, Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -553,7 +565,6 @@ public class MapFragment extends Fragment implements
                 }
                 lastGPSLocation = new MarkerOptions().position(new LatLng(gpsLat, gpsLng)).icon(icon);
                 mapboxMapGlobal.addMarker(lastGPSLocation);
-                mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
                 break;
         }
 
