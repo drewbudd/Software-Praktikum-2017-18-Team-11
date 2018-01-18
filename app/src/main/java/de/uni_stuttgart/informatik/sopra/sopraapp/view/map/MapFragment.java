@@ -341,8 +341,6 @@ public class MapFragment extends Fragment implements
     }
 
     private void createField() {
-        // TODO add gps button logic
-
         // gui changes
         focusFABLayout(fieldsFABLayout);
         TextView label = rootView.findViewById(R.id.field_button_label);
@@ -356,8 +354,6 @@ public class MapFragment extends Fragment implements
     }
 
     public void createDamage() {
-        // TODO add gps button logic
-
         // gui changes
         focusFABLayout(damagesFABLayout);
         TextView label = rootView.findViewById(R.id.damages_button_label);
@@ -371,8 +367,6 @@ public class MapFragment extends Fragment implements
     }
 
     public void saveField() {
-        // TODO add gps button logic
-
         // gui changes
         releaseFocusFABLayout(fieldsFABLayout);
         TextView label = rootView.findViewById(R.id.field_button_label);
