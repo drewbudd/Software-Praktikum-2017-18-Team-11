@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
         context = getApplicationContext();
-        rootView = (View) findViewById(R.id.loginRoot);
+        rootView = (View)findViewById(R.id.loginRoot);
 
         // Set up the login form.
         mUsernameView = findViewById(R.id.username);
@@ -99,11 +99,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView = findViewById(R.id.password);
         langChooser = findViewById(R.id.langChooser);
 
-
         langChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
+                switch (position){
                     case 1:
                         setLanguage("de");
                         break;
@@ -156,10 +155,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     /**
      * updates the selected Language
-     *
      * @param languageToLoad
      */
-    private void setLanguage(String languageToLoad) {
+    private void setLanguage(String languageToLoad){
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -179,13 +177,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
                 */
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANG", languageToLoad).commit();
-                Configuration config = getBaseContext().getResources().getConfiguration();
-                Locale locale = new Locale(languageToLoad);
-                Locale.setDefault(locale);
-                config.locale = locale;
-                getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-                recreate();
+            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANG", languageToLoad).commit();
+            Configuration config = getBaseContext().getResources().getConfiguration();
+            Locale locale = new Locale(languageToLoad);
+            Locale.setDefault(locale);
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+            recreate();
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
@@ -413,7 +411,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mUsernameView.setAdapter(adapter);
     }
 
-    public void startGutachter(View view) {
+    public void startAgent(View view) {
         this.mUsernameView.setText(UserService.getInstance(this).getUsers().get(0).getName());
         this.mPasswordView.setText(UserService.getInstance(this).getUsers().get(0).getPassword());
 
@@ -421,7 +419,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-    public void startLandwart(View view) {
+    public void startFarmer(View view) {
         this.mUsernameView.setText(UserService.getInstance(this).getUsers().get(1).getName());
         this.mPasswordView.setText(UserService.getInstance(this).getUsers().get(1).getPassword());
 
@@ -431,15 +429,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void registerUser(View view) {
 
         Intent newIntent = new Intent(this, RegisterActivity.class);
-        startActivityForResult(newIntent, 100);
+        startActivityForResult(newIntent,100);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Snackbar.make(rootView, "User saved successully", Snackbar.LENGTH_SHORT).show();
-        switch (resultCode) {
+        Snackbar.make(rootView,"User saved successully",Snackbar.LENGTH_SHORT).show();
+        switch (resultCode){
             case 100:
                 break;
         }

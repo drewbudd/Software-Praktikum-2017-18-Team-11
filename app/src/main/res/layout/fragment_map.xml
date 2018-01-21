@@ -50,7 +50,7 @@
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
             android:alpha="0.3"
-            android:text="Settings" />
+            android:text="@string/action_settings" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/settings_button"
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:text="Report Damage"/>
+            android:text="@string/fab_report_damage"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/damages_button"
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:text="Add field"/>
+            android:text="@string/fab_add_field"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/field_button"
@@ -134,16 +134,18 @@
         android:id="@+id/gps_fab_and_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:alpha="0"
-        android:visibility="gone">
+        android:layout_gravity="top"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        >
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_gps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/fab_sub_size"
+            android:layout_height="@dimen/fab_sub_size"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_menu_mylocation" />
+            android:src="@android:drawable/ic_menu_mylocation"
+            app:fabSize="normal" />
 
         <TextView
             android:id="@+id/gps_button_label"
