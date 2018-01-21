@@ -162,6 +162,10 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="mapNotLoaded">Please initialize the map via internet first</string>
+    <string name="mapLoaded">mapLoaded!</string>
+    <string name="mapLoadedOnline">you are online, will all be refreshed</string>
+    <string name="mapNotRefresh">map Loaded, but doesnt refresh without internet</string>
 
 
 </resources>

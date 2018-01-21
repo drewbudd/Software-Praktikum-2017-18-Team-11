@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -31,7 +32,6 @@ import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.constants.Style;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -109,6 +109,8 @@ public class MapFragment extends Fragment implements
     private TextView statusText;
     private OfflineRegion[] offlineRegions = new OfflineRegion[10];
     private int fieldFromDamageID;
+    private TextView mapLoadedStatus;
+    private static final String mapLoadedPref = "map";
 
     public MapFragment() {
         mapFragment = this;
@@ -191,13 +193,14 @@ public class MapFragment extends Fragment implements
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
         defineMenuButtons();
         final TextView fabGPSLabel = rootView.findViewById(R.id.gps_button_label);
         setUpListeners();
 
+        mapLoadedStatus = (TextView)rootView.findViewById(R.id.mapStatus);
         statusText = rootView.findViewById(R.id.networkStatus);
 
+        handleMapLoadedStatus();
         return rootView;
     }
 
@@ -214,6 +217,40 @@ public class MapFragment extends Fragment implements
         fabsAndLabels.put(damagesFABLayout, -getResources().getDimension(R.dimen.standard_105));
         fabsAndLabels.put(settingsFABLayout, -getResources().getDimension(R.dimen.standard_155));
         isFABOpen = false;
+    }
+
+    private void handleMapLoadedStatus() {
+
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+        if (!sharedPref.contains("mapLoaded")) {
+            setTextMapNotLoaded();
+        } else if(sharedPref.contains("mapLoaded") && !ConnectivityReceiver.isConnected()) {
+            this.mapLoadedStatus.setText(getResources().getString(R.string.mapNotRefresh));
+            this.mapLoadedStatus.setBackgroundColor(Color.YELLOW);
+            this.mapLoadedStatus.setTextColor(Color.BLACK);
+        } else if(sharedPref.contains("mapLoaded") && ConnectivityReceiver.isConnected()) {
+            this.mapLoadedStatus.setText(getResources().getString(R.string.mapLoadedOnline));
+            this.mapLoadedStatus.setBackgroundColor(Color.GREEN);
+            this.mapLoadedStatus.setTextColor(Color.BLACK);
+        }
+    }
+    private void setTextMapNotLoaded(){
+        this.mapLoadedStatus.setText(getResources().getString(R.string.mapNotLoaded));
+        this.mapLoadedStatus.setBackgroundColor(Color.RED);
+        this.mapLoadedStatus.setTextColor(Color.BLACK);
+    }
+
+    private void saveMapLoadedStatus() {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = sharedPref.edit();
+        prefEditor.putString("mapLoaded", "Loaded");
+        prefEditor.apply();
+
+    }
+    private void setMapLoadedStatus(){
+        this.mapLoadedStatus.setText(getResources().getString(R.string.mapLoaded));
     }
 
     private void setUpListeners() {
@@ -481,9 +518,8 @@ public class MapFragment extends Fragment implements
                 .zoom(15).build());
 
 
-
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String value = sharedPreferences.getString("map",null);
+        String value = sharedPreferences.getString("map", null);
         if (value == null) {
 
             OfflineManager offlineManager = OfflineManager.getInstance(getActivity());
@@ -533,7 +569,8 @@ public class MapFragment extends Fragment implements
                                     double percentage = status.getRequiredResourceCount() >= 0
                                             ? (100.0 * status.getCompletedResourceCount() / status.getRequiredResourceCount()) :
                                             0.0;
-
+                                    saveMapLoadedStatus();
+                                    handleMapLoadedStatus();
                                     if (status.isComplete()) {
                                         offlineRegions[0] = offlineRegion;
                                         // TODO: save to file and load
@@ -765,6 +802,8 @@ public class MapFragment extends Fragment implements
             status = getResources().getString(R.string.offlineStatusText);
             statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " " + status);
         }
+
+        handleMapLoadedStatus();
     }
 
     private void downloadMap() {

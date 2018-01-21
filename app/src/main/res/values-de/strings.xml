@@ -34,4 +34,5 @@
     <string name="fab_add_field">Feld hinzufügen</string>
     <string name="fab_report_damage">Shaden melden</string>
     <string name="card_damage_typeView">Typ</string>
+    <string name="mapLoaded">mapLoaded!</string>
 </resources>
