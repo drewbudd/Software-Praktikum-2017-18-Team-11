@@ -47,6 +47,7 @@ public class DataService implements IDataService {
     @Override
     public void addField(Field field) {
         this.fields.add(field);
+        saveFields();
     }
 
     @Override

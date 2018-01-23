@@ -510,7 +510,7 @@ public class MapFragment extends Fragment implements
                 .target(new LatLng(48.74641, 9.10623))
                 .zoom(15).build());
 
-
+        /**
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         String value = sharedPreferences.getString("map", null);
         if (value == null) {
@@ -595,7 +595,9 @@ public class MapFragment extends Fragment implements
                         }
                     });
 
-        }
+
+
+        } */
 
 
         for (Field field : MapActivity.dataService.getFields()) {
