@@ -1,7 +1,10 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -20,16 +23,63 @@ public class UserServiceTest {
     @Rule
     public ActivityTestRule<LoginActivity> mLoginActivityTest = new ActivityTestRule<>(LoginActivity.class);
 
+    @Before
+    public void init(){
+        pause();
+    }
+
+    public void pause(){
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
-    public void saveUser(){
+    public void loadSavedUser(){
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
 
         User user = new User("stefan","..");
-        UserService.getInstance(mLoginActivityTest.getActivity()).saveUser(user);
+        UserService.getInstance(context).saveUser(user);
+        pause();
+        UserService.getInstance(context).loadUsers();
+        pause();
+        assertTrue(UserService.getInstance(context).getUsers().contains(user));
+    }
 
-       UserService.getInstance(mLoginActivityTest.getActivity()).loadUsers();
+    @Test
+    public void loadWrongSavedUser(){
+        pause();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
 
-      assertTrue(UserService.getInstance(mLoginActivityTest.getActivity()).getUsers().contains(user));
+        User user = new User("stefan","..");
+        User peter = new User("peter","..");
+        UserService.getInstance(context).saveUser(user);
+        pause();
+
+        UserService.getInstance(context).loadUsers();
+        pause();
+
+        assertFalse(UserService.getInstance(context).getUsers().contains(peter));
+    }
+
+    @Test
+    public void addUser(){
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+
+        User user = new User("stefan","..");
+        pause();
+
+        UserService.getInstance(context).setCurrentUser(user);
+        pause();
+
+        User currentUser = UserService.getInstance(context).getCurrentUser();
+        pause();
+
+        assertEquals(user.getName(),currentUser.getName());
+        assertEquals(user.getPassword(),currentUser.getPassword());
     }
 
     /*

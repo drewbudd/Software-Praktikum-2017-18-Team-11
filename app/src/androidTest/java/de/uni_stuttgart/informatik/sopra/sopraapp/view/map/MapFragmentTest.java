@@ -1,5 +1,7 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
 import org.junit.Before;
@@ -27,9 +29,11 @@ public class MapFragmentTest {
 
     @Rule
     public ActivityTestRule<MapActivity> mapActivityActivityTestRule = new ActivityTestRule<>(MapActivity.class);
-
+    Context context = null;
     @Before
     public void init(){
+
+        context = InstrumentationRegistry.getInstrumentation().getContext();
         try {
             Thread.sleep(4000);
         } catch (InterruptedException e) {
@@ -60,7 +64,7 @@ public class MapFragmentTest {
     public void onCreate() throws Exception {
         User user = new User("","");
 
-        UserService.getInstance(mapActivityActivityTestRule.getActivity().getApplicationContext()).setCurrentUser(user);
+        UserService.getInstance(context).setCurrentUser(user);
         onView(withId(R.id.fab));
         onView(withId(R.id.networkStatus));
 
