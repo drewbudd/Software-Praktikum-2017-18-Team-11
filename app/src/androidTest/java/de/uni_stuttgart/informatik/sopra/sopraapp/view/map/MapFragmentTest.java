@@ -1,24 +1,34 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
+
+import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.security.Provider;
+import java.util.ArrayList;
+import java.util.List;
+
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddFieldDialog;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -83,6 +93,77 @@ public class MapFragmentTest {
         onView(withId(R.id.settings_button_label));
     }
 
+    @Test
+    public void createField(){
+        List<LatLng> fieldPoints = new ArrayList<>();
+        fieldPoints.add(new LatLng(48.0,9.0));
+        fieldPoints.add(new LatLng(48.0,9.0));
+        fieldPoints.add(new LatLng(50.0,9.0));
+        fieldPoints.add(new LatLng(50.0,11.0));
+
+        MapObject mapObject = new Field();
+        for(LatLng latLng : fieldPoints) {
+            mapObject.addMarker(latLng,MapEditingStatus.START_CREATE_FIELD_COORDINATES);
+        }
+        mapObject.calculateArea();
+        MapService.getInstance().drawAllFields();
+
+    }
+
+
+    @Test
+    public void createDamage(){
+        List<LatLng> fieldPoints = new ArrayList<>();
+        fieldPoints.add(new LatLng(48.0,9.0));
+        fieldPoints.add(new LatLng(48.0,9.0));
+        fieldPoints.add(new LatLng(50.0,9.0));
+        fieldPoints.add(new LatLng(50.0,11.0));
+
+
+        List<LatLng> damagePoints = new ArrayList<>();
+        damagePoints.add(new LatLng(48.1,8.8));
+        damagePoints.add(new LatLng(48.0,8.8));
+        damagePoints.add(new LatLng(48.0,9.8));
+        damagePoints.add(new LatLng(89.0,10.8));
+        damagePoints.add(new LatLng(90,12.1));
+
+
+
+        MapObject mapObject = new Field();
+        for(LatLng latLng : fieldPoints) {
+            mapObject.addMarker(latLng,MapEditingStatus.START_CREATE_FIELD_COORDINATES);
+        }
+        mapObject.calculateArea();
+
+        MapObject damage = new Damage();
+        for(LatLng latLng : damagePoints) {
+           if(mapObject.contains(latLng)){
+                damage.addMarker(latLng, MapEditingStatus.START_CREATE_FIELD_COORDINATES);
+            }
+        }
+
+        DataService.getInstance(context).addDamage((Damage)damage);
+        DataService.getInstance(context).getDamages().clear();
+        DataService.getInstance(context).loadDamages();
+
+
+        MapService.getInstance().drawAllFields();
+
+    }
+
+    public void addFieldCoordinatesSuccessfull(){
+         LatLng latLng =  new LatLng(90,12.1);
+         Field field = new Field();
+        this.mapActivityActivityTestRule.getActivity().mapFragment().setCurrentMapEditingStatus(MapEditingStatus.START_CREATE_FIELD_COORDINATES);
+        this.mapActivityActivityTestRule.getActivity().mapFragment().setNewMapObject(field);
+
+
+         this.mapActivityActivityTestRule.getActivity().mapFragment().addFieldCoordinate(latLng);
+
+         assertEquals(latLng.getLatitude(), this.mapActivityActivityTestRule.getActivity().
+                 mapFragment().getDisplayingMarkerOptions().get(0).getPosition().getLatitude());
+
+    }
     /*    onView(withId(R.id.networkStatus)).check(matches(withText(
                 mapActivityActivityTestRule.getActivity().getResources().getString(R.id.offlineStatusText)
         )));

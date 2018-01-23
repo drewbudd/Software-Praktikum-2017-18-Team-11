@@ -4,17 +4,14 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.Helpers;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.mapService.MapService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapEditingStatus;
 
 /**
  * @author Stefan Zindl
@@ -53,6 +50,7 @@ public class DataService implements IDataService {
     @Override
     public void addDamage(Damage damage) {
         this.damages.add(damage);
+        saveDamages();
     }
 
     @Override
