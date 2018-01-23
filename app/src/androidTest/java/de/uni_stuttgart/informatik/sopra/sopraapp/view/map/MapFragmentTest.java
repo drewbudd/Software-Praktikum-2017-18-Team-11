@@ -2,13 +2,16 @@ package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
 import android.support.test.rule.ActivityTestRule;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.dialogs.AddFieldDialog;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -24,6 +27,15 @@ public class MapFragmentTest {
 
     @Rule
     public ActivityTestRule<MapActivity> mapActivityActivityTestRule = new ActivityTestRule<>(MapActivity.class);
+
+    @Before
+    public void init(){
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     /*
     @Before
@@ -46,6 +58,9 @@ public class MapFragmentTest {
 
     @Test
     public void onCreate() throws Exception {
+        User user = new User("","");
+
+        UserService.getInstance(mapActivityActivityTestRule.getActivity().getApplicationContext()).setCurrentUser(user);
         onView(withId(R.id.fab));
         onView(withId(R.id.networkStatus));
 
@@ -62,12 +77,14 @@ public class MapFragmentTest {
         onView(withId(R.id.field_button_label));
         onView(withId(R.id.damages_button_label));
         onView(withId(R.id.settings_button_label));
+    }
 
     /*    onView(withId(R.id.networkStatus)).check(matches(withText(
                 mapActivityActivityTestRule.getActivity().getResources().getString(R.id.offlineStatusText)
-        ))); */
+        )));
     }
 
+/*
     @Test
     public void saveField() {
         Field field = new Field();
@@ -81,6 +98,8 @@ public class MapFragmentTest {
         mapActivityActivityTestRule.getActivity().mapFragment().saveDamageToStorage(damage);
         assertTrue(DataService.getInstance(mapActivityActivityTestRule.getActivity()).getDamages().contains(damage));
     }
+
+    */
 
     /*
     @Test
