@@ -139,7 +139,7 @@ public class MapFragment extends Fragment implements
     /**
      * @param currentMapEditingStatus
      */
-    public static void setCurrentMapEditingStatus(MapEditingStatus currentMapEditingStatus) {
+    public void setCurrentMapEditingStatus(MapEditingStatus currentMapEditingStatus) {
         MapFragment.currentMapEditingStatus = currentMapEditingStatus;
     }
 
@@ -650,6 +650,15 @@ public class MapFragment extends Fragment implements
 
     }
 
+
+    public void setFieldFromDamage(Field damage){
+        this.fieldFromDamage = damage;
+    }
+
+    public void setNewMapObject(MapObject object){
+        this.newMapObject = object;
+    }
+
     private void addDamageCoordinate(@NonNull LatLng point) {
         if (fieldFromDamage == null) {
             for (Field field : MapActivity.dataService.getFields()) {
@@ -670,7 +679,11 @@ public class MapFragment extends Fragment implements
         }
     }
 
-    private void addFieldCoordinate(@NonNull LatLng point) {
+    public List<Marker> getDisplayingMarkerOptions() {
+        return this.displayingMarkerOptions;
+    }
+
+    public void addFieldCoordinate(@NonNull LatLng point) {
         Marker marker = new Marker(new MarkerOptions());
         marker.setPosition(point);
         if (newMapObject.addMarker(marker.getPosition(), currentMapEditingStatus)) {
@@ -680,6 +693,7 @@ public class MapFragment extends Fragment implements
             Snackbar.make(getView(), R.string.notify_outside_of_other_fields, Snackbar.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -797,91 +811,6 @@ public class MapFragment extends Fragment implements
         }
 
         handleMapLoadedStatus();
-    }
-
-    private void downloadMap() {
-        String TAG = "Map";
-        OfflineManager offlineManager = OfflineManager.getInstance(getActivity());
-
-        LatLngBounds latLngBounds = new LatLngBounds.Builder()
-                .include(new LatLng(48.74241, 9.10623))
-                .include(new LatLng(48.74245, 9.10633))
-
-                .build();
-        mapboxMapGlobal.setStyle("Light");
-        OfflineTilePyramidRegionDefinition definition = new
-                OfflineTilePyramidRegionDefinition(
-                mapboxMapGlobal.getStyleUrl(),
-                latLngBounds,
-                10,
-                20,
-                getActivity().getResources().getDisplayMetrics().density);
-
-        // Implementation that uses JSON to store Yosemite National Park as the offline region name.
-        byte[] metadata;
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("REGION", "Yosemite National Park");
-            String json = jsonObject.toString();
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor prefEditor = sharedPref.edit();
-            prefEditor.putString("map", json);
-            prefEditor.apply();
-            metadata = json.getBytes();
-        } catch (Exception exception) {
-            Log.e(TAG, "Failed to encode metadata: " + exception.getMessage());
-            metadata = null;
-        }
-
-        // Create the region asynchronously
-        offlineManager.createOfflineRegion(definition, metadata,
-                new OfflineManager.CreateOfflineRegionCallback() {
-                    @Override
-                    public void onCreate(final OfflineRegion offlineRegion) {
-                        offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE);
-
-                        // Monitor the download progress using setObserver
-                        offlineRegion.setObserver(new OfflineRegion.OfflineRegionObserver() {
-                            @Override
-                            public void onStatusChanged(OfflineRegionStatus status) {
-
-                                // Calculate the download percentage
-                                double percentage = status.getRequiredResourceCount() >= 0
-                                        ? (100.0 * status.getCompletedResourceCount() / status.getRequiredResourceCount()) :
-                                        0.0;
-                                Snackbar.make(mapFragment.getView(), percentage + "", Snackbar.LENGTH_LONG).show();
-
-                                if (status.isComplete()) {
-                                    offlineRegions[0] = offlineRegion;
-                                    // TODO: save to file and load
-                                    Snackbar.make(mapFragment.getView(), "Download done", Snackbar.LENGTH_LONG).show();
-                                    Log.d(TAG, "Region downloaded successfully.");
-                                } else if (status.isRequiredResourceCountPrecise()) {
-                                    Log.d(TAG, "");
-                                }
-                            }
-
-                            @Override
-                            public void onError(OfflineRegionError error) {
-                                // If an error occurs, print to logcat
-                                Log.e(TAG, "onError reason: " + error.getReason());
-                                Log.e(TAG, "onError message: " + error.getMessage());
-                            }
-
-                            @Override
-                            public void mapboxTileCountLimitExceeded(long limit) {
-                                // Notify if offline region exceeds maximum tile count
-                                Log.e(TAG, "Mapbox tile count limit exceeded: " + limit);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(String error) {
-                        Log.e(TAG, "Error: " + error);
-                    }
-                });
-
     }
 
     /**
