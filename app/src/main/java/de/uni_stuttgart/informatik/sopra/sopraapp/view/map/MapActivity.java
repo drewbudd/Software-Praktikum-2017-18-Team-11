@@ -39,7 +39,7 @@ public class MapActivity extends AppCompatActivity implements
     private static MapActivity context;
 
     public static IDataService dataService = null;
-
+    private boolean useReceiver = false;
     public static Context getInstance() {
         return context;
     }
@@ -52,9 +52,10 @@ public class MapActivity extends AppCompatActivity implements
         dataService.loadDamages();
 
 
-       registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-       setConnectivityListener(this);
-        registerReceiver(new ConnectivityReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+//        if(useReceiver) {
+  //          registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    //        setConnectivityListener(this);
+      //  }
     }
 
     @Override
@@ -79,7 +80,6 @@ public class MapActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       unregisterReceiver(connectivityReceiver);
     }
 
     @Override
