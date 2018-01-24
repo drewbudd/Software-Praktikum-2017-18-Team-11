@@ -122,8 +122,7 @@ Die Entwicklungsgeschichte befindet sich in [CHANGELOG.md](CHANGELOG.md).
 - [AndroidSlidingUpPanel](https://github.com/umano/AndroidSlidingUpPanel)
 ## Lizenz
 
-- Apache License, Version 2.0 für die Verwendung des Slidermenüs
-- MIT Lizenz für die Verwendung von MapBox
+-MIT-Lizenz
 
 Genaue Bedingungen der Lizenz können in [LICENSE](LICENSE) nachgelesen werden.
 
