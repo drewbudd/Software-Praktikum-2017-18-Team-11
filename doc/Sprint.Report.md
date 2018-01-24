@@ -33,7 +33,7 @@ In diesem Sprint wurden die bis zum [Meilenstein 5](https://sopra.informatik.uni
 - Die Zeitabrechnung wurde aktualisiert.
 - Die Readme.md Datei wurde aktualisiert.
 - Im Changelog wurde aktualisiert, was bis Meilenstein 5 dazu kam.
-- Ein Screenshot des Test-Coverage-Report (https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/blob/master/doc/coverage/coverage.png) ist nun verfügbar.
+- Der [Test-Coverage-Report (Screenshot)](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/blob/master/doc/coverage/coverage.png) ist nun verfügbar.
 
 
 
