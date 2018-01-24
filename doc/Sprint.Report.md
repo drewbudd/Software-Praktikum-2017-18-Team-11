@@ -1,11 +1,11 @@
 # Sprint Report ([1,2])
 
 In diesem Sprint wurden die bis zum [Meilenstein 5](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/milestones/2) erledigten User Stories abgearbeitet.
--[Felder speichern](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/38)
--[Schäden speichern](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/73)
--[Felder löschen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/74)
--[Schäden löschen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/67)
--[Fläche berechnen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/76)
+-[Felder speichern](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/38)   
+-[Schäden speichern](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/73)   
+-[Felder löschen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/74)   
+-[Schäden löschen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/67)   
+-[Fläche berechnen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/76)  
 
 
 ## Additional Features
