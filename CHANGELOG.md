@@ -27,6 +27,7 @@ This project adheres currently NOT REALLY to [Semantic Versioning](http://semver
 
 ## Changed
 - Schäden und Felder Assoziation ( Speicherung)
+- Erweiterung der Dialoge für Erstellung Schäden und Felder
 
 
 ## [0.3.0] - 2017-12-31
