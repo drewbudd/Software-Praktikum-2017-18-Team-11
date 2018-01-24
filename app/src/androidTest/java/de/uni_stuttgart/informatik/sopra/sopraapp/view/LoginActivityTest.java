@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import de.uni_stuttgart.informatik.sopra.sopraapp.controller.LoginController;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
@@ -22,15 +23,23 @@ public class LoginActivityTest {
     @Rule
     public ActivityTestRule<LoginActivity> mLoginActivtyTest = new ActivityTestRule<>(LoginActivity.class);
 
-
-    public void loginSuccessFul(){
-        mLoginActivtyTest.getActivity().setLoginData("Gutachter",".");
-        mLoginActivtyTest.getActivity().attemptLogin();
+    private LoginController loginController;
+    @Before
+    public void init(){
+        loginController =new LoginController(mLoginActivtyTest.getActivity());
     }
 
+    @Test
+    public void loginSuccessFul(){
+
+       assertTrue(loginController.checkLoginData(new User("Gutachter",".")));
+
+    }
+
+    @Test
     public void loginNotSuccessFul(){
-        mLoginActivtyTest.getActivity().setLoginData("Gutachter","....");
-        mLoginActivtyTest.getActivity().attemptLogin();
+        assertFalse(loginController.checkLoginData(new User("Gutachter","..")));
+
     }
 
 }
