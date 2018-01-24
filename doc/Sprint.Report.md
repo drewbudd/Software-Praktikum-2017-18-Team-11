@@ -1,5 +1,44 @@
 # Sprint Report ([1,2])
 
+In diesem Sprint wurden die bis zum [Meilenstein 5](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/milestones/2) erledigten User Stories abgearbeitet.
+
+-[Felder speichern](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/38)
+
+-[Schäden speichern](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/73)
+
+-[Felder löschen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/74)
+
+-[Schäden löschen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/67)
+
+-[Netzwerkstatus anzeigen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/75)
+
+-[Benutzer erstellen (speichern, laden)](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/56)
+
+-[Fläche berechnen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/76)
+
+-[Eingeloggter Benutzername anzeigen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/78)
+
+-[Anzeigen, ob Benutzer offline oder online ist](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/79)
+
+-[Detailview für Schäden](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/70)
+
+-[Fotos für Schäden machen](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/60)
+
+-[Sprache ändern (Deutsch oder Englisch)](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/51)
+
+## Verbesserte Dokumente
+
+- Sprint-report
+- Issues wurden erstellt und geschlossen
+- Zeitabrechnung angepasst
+- Readme
+- Changelog
+- Test-Coverage-Report (https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/blob/master/doc/coverage/coverage.png)
+
+
+
+# Sprint Report ([1,2])
+
 In diesem Sprint wurden die bis zum [Meilenstein 4](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/milestones/2) erledigten User Stories abgearbeitet.
 
 -[Benutzerverwaltung](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/issues/2)
