@@ -98,6 +98,7 @@ Auch der Landwirt interessiert sich für seine eigenen Felder und Hageschläden.
 ![Step2](doc/images/screenshots/create_damage.png)
 
 ![Step3](doc/images/screenshots/create_damage_complete.png)
+![Step4](doc/images/screenshots/foto_damage.png)
 
 ### Schadensfallvisualisierung
 ![Step1](doc/images/screenshots/schadensvisualisierung.png)
@@ -105,6 +106,13 @@ Auch der Landwirt interessiert sich für seine eigenen Felder und Hageschläden.
 ### Schadensfallverwaltung
 ![Step1](doc/images/screenshots/shadensverwaltung.png)
 ![Step2](doc/images/screenshots/shadensverwaltung_search.png)
+
+### Benutzerverwaltung
+![Step1](doc/images/screenshots/login.png)
+![Step2](doc/images/screenshots/language.png)
+
+![Step3](doc/images/screenshots/register.png)
+![Step4](doc/images/screenshots/register_as.png)
 
 ## Changelog
 
