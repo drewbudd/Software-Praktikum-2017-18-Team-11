@@ -87,6 +87,8 @@ Auch der Landwirt interessiert sich für seine eigenen Felder und Hageschläden.
 ![Step4](doc/images/screenshots/create_field_complete.png)
 
 ### Feldvisualisierung
+![Step1](doc/images/screenshots/field_visualisierung_while_creating.png)
+![Step2](doc/images/screenshots/field_visualisierung_on_map.png)
 
 ### Felderverwaltung
 ![Step1](doc/images/screenshots/felderverwaltung.png)
