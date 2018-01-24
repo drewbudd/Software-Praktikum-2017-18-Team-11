@@ -32,6 +32,7 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 - Felder löschen
 
 ## Noch Nicht implementierte Features
+INFO: Alle offenen Issuses sind für den nächsten Sprint, da diese in diesem Sprint nicht geschlossen werden konnten
 - Datenaustausch
 - Möglichkeit die Karte auf ein bestimmtes Feld oder Schadensfall zentrieren
 - Man kann die Felder bearbeiten:
