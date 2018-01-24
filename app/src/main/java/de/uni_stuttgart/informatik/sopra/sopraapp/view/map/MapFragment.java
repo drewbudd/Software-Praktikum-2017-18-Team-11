@@ -380,8 +380,6 @@ public class MapFragment extends Fragment implements
     }
 
     public void saveDamage() {
-        // TODO add gps button logic
-
         // gui changes
         releaseFocusFABLayout(damagesFABLayout);
         TextView label = rootView.findViewById(R.id.damages_button_label);
@@ -399,18 +397,6 @@ public class MapFragment extends Fragment implements
         MapActivity.dataService.saveFields();
         fieldFromDamage = null;
         addDamageDialogFragment.dismiss();
-    }
-
-    private void hideAndDisableGPSButton(FloatingActionButton fabGPS, TextView fabGPSLabel) {
-        fabGPS.animate().alpha(0.0f).setDuration(100);
-        fabGPS.setEnabled(false);
-        fabGPSLabel.animate().alpha(0.0f).setDuration(100);
-    }
-
-    private void showAndEnableGPSButton(FloatingActionButton fabGPS, TextView fabGPSLabel) {
-        fabGPS.animate().alpha(1.0f).setDuration(100);
-        fabGPS.setEnabled(true);
-        fabGPSLabel.animate().alpha(1.0f).setDuration(100);
     }
 
 
