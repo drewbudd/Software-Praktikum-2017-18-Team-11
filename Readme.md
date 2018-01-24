@@ -104,6 +104,7 @@ Auch der Landwirt interessiert sich für seine eigenen Felder und Hageschläden.
 
 ### Schadensfallverwaltung
 ![Step1](doc/images/screenshots/shadensverwaltung.png)
+![Step2](doc/images/screenshots/shadensverwaltung_search.png)
 
 ## Changelog
 
