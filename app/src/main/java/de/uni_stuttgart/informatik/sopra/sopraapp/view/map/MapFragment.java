@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mapbox.mapboxsdk.geometry.LatLngBounds;
+
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
@@ -42,6 +44,7 @@ import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -144,6 +147,10 @@ public class MapFragment extends Fragment implements
         MapFragment.currentMapEditingStatus = currentMapEditingStatus;
     }
 
+    public static void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -217,6 +224,7 @@ public class MapFragment extends Fragment implements
 
 
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
         if (!sharedPref.contains("mapLoaded")) {
             setTextMapNotLoaded();
         } else if(sharedPref.contains("mapLoaded") && !ConnectivityReceiver.isConnected()) {
@@ -230,7 +238,7 @@ public class MapFragment extends Fragment implements
         }
     }
     private void setTextMapNotLoaded(){
-        //this.mapLoadedStatus.setText(getResources().getString(R.string.mapNotLoaded));
+        this.mapLoadedStatus.setText(getResources().getString(R.string.mapNotLoaded));
         this.mapLoadedStatus.setBackgroundColor(Color.RED);
         this.mapLoadedStatus.setTextColor(Color.BLACK);
     }
@@ -243,7 +251,7 @@ public class MapFragment extends Fragment implements
 
     }
     private void setMapLoadedStatus(){
-        //this.mapLoadedStatus.setText(getResources().getString(R.string.mapLoaded));
+        this.mapLoadedStatus.setText(getResources().getString(R.string.mapLoaded));
     }
 
     private void setUpListeners() {
@@ -609,13 +617,13 @@ public class MapFragment extends Fragment implements
         if (this.currentMODE == NewAreaMode.GPS) {
             this.currentBorderPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
         }
-        //mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder().target(new LatLng(gpsLat, gpsLng)).build());
+        if (mapboxMapGlobal != null) {
 
-        gpsLat = location.getLatitude();
-        gpsLng = location.getLongitude();
+            gpsLat = location.getLatitude();
+            gpsLng = location.getLongitude();
 
-        IconFactory iconFactory = IconFactory.getInstance(rootView.getContext());
-        Icon icon = iconFactory.fromResource(R.drawable.mapbox_mylocation_icon_default);
+            IconFactory iconFactory = IconFactory.getInstance(rootView.getContext());
+            Icon icon = iconFactory.fromResource(R.drawable.mapbox_mylocation_icon_default);
 
         switch (currentMapEditingStatus) {
             case START_CREATE_FIELD_COORDINATES:
@@ -691,6 +699,7 @@ public class MapFragment extends Fragment implements
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        mapFragment.setConnectivityListener(this);
         registerLocationListener();
     }
 

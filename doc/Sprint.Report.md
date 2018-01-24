@@ -70,6 +70,12 @@ In diesem Sprint wurden die bis zum [Meilenstein 4](https://sopra.informatik.uni
 - Sprint-report
 - Issues wurden erstellt
 
+## Abgearbeitete User Stories
+
+### Benutzerverwaltung
+
+Die Benutzerverwaltung wurde vollständig implementiert, sodass die App unterscheidet, ob der Benutzer ein Gutachter oder Landwirt ist.
+
 ## Tests/Testprotokolle/Nachweis der Testabdeckung
 
 Testfälle sind unter doc/Testfälle.pdf zu finden
