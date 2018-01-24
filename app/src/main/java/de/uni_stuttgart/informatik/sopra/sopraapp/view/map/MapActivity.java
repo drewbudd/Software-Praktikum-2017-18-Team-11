@@ -44,19 +44,7 @@ public class MapActivity extends AppCompatActivity implements
         return context;
     }
     private ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver();
-    @Override
-    protected void onStart() {
-        super.onStart();
-        dataService = DataService.getInstance(this);
-        dataService.loadFields();
-        dataService.loadDamages();
 
-
-//        if(useReceiver) {
-  //          registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-    //        setConnectivityListener(this);
-      //  }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +68,7 @@ public class MapActivity extends AppCompatActivity implements
 
         registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         setConnectivityListener(this);
+    }
 
 
     @Override
@@ -183,5 +172,10 @@ public class MapActivity extends AppCompatActivity implements
 
     public MapFragment mapFragment(){
         return mapFragment;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
