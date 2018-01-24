@@ -23,13 +23,11 @@ public class LoginActivityTest {
     public ActivityTestRule<LoginActivity> mLoginActivtyTest = new ActivityTestRule<>(LoginActivity.class);
 
 
-    @Test
     public void loginSuccessFul(){
         mLoginActivtyTest.getActivity().setLoginData("Gutachter",".");
         mLoginActivtyTest.getActivity().attemptLogin();
     }
 
-    @Test
     public void loginNotSuccessFul(){
         mLoginActivtyTest.getActivity().setLoginData("Gutachter","....");
         mLoginActivtyTest.getActivity().attemptLogin();
