@@ -36,10 +36,14 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 - Möglichkeit die Karte auf ein bestimmtes Feld oder Schadensfall zentrieren
 - Man kann die Felder bearbeiten:
  - Größe, Art, Gutachter etc.
+ 
 ### Farben für Felder ändern
+
 - Möglichkeit die Farbe der Felder je nach Feldtyp anpassen
+- 
 ### Suche erweitern
-- Möglichkeit nach Feldtypen, Schadensarten etc. suchen
+
+- Möglichkeit nach Feldtypen etc. suchen
 
 ## Installation
 Anleitung für Android Studio:
