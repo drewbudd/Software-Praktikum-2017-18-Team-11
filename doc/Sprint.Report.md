@@ -28,12 +28,12 @@ In diesem Sprint wurden die bis zum [Meilenstein 5](https://sopra.informatik.uni
 
 ## Verbesserte Dokumente
 
-- Sprint-report
-- Issues wurden erstellt und geschlossen
-- Zeitabrechnung angepasst
-- Readme
-- Changelog
-- Test-Coverage-Report (https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/blob/master/doc/coverage/coverage.png)
+- Der Sprint-report für Meilenstein 5 wurde erstellt.
+- Es wurden Issues erstellt und geschlossen.
+- Die Zeitabrechnung wurde aktualisiert.
+- Die Readme.md Datei wurde aktualisiert.
+- Im Changelog wurde aktualisiert, was bis Meilenstein 5 dazu kam.
+- Ein Screenshot des Test-Coverage-Report (https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/blob/master/doc/coverage/coverage.png) ist nun verfügbar.
 
 
 
