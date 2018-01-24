@@ -3,6 +3,31 @@ All notable changes to this project will be documented in this file.
 This project adheres currently NOT REALLY to [Semantic Versioning](http://semver.org/) despite the formatting of the version numbers.
 
 ## Unreleased
+- Fotos speichern
+- MapObjekte ändern
+
+## Released
+
+## [1.0.0] - 2017-23-01
+
+## Added
+- Felder löschen
+- Schäden löschen
+- Felder werden gespeichert
+- Schäden werden gespeichert
+- Netzwerkstatus anzeigen
+- Benutzer erstellen ( speicher, laden)
+- Fläche berechnen
+- Eingeloggter Benutzername anzeigen
+- Anzeigen, ob der Benutzer offline oder online ist
+- Detailview für Schäden
+- Fotos für Schäden machen
+- Sprache ändern ( Deutsch oder Englisch)
+
+
+## Changed
+- Schäden und Felder Assoziation ( Speicherung)
+
 
 ## [0.3.0] - 2017-12-31
 ### Added
@@ -22,7 +47,6 @@ This project adheres currently NOT REALLY to [Semantic Versioning](http://semver
 - Verwendung von Datenbank
 - Verschlüsselung der Daten
 
-## Released
 ## [0.2.1] - 2017-12-7
 
 ### Added

@@ -23,7 +23,10 @@ In diesem Sprint wurden die bis zum [Meilenstein 4](https://sopra.informatik.uni
 - Das Product Backlog wurde aktualisiert
 - Merge Request Template wurde aktualisiert
 - Definition of Done wurde aktualisiert
+- Sprint-report
+- Issues wurden erstellt
 
 ## Tests/Testprotokolle/Nachweis der Testabdeckung
 
-*TODO: Testprotokolle und Abdeckung hier einfügen/verlinken*
+Testfälle sind unter doc/Testfälle.pdf zu finden
+[Testfälle](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/blob/master/doc/Testf%C3%A4lle.pdf)

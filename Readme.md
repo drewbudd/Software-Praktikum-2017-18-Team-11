@@ -22,10 +22,14 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 -  Unterscheidung der Benutzer Gutachter / Landwirt
 -  Felder anzeigen
 -  Schäden anzeigen
+
 #### Additional Feature
 - Aktuelle Position ermitteln + Karte zentrieren
+
 ## Noch nicht implementierte Features
+
 Hier ist aufgelistet, welche Features im nächsten Sprint implementiert werden
+
 ### Datenaustausch
 
 Der Landwirt hat die Möglichkeit seine Schadensfälle zu exportieren, sodass der Gutachter diese in sein Handy einspielen kann. Durch diese Möglichkeit kann der Gutachter up-to-date bleiben und Änderungen dies der Versicherung melden.
@@ -52,7 +56,6 @@ Nach dem klonen weiter bei 2.
 Handy anschließen und dies nach dem Bauen wählen
 4. Android Studio Projekt im Emulator ausführen oder APK erstellen lassen
 
-Oder scanne einfach den QR-Code:
 
 ## Verwendung der App
 
