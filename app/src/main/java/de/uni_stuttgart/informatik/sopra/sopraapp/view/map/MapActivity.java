@@ -1,22 +1,18 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
+import android.content.Context;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.IDataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.DamagesFragment;
@@ -32,33 +28,55 @@ public class MapActivity extends AppCompatActivity implements
         FieldsFragment.OnFragmentInteractionListener,
         SearchFragment.OnFragmentInteractionListener,
         BlankFragment.OnFragmentInteractionListener,
-        View.OnClickListener,
-        LocationListener {
+        ConnectivityReceiver.ConnectivityReceiverListener {
 
 
     private static final int REQUEST_LOCATION_FINE = 100;
     private static final int REQUEST_LOCATION_COURSE = 101;
-    private static final int REQUEST_LOCATION_GPS = 102;
     private static final int REQUEST_LOCATION_HARDWARE = 103;
-    private LocationManager locationManager;
+    public static IDataService dataService = null;
+    private static MapActivity context;
     private MapFragment mapFragment;
     private ManageServiceFragment manageServiceFragment;
+    private boolean useReceiver = false;
+    private ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver();
+
+    public static Context getInstance() {
+        return context;
+    }
+
+    /**
+     * sets the listener for networking listening
+     *
+     * @param listener
+     */
+    public static void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        dataService = DataService.getInstance(this);
+        dataService.loadFields();
+        dataService.loadDamages();
+
+        registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        setConnectivityListener(this);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.activity_map);
 
 
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
         manageServiceFragment = (ManageServiceFragment) getFragmentManager().findFragmentById(R.id.manageServiceFragment);
+        manageServiceFragment.getFieldFragment().updateAdapter();
 
-    }
-
-    private void askPermission(String accessCoarseLocation, int requestLocationCourse) {
-        if (ContextCompat.checkSelfPermission(this, accessCoarseLocation) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{accessCoarseLocation}, requestLocationCourse);
-        }
     }
 
     @Override
@@ -67,23 +85,8 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        Log.v("location", location.getLatitude() + "");
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -143,52 +146,37 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     /**
-     * saves a new Field after saveButton pressed in the
-     * newFieldDialog
+     * saves a new Field
+     * used from the button in the dialog
      *
      * @param view
      */
     public void saveNewField(View view) {
-        EditText fieldname = mapFragment.getAddFieldDialogFragment().getDialog().findViewById(R.id.text_field_name);
-        Spinner contractType = mapFragment.getAddFieldDialogFragment().getDialog().findViewById(R.id.contract_spinner);
-        EditText fieldType = mapFragment.getAddFieldDialogFragment().getDialog().findViewById(R.id.text_field_type);
-
-        mapFragment.getCreatingNewField().setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
-        mapFragment.getCreatingNewField().setFieldType(fieldType.getText().toString());
-        mapFragment.getCreatingNewField().setOwner(App.dataService.getCurrentLoggedInUser());
-        App.dataService.saveField(mapFragment.getCreatingNewField());
-
-        MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
-        mapFragment.drawField(mapFragment.getCurrentMarkerFieldPositions());
-        mapFragment.getAddFieldDialogFragment().dismiss();
-        mapFragment.clearField();
-
+        mapFragment.saveField();
+        manageServiceFragment.getFieldFragment().updateAdapter();
     }
 
-    @Override
-    public void onClick(View v) {
-        Log.v("onClick", v.getId() + "");
-    }
-
+    /**
+     * saves a new damage
+     * uses from the button in the dialog
+     *
+     * @param view
+     */
     public void saveNewDamage(View view) {
-        EditText damageType = mapFragment.getAddDamageDialogFragment().getDialog().findViewById(R.id.text_damage_typeText);
-        Damage newDamage = new Damage(mapFragment.getFieldFromDamage());
-        newDamage.setDamageType(damageType.getText().toString());
-        newDamage.setMarkerPosition(mapFragment.getCurrentMarkerFieldPositions());
-        newDamage.setOwner(mapFragment.getFieldFromDamage().getOwner());
-        mapFragment.getFieldFromDamage().addDamage(newDamage);
-        App.dataService.updateField(mapFragment.getFoundFieldID(), mapFragment.getFieldFromDamage());
-        MapFragment.setCurrentMapEditingStatus(MapEditingStatus.DEFAULT);
-        mapFragment.getAddDamageDialogFragment().dismiss();
-        mapFragment.drawDamage(mapFragment.getCurrentDamageMarkerPosition());
-//        manageServiceFragment.getSearchFragment().getSearchAdapter().notifyDataSetChanged();
-        mapFragment.clearDamage();
+        mapFragment.saveDamage();
+        manageServiceFragment.getSearchFragment().updateAdapter();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        mapFragment.updateNetworkStatus(isConnected);
+    }
 
-        App.dataStorageService.saveAllFields();
+    public void openInfos(View view) {
+
+    }
+
+    public MapFragment mapFragment() {
+        return mapFragment;
     }
 }

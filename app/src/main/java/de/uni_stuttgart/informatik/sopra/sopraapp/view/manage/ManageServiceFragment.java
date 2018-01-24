@@ -27,16 +27,15 @@ public class ManageServiceFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    SearchFragment searchFragment;
+    FieldsFragment fieldFragment;
+    DamagesFragment damagesFragment;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private View rootView;
     private TabLayout tabLayout;
-
     private OnFragmentInteractionListener mListener;
-    SearchFragment searchFragment;
 
     public ManageServiceFragment() {
         // Required empty public constructor
@@ -70,28 +69,32 @@ public class ManageServiceFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_manage, container, false);
+        searchFragment = new SearchFragment();
+        fieldFragment = new FieldsFragment();
+        damagesFragment = new DamagesFragment();
 
         tabLayout = rootView.findViewById(R.id.tab_layout);
-
-        replaceFragment(new FieldsFragment());
+        fieldFragment.updateAdapter();
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 com.sothree.slidinguppanel.SlidingUpPanelLayout slidingLayout = getActivity().findViewById(R.id.sliding_layout);
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
-                switch(tab.getPosition()) {
+                switch (tab.getPosition()) {
                     case 0:
-                        replaceFragment(new FieldsFragment());
+                        replaceFragment(fieldFragment);
+                        fieldFragment.updateAdapter();
                         break;
                     case 1:
-                        replaceFragment(new DamagesFragment());
+                        replaceFragment(damagesFragment);
+                        damagesFragment.updateAdapter();
+
                         break;
                     case 2:
                         replaceFragment(new ContractsFragment());
                         break;
                     case 3:
-                        searchFragment = new SearchFragment();
                         replaceFragment(searchFragment);
                         searchFragment.updateAdapter();
                         break;
@@ -112,6 +115,11 @@ public class ManageServiceFragment extends Fragment {
                     slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 } else {
                     slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+                }
+
+                if (tab.getPosition() == 0) {
+                    replaceFragment(fieldFragment);
+                    fieldFragment.updateAdapter();
                 }
             }
         });
@@ -151,6 +159,14 @@ public class ManageServiceFragment extends Fragment {
         mListener = null;
     }
 
+    public FieldsFragment getFieldFragment() {
+        return fieldFragment;
+    }
+
+    public SearchFragment getSearchFragment() {
+        return searchFragment;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -164,9 +180,5 @@ public class ManageServiceFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    public SearchFragment getSearchFragment() {
-        return searchFragment;
     }
 }

@@ -7,34 +7,65 @@
     tools:context="de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapFragment"
     xmlns:mapbox="http://schemas.android.com/apk/res-auto">
 
-    <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/mapView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        mapbox:mapbox_cameraTargetLat="40.73581"
-        mapbox:mapbox_cameraTargetLng="-73.99155"
-        mapbox:mapbox_styleUrl="@string/mapbox_style_mapbox_streets"
-        mapbox:mapbox_cameraZoom="11" />
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+            android:id="@+id/mapStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FF00"
+            android:textColor="#ffffff"
+            android:text="@string/offlineStatusText"
+            />
+        <TextView
+            android:id="@+id/networkStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:textColor="#ffffff"
+            android:text="@string/offlineStatusText"
+            />
+        </LinearLayout>
+
+        <com.mapbox.mapboxsdk.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            mapbox:mapbox_cameraTargetLat="40.73581"
+            mapbox:mapbox_cameraTargetLng="-73.99155"
+            mapbox:mapbox_styleUrl="@string/mapbox_style_mapbox_streets"
+            mapbox:mapbox_cameraZoom="11" />
+
+    </LinearLayout>
+
 
 
     <LinearLayout
-        android:id="@+id/fab3_and_label"
+        android:id="@+id/settings_fab_and_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="bottom|end">
+        android:layout_gravity="bottom|end"
+        android:alpha="0"
+        android:visibility="gone">
 
         <TextView
-            android:id="@+id/fab3_label"
+            android:id="@+id/settings_button_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:alpha="0"
-            android:text="Settings" />
+            android:alpha="0.3"
+            android:text="@string/action_settings" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab3"
+            android:id="@+id/settings_button"
             android:layout_width="@dimen/fab_sub_size"
             android:layout_height="@dimen/fab_sub_size"
             android:layout_gravity="bottom|end"
@@ -47,11 +78,13 @@
 
 
     <LinearLayout
-        android:id="@+id/fab2_and_label"
+        android:id="@+id/damage_fab_and_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="bottom|end">
+        android:layout_gravity="bottom|end"
+        android:alpha="0"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/damages_button_label"
@@ -59,8 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:text="Report Damage"
-            android:alpha="0"/>
+            android:text="@string/fab_report_damage"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/damages_button"
@@ -74,10 +106,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/fab1_and_label"
+        android:id="@+id/field_fab_and_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:alpha="0"
+        android:visibility="gone"
         android:layout_gravity="bottom|end">
 
         <TextView
@@ -86,8 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:text="Add field"
-            android:alpha="0"/>
+            android:text="@string/fab_add_field"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/field_button"
@@ -110,17 +143,21 @@
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <LinearLayout
+        android:id="@+id/gps_fab_and_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_gravity="top"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        >
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_gps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/fab_sub_size"
+            android:layout_height="@dimen/fab_sub_size"
             android:layout_margin="@dimen/fab_margin"
             android:src="@android:drawable/ic_menu_mylocation"
-            android:alpha="0"/>
+            app:fabSize="normal" />
 
         <TextView
             android:id="@+id/gps_button_label"
@@ -128,8 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:text="Add marker per GPS"
-            android:alpha="0"/>
+            android:text="Add marker per GPS" />
     </LinearLayout>
 
 </FrameLayout>

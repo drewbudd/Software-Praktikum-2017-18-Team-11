@@ -12,7 +12,7 @@
     tools:layout_marginTop="8dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="2dp"
         android:orientation="horizontal"
@@ -26,13 +26,13 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/insuredPersonLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Besitzer: " />
+                    android:text="@string/owner" />
 
                 <TextView
                     android:id="@+id/insuredPerson"
@@ -42,27 +42,67 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/gutachterLabel"
-                    android:text="Zuständiger Gutachter"
+                    android:text="@string/expert_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/gutachter"
+                    android:id="@+id/agent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/card_field_type"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/field_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/card_field_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/field_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/card_field_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/deleteFieldButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_delete"
+                />
         </LinearLayout>
 
     </LinearLayout>

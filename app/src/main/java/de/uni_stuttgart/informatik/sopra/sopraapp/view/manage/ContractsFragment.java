@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.ContractListAdapter;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.Contract;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,16 +79,6 @@ public class ContractsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_contracts, container, false);
 
         recycler = rootView.findViewById(R.id.recycler_contracts);
-        if (App.dataService.getAllContracts() != null) {
-            contracts = App.dataService.getAllContracts();
-        } else {
-            if (Debug.isDebuggerConnected()) {
-                Contract newContract = new Contract();
-                newContract.setContractType("Hello World");
-                contracts.add(newContract);
-            }
-        }
-        adapter = new ContractListAdapter(getContext(), contracts);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
         return rootView;

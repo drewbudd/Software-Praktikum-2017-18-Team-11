@@ -15,21 +15,23 @@ import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * @author Stefan Zindl
  * @since 2017/11/15
  * <p>
  * <p>
- * //TODO implement Adapater, aufbau
+ * Adapter for the searchList
  * https://github.com/codepath/android_guides/wiki/Using-the-RecyclerView
  */
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> implements Filterable {
 
 
-    private List<Damage> damageList;
-    private List<Damage> filterdList;
+    private List<Damage> damageList = new ArrayList<>();
+    private List<Damage> filterdList = new ArrayList<>();
     private List<ViewHolder> views = new ArrayList<>();
     private Context context;
     private ValueFilter valueFilter;
@@ -87,6 +89,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             super(itemView);
 
             card = (CardView) itemView;
+
             inscuredPerson = itemView.findViewById(R.id.insuredPerson);
             damageType = itemView.findViewById(R.id.card_damage_type);
         }
@@ -101,18 +104,27 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 List filterList = new ArrayList();
 
                 for (Damage damage : damageList) {
-                    if (damage.getOwner() != null) {
-                        if (damage.getOwner().getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                    if (damage.getDamageType() != null) {
+                        if (damage.getDamageType().toLowerCase().contains(constraint.toString().toLowerCase())) {
                             filterList.add(damage);
                         }
+                    }
+                    if (damage.getOwner() != null) {
+                        if (damage.getOwner().getName() != null) {
+                            if (damage.getOwner().getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                                filterList.add(damage);
+                            }
+                        }
+
                     }
                 }
 
                 results.count = filterList.size();
                 results.values = filterList;
             } else {
-                results.count = damageList.size();
-                results.values = damageList;
+                List<Damage> damages = MapActivity.dataService.getDamages();
+                results.count =  damages.size();
+                results.values = damages;
             }
             return results;
 
@@ -121,7 +133,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-            damageList = (List) results.values;
+            if ((List) results.values == null) {
+
+            } else {
+
+                damageList = (List) results.values;
+            }
             notifyDataSetChanged();
         }
 

@@ -1,14 +1,23 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.manage;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
+import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.DamageAdapter;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +36,12 @@ public class DamagesFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private View rootView;
+    private RecyclerView recycler;
+    private List<Damage> fields = new ArrayList<>();
+    private DamageAdapter adapter;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,7 +80,23 @@ public class DamagesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_damages, container, false);
+        rootView = inflater.inflate(R.layout.fragment_fields, container, false);
+        recycler = rootView.findViewById(R.id.recycler_fieldsview);
+        fields = new ArrayList<>();
+
+        for (Damage damage : DataService.getInstance(rootView.getContext()).getDamages()) {
+            fields.add(damage);
+        }
+        adapter = new DamageAdapter(getContext(), fields);
+        recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setAdapter(adapter);
+        return rootView;
+    }
+
+    public void updateAdapter() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

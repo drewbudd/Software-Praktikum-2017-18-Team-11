@@ -16,7 +16,7 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.FieldListAdapter;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,18 +79,18 @@ public class FieldsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_fields, container, false);
         recycler = rootView.findViewById(R.id.recycler_fieldsview);
-
-        if (App.dataService.getAllFields() == null) {
-
-        } else {
-            fields = App.dataService.getAllFields();
-
-        }
-
+        fields = new ArrayList<>();
+        fields = MapActivity.dataService.getFields();
         adapter = new FieldListAdapter(getContext(), fields);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
         return rootView;
+    }
+
+    public void updateAdapter() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -135,9 +135,5 @@ public class FieldsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (App.dataStorageService.getAllFields() != null) {
-            this.fields = App.dataStorageService.getAllFields();
-            adapter.notifyDataSetChanged();
-        }
     }
 }

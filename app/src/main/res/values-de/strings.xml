@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SoPraApp</string>
     <string name="prompt_password">Passwort</string>
-    <string name="title_activity_login">Anmelden</string>
+    <string name="action_sign_in">Anmelden</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="error_invalid_email">Ungültige E-Mail adresse</string>
+    <string name="error_invalid_password">Passwort zu kurz</string>
+    <string name="error_incorrect_password">Passwort falsch</string>
+    <string name="error_field_required">Feld erforderlich</string>
+    <string name="permission_rationale">Kontakte Erlaubnis benötigt</string>
+    <string name="prompt_username">Benutzername</string>
+    <string name="tab_fields">Felder</string>
+    <string name="tab_damage">Schadensfälle</string>
+    <string name="tab_search">Suche</string>
+    <string name="tab_contracts">Verträge</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="field_name">Feldname</string>
+    <string name="contract_type">Vertragstyp</string>
+    <string name="field_type">Feldtyp</string>
+    <string name="button_finished">Speichern</string>
+    <string name="damage_type">Schadenstyp</string>
+    <string name="damage_size">Größe</string>
+    <string name="size_units">qm</string>
+    <string name="add_pictures">Bild hinzufügen</string>
+    <string name="modeStatus">Offline</string>
+    <string name="offlineStatusText">Du bist offline</string>
+    <string name="onlineStatusText">Du bist online</string>
+    <string name="farmer_login">als Landwirt einloggen</string>
+    <string name="agent_login">als Gutachter einloggen</string>
+    <string name="field_size">Größe</string>
+    <string name="notify_add_marker">Eckpunkt hinzufügen</string>
+    <string name="loginButton">EInloggen</string>
+    <string name="registerUserButton">Anmelden</string>
+    <string name="fab_add_field">Feld hinzufügen</string>
+    <string name="fab_report_damage">Shaden melden</string>
+    <string name="card_damage_typeView">Typ</string>
+    <string name="mapLoaded">mapLoaded!</string>
 </resources>

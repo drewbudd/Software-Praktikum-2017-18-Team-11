@@ -4,7 +4,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.LoginActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
@@ -17,20 +18,19 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 public class LoginController {
 
 
-    App parentActivity;
+    LoginActivity parentActivity;
     private User currentLoggingUser;
 
-    public LoginController(App parentActivity) {
+    public LoginController(LoginActivity parentActivity) {
         this.parentActivity = parentActivity;
     }
 
     /**
      * logges User in the app.
-     * @param loggingInUser User
      */
     public void login() {
 
-        App.dataService.setCurrentLoggedInUser(this.currentLoggingUser);
+        UserService.getInstance(LoginActivity.getCurrentContext()).setCurrentUser(currentLoggingUser);
         Intent loggedInActivity = new Intent(parentActivity, MapActivity.class);
         parentActivity.startActivity(loggedInActivity);
 
@@ -46,8 +46,8 @@ public class LoginController {
      * @return
      */
     public boolean checkLoginData(User loggingInUser){
-        if (App.dataService.loginUser(loggingInUser)) {
-            this.currentLoggingUser = loggingInUser;
+        if (UserService.getInstance(LoginActivity.getCurrentContext()).loginUser(loggingInUser)) {
+            this.currentLoggingUser = UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser();
             return true;
         }
         return  false;

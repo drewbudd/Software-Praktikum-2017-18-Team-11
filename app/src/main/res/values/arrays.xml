@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languages">
+        <item>Choose a language</item>
+        <item>Deutsch</item>
+        <item>English</item>
+        <item>Chinese</item>
+    </string-array>
+    <string-array name="userRoles">
+        <item>Gutachter</item>
+        <item>Landwirt</item></string-array>
+    <string-array name="damageTypes">
+        <item>Water</item>
+        <item>Thunder</item>
+        <item>Hagel</item>
+    </string-array>
+    <string-array name="fieldType">
+        <item>Corn</item>
+        <item>Gerste</item>
+        <item>Roggen</item>
+    </string-array>
+
+</resources>

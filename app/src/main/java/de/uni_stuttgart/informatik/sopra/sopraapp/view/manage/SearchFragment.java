@@ -17,7 +17,8 @@ import java.util.List;
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.adapter.SearchAdapter;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.App;
+import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
+import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,19 +33,14 @@ public class SearchFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-
+    List<Damage> damages = new ArrayList<>();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private View rootView;
     private RecyclerView recycler;
     private SearchAdapter adapter;
     private SearchView searchView;
-
-    List<Damage> damages = new ArrayList<>();
-
     private OnFragmentInteractionListener mListener;
 
     public SearchFragment() {
@@ -84,12 +80,16 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
+
+        for (Damage damage : DataService.getInstance(rootView.getContext()).getDamages()) {
+            damages.add(damage);
+        }
+
         recycler = rootView.findViewById(R.id.recycler_search);
-        damages = App.dataService.getAllDamages();
         adapter = new SearchAdapter(getContext(), damages);
         searchView = rootView.findViewById(R.id.searchView);
         searchView.setActivated(true);
-        searchView.setQueryHint("Search for the owner of the damages");
+        searchView.setQueryHint(getResources().getString(R.string.searchBoxHint));
         searchView.onActionViewExpanded();
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -112,7 +112,6 @@ public class SearchFragment extends Fragment {
     public void updateAdapter() {
         if (adapter != null) {
             damages.clear();
-            damages = App.dataService.getAllDamages();
             adapter.notifyDataSetChanged();
         }
     }
@@ -141,6 +140,16 @@ public class SearchFragment extends Fragment {
         mListener = null;
     }
 
+    public SearchAdapter getSearchAdapter() {
+        return adapter;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -154,16 +163,5 @@ public class SearchFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    public SearchAdapter getSearchAdapter() {
-        return adapter;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        this.damages = App.dataStorageService.getAllDamages();
-        adapter.notifyDataSetChanged();
     }
 }

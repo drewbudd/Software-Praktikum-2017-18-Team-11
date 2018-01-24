@@ -78,14 +78,56 @@
             android:background="@color/colorPrimary"/>
     </LinearLayout>
 
-    <EditText
+    <Spinner
         android:id="@+id/text_field_type"
         android:layout_width="268dp"
         android:inputType="text"
+        android:entries="@array/fieldType"
         android:imeOptions="actionDone"
         android:layout_height="@dimen/form_field_height"
         android:layout_marginBottom="@dimen/form_item_margin"
         />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/form_label_margin"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/field_size"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/form_label_text_size"
+                android:paddingRight="2dp"/>
+
+            <TextView
+                android:id="@+id/label_field_size"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/form_label_text_size"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"/>
+
+            <TextView
+                android:text="@string/size_units"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/form_label_text_size"
+                android:paddingLeft="2dp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/add_field_dialog_finish_button"

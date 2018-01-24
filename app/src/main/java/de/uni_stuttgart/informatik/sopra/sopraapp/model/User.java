@@ -1,10 +1,8 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.Permissions;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRole;
 
 /**
@@ -20,14 +18,16 @@ public class User {
     private String name;
     private UserRole currentUserRole;
     private String password;
-
-    private ArrayList<Permissions> userPermissions = new ArrayList<>();
+    private int currentId;
+    private static int id;
     private ArrayList<Field> fields = new ArrayList<>();
     private ArrayList<Contract> contracts = new ArrayList<>();
 
     public User(String username, String password){
         this.name = username;
         this.password = password;
+        id++;
+        currentId = id;
     }
 
     /**
@@ -35,43 +35,16 @@ public class User {
      * @param userRole UserRole
      */
     public User(UserRole userRole){
-        this.initRights();
         this.currentUserRole = userRole;
     }
 
     /**
-     * initialize Rights for each Role
+     * returns if this user is a Gutachter.
+     * or not
+     * @return
      */
-    private void initRights(){
-       switch (currentUserRole){
-           case LANDWIRT:
-               addLandwirtRigihts();
-               break;
-           case GUTACHTER:
-               addGutatchterRights();
-               break;
-       }
-    }
-
-    /**
-     * adds the rights for the Landwirt
-     */
-    private void addLandwirtRigihts(){
-        this.addGutatchterRights();
-        this.userPermissions.add(Permissions.VIEW_OWN_DAMAGEEVENTS);
-        this.userPermissions.remove(Permissions.EDIT_OWN_DAMAGEEVENTS);
-        this.userPermissions.add(Permissions.VIEW_OWN_FIELDS);
-        this.userPermissions.add(Permissions.EDIT_OWN_FIELDS);
-
-    }
-
-    /**
-    * Gutachter permissions:
-     *  includes permissions from Landwirt
-     *  and additional permissions
-     */
-    private void addGutatchterRights(){
-        this.userPermissions.addAll(Arrays.asList(Permissions.values()));
+    public boolean isGutachter(){
+        return currentUserRole == UserRole.GUTACHTER;
     }
 
     public String getName() {
@@ -87,9 +60,6 @@ public class User {
      * @param right Permissions
      * @return boolean return true if the user has the permission
      */
-    public boolean hasPermissionFor(Permissions right){
-        return userPermissions.contains(right);
-    }
 
     public void setUserRole(UserRole currentUserRole) {
         this.currentUserRole = currentUserRole;
@@ -99,11 +69,7 @@ public class User {
         return password;
     }
 
-    public UserRole getCurrentUserRole() {
-        return currentUserRole;
-    }
-
-    public ArrayList<Contract> getContracts() {
-        return contracts;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

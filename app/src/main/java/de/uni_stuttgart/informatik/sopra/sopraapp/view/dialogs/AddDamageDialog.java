@@ -9,20 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 
 
 public class AddDamageDialog extends DialogFragment {
 
+    private Spinner damageType;
+
     public AddDamageDialog () {
         // required empty constructor
     }
 
-    public static AddDamageDialog newInstance(String title) {
+    public static AddDamageDialog newInstance(String title, double size) {
         AddDamageDialog frag = new AddDamageDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putDouble("size", Math.round(size * 100)/100.0);
         frag.setArguments(args);
         return frag;
     }
@@ -37,12 +44,16 @@ public class AddDamageDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        EditText mEditText = view.findViewById(R.id.text_damage_typeText);
+        damageType = view.findViewById(R.id.text_damage_typeText);
 
-        /*String title = getArguments().getFieldType("title", "Enter Name");
-        getDialog().setTitle(title);*/
+        TextView sizeText = view.findViewById(R.id.damage_size);
+        sizeText.setText("" + getArguments().getDouble("size"));
 
-        mEditText.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
+
+    public String getDamageType() {
+        return damageType.getSelectedItem().toString();
+    }
+
 }
