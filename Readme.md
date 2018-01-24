@@ -79,8 +79,6 @@ Auch der Landwirt interessiert sich für seine eigenen Felder und Hageschläden.
 - Er kann seinen Ertrag mit der Fläche über die Jahre vergleichen
 - Er kann sich mit der Dokumentation in den nächsten Jahren überlegen, welches Getreide er anpflanzt, sodass bei möglichen weiteren Schaden am wenigsten kaputt geht.
 
-### Feldvisualisierung
-
 ### Felderfassung
 ![Step1](doc/images/screenshots/app_menu_open.png)
 ![Step2](doc/images/screenshots/create_field_begin.png)
@@ -88,10 +86,12 @@ Auch der Landwirt interessiert sich für seine eigenen Felder und Hageschläden.
 ![Step3](doc/images/screenshots/create_field.png)
 ![Step4](doc/images/screenshots/create_field_complete.png)
 
+### Feldvisualisierung
+
 ### Felderverwaltung
 ![Step1](doc/images/screenshots/felderverwaltung.png)
 
-### Schadenfallerfassung
+### Schadensfallerfassung
 ![Step1](doc/images/screenshots/app_menu_open.png)
 ![Step2](doc/images/screenshots/create_damage.png)
 
