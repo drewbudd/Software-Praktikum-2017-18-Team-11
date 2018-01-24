@@ -625,17 +625,17 @@ public class MapFragment extends Fragment implements
             IconFactory iconFactory = IconFactory.getInstance(rootView.getContext());
             Icon icon = iconFactory.fromResource(R.drawable.mapbox_mylocation_icon_default);
 
-        switch (currentMapEditingStatus) {
-            case START_CREATE_FIELD_COORDINATES:
-            case START_CREATE_DAMAGE_COORDINATES:
-                if (lastGPSLocation != null) {
-                    mapboxMapGlobal.removeMarker(lastGPSLocation.getMarker());
-                }
-                lastGPSLocation = new MarkerOptions().position(new LatLng(gpsLat, gpsLng)).icon(icon);
-                mapboxMapGlobal.addMarker(lastGPSLocation);
-                break;
+            switch (currentMapEditingStatus) {
+                case START_CREATE_FIELD_COORDINATES:
+                case START_CREATE_DAMAGE_COORDINATES:
+                    if (lastGPSLocation != null) {
+                        mapboxMapGlobal.removeMarker(lastGPSLocation.getMarker());
+                    }
+                    lastGPSLocation = new MarkerOptions().position(new LatLng(gpsLat, gpsLng)).icon(icon);
+                    mapboxMapGlobal.addMarker(lastGPSLocation);
+                    break;
+            }
         }
-
     }
 
     @Override
@@ -699,7 +699,7 @@ public class MapFragment extends Fragment implements
     public void onResume() {
         super.onResume();
         mapView.onResume();
-        mapFragment.setConnectivityListener(this);
+        //mapFragment.setConnectivityListener(this);
         registerLocationListener();
     }
 
