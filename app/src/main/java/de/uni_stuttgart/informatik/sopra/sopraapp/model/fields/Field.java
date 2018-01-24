@@ -5,13 +5,8 @@ import android.graphics.Color;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapActivity;
 
 /**
  * @author Stefan Zindl
@@ -25,7 +20,7 @@ public class Field extends MapObject {
 
     private String fieldType;
     private User owner;
-    private User gutachter;
+    private User agent;
 
     public Field() {
         super.color = Color.GREEN;
@@ -67,12 +62,12 @@ public class Field extends MapObject {
         this.owner = owner;
     }
 
-    public User getGutachter() {
-        return gutachter;
+    public User getAgent() {
+        return agent;
     }
 
-    public void setGutachter(User gutachter) {
-        this.gutachter = gutachter;
+    public void setAgent(User agent) {
+        this.agent = agent;
     }
 
 }

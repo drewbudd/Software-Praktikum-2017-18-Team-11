@@ -95,7 +95,7 @@ public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder
             card = (CardView) itemView;
             insuredPerson = itemView.findViewById(R.id.insuredPerson);
             damageType = itemView.findViewById(R.id.card_damage_type);
-            gutachter = itemView.findViewById(R.id.gutachter);
+            gutachter = itemView.findViewById(R.id.agent);
             detailButton = itemView.findViewById(R.id.infoDamageButton);
             date = itemView.findViewById(R.id.card_damage_date);
 

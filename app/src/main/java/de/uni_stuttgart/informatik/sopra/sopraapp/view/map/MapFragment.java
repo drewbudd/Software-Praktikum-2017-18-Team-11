@@ -50,6 +50,7 @@ import java.util.Map;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
+import de.uni_stuttgart.informatik.sopra.sopraapp.model.User;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
@@ -403,7 +404,7 @@ public class MapFragment extends Fragment implements
         createdField.setSize(createdField.calculateArea());
         createdField.setFieldType(addFieldDialogFragment.getFieldType());
         createdField.setOwner(UserService.getInstance(this.getActivity()).getCurrentUser());
-
+        createdField.setAgent(UserService.getInstance(this.getActivity()).getAllAgents().get(0)); // temporarily set to give all to default agent
 
         saveFieldToStorage(createdField);
         changeUISaveField();

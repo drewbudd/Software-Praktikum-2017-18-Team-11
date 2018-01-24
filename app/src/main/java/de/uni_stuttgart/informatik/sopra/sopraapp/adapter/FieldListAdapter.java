@@ -60,15 +60,15 @@ public class FieldListAdapter extends RecyclerView.Adapter<FieldListAdapter.View
         holder.associatedField = event;
 
         if (event.getFieldType() != null) {
-
-            holder.fieldType.setText(event.getFieldType());
+            holder.fieldType.setText(": " + event.getFieldType());
         }
         if (event.getOwner() != null) {
-            holder.inscuredPerson.setText(event.getOwner().getName());
+            holder.insuredPerson.setText(event.getOwner().getName());
         }
-        if (event.getGutachter() != null) {
-            holder.gutachter.setText(event.getGutachter().getName());
+        if (event.getAgent() != null) {
+            holder.agent.setText(event.getAgent().getName());
         }
+        holder.size.setText(": " + (Math.round(event.getSize() * 10) / 10.0) + " " + MapActivity.getInstance().getResources().getString(R.string.size_units));
 
     }
 
@@ -81,18 +81,20 @@ public class FieldListAdapter extends RecyclerView.Adapter<FieldListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public CardView card;
-        public TextView inscuredPerson;
+        public TextView insuredPerson;
         public Field associatedField;
         public TextView fieldType;
-        public TextView gutachter;
+        public TextView agent;
+        public TextView size;
         public ImageButton deleteFieldButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
             card = (CardView) itemView;
-            inscuredPerson = itemView.findViewById(R.id.insuredPerson);
+            insuredPerson = itemView.findViewById(R.id.insuredPerson);
             fieldType = itemView.findViewById(R.id.card_field_type);
-            gutachter = itemView.findViewById(R.id.gutachter);
+            agent = itemView.findViewById(R.id.agent);
+            size = itemView.findViewById(R.id.card_field_size);
             deleteFieldButton = itemView.findViewById(R.id.deleteFieldButton);
             deleteFieldButton.setVisibility(View.GONE);
             if(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().isGutachter()) {

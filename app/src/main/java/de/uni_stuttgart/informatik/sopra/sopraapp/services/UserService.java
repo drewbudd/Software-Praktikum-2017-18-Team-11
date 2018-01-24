@@ -20,6 +20,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.model.permissionSystem.UserRol
 public class UserService implements IUserService {
 
     private List<User> allUsers = new ArrayList<>();
+    private List<User> allAgents = new ArrayList<>();
     public  static UserService instance = null;
     private User currentUser = null;
     private Context context;
@@ -46,12 +47,16 @@ public class UserService implements IUserService {
         landwirt.setName("Landwirt");
         landwirt.setPassword(".");
         this.allUsers.add(gutachter);
+        this.allAgents.add(gutachter);
         this.allUsers.add(landwirt);
     }
 
     @Override
     public void saveUser(User user) {
         this.allUsers.add(user);
+        if (user.isGutachter()) {
+            allAgents.add(user);
+        }
         saveUsers();
     }
 
@@ -71,6 +76,10 @@ public class UserService implements IUserService {
     @Override
     public List<User> getUsers() {
         return this.allUsers;
+    }
+
+    public List<User> getAllAgents() {
+        return allAgents;
     }
 
     @Override
