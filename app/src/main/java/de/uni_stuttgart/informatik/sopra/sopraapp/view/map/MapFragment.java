@@ -220,17 +220,17 @@ public class MapFragment extends Fragment implements
         if (!sharedPref.contains("mapLoaded")) {
             setTextMapNotLoaded();
         } else if(sharedPref.contains("mapLoaded") && !ConnectivityReceiver.isConnected()) {
-            this.mapLoadedStatus.setText(getResources().getString(R.string.mapNotRefresh));
+            //this.mapLoadedStatus.setText(getResources().getString(R.string.mapNotRefresh));
             this.mapLoadedStatus.setBackgroundColor(Color.YELLOW);
             this.mapLoadedStatus.setTextColor(Color.BLACK);
         } else if(sharedPref.contains("mapLoaded") && ConnectivityReceiver.isConnected()) {
-            this.mapLoadedStatus.setText(getResources().getString(R.string.mapLoadedOnline));
+            //this.mapLoadedStatus.setText(getResources().getString(R.string.mapLoadedOnline));
             this.mapLoadedStatus.setBackgroundColor(Color.GREEN);
             this.mapLoadedStatus.setTextColor(Color.BLACK);
         }
     }
     private void setTextMapNotLoaded(){
-        this.mapLoadedStatus.setText(getResources().getString(R.string.mapNotLoaded));
+        //this.mapLoadedStatus.setText(getResources().getString(R.string.mapNotLoaded));
         this.mapLoadedStatus.setBackgroundColor(Color.RED);
         this.mapLoadedStatus.setTextColor(Color.BLACK);
     }
@@ -243,7 +243,7 @@ public class MapFragment extends Fragment implements
 
     }
     private void setMapLoadedStatus(){
-        this.mapLoadedStatus.setText(getResources().getString(R.string.mapLoaded));
+        //this.mapLoadedStatus.setText(getResources().getString(R.string.mapLoaded));
     }
 
     private void setUpListeners() {
@@ -307,7 +307,6 @@ public class MapFragment extends Fragment implements
                             addFieldCoordinate(new LatLng(gpsLat, gpsLng));
                             break;
                         case START_CREATE_DAMAGE_COORDINATES:
-                            // TODO:
                             addDamageCoordinate(new LatLng(gpsLat, gpsLng));
                             break;
                         default:
@@ -398,8 +397,6 @@ public class MapFragment extends Fragment implements
     }
 
     public void saveField() {
-        // TODO add gps button logic
-
         // status, variables and cleanup
         currentMapEditingStatus = MapEditingStatus.DEFAULT;
         createdField = (Field) newMapObject;
@@ -410,14 +407,27 @@ public class MapFragment extends Fragment implements
 
         saveFieldToStorage(createdField);
         changeUISaveField();
-
-
     }
 
     public void setNewField(Field field) {
         this.newMapObject = field;
     }
 
+    public void saveDamage() {
+        // status, variables and cleanup
+        currentMapEditingStatus = MapEditingStatus.DEFAULT;
+        Damage createdDamage = (Damage) newMapObject;
+        createdDamage.draw();
+        createdDamage.setDamageType(addDamageDialogFragment.getDamageType());
+        createdDamage.setSize(createdDamage.calculateArea());
+        createdDamage.setCurrentDate();
+        createdDamage.setOwner(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser());
+        createdDamage.getFieldIds().add(fieldFromDamage.getCurrentId());
+        saveDamageToStorage(createdDamage);
+        fieldFromDamage = null;
+        changeUISaveDamage();
+        addDamageDialogFragment.dismiss();
+    }
     public void saveFieldToStorage(Field field) {
         MapActivity.dataService.addField(field);
         MapActivity.dataService.saveFields();
@@ -439,19 +449,7 @@ public class MapFragment extends Fragment implements
         label.setText(R.string.fab_report_damage);
     }
 
-    public void saveDamage() {
-        // status, variables and cleanup
-        currentMapEditingStatus = MapEditingStatus.DEFAULT;
-        Damage createdDamage = (Damage) newMapObject;
-        createdDamage.draw();
-        createdDamage.setDamageType(addDamageDialogFragment.getDamageType());
-        createdDamage.setSize(createdDamage.calculateArea());
-        createdDamage.getFieldIds().add(fieldFromDamage.getCurrentId());
-        saveDamageToStorage(createdDamage);
-        fieldFromDamage = null;
-        changeUISaveDamage();
-        addDamageDialogFragment.dismiss();
-    }
+
 
     public void saveDamageToStorage(Damage damage) {
         MapActivity.dataService.addDamage(damage);

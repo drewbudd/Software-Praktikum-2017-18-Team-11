@@ -63,10 +63,13 @@ public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder
 
         if (event.getDamageType() != null) {
 
-            holder.damageType.setText(event.getDamageType());
+            holder.damageType.setText(": " + event.getDamageType());
         }
         if (event.getOwner() != null) {
-            holder.inscuredPerson.setText(event.getOwner().getName());
+            holder.insuredPerson.setText(": " + event.getOwner().getName());
+        }
+        if (event.getDate() != null) {
+            holder.date.setText(": " + event.getDate());
         }
     }
 
@@ -79,20 +82,22 @@ public class DamageAdapter extends RecyclerView.Adapter<DamageAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public CardView card;
-        public TextView inscuredPerson;
+        public TextView insuredPerson;
         public Damage associatedField;
         public TextView damageType;
         public TextView gutachter;
+        public TextView date;
         public ImageButton deleteFieldButton;
         public ImageButton detailButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
             card = (CardView) itemView;
-            inscuredPerson = itemView.findViewById(R.id.insuredPerson);
+            insuredPerson = itemView.findViewById(R.id.insuredPerson);
             damageType = itemView.findViewById(R.id.card_damage_type);
             gutachter = itemView.findViewById(R.id.gutachter);
             detailButton = itemView.findViewById(R.id.infoDamageButton);
+            date = itemView.findViewById(R.id.card_damage_date);
 
             detailButton.setOnClickListener(new View.OnClickListener() {
                 @Override

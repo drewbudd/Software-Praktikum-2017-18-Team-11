@@ -4,7 +4,10 @@ import android.graphics.Color;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.model.MapObject;
@@ -25,6 +28,10 @@ public class Damage extends MapObject{
     private User owner;
     private transient Field field;
     private List<Integer> fieldIds = new ArrayList<>();
+
+
+
+    private String date;
     String damageType ="";
 
     public Damage() {
@@ -59,6 +66,11 @@ public class Damage extends MapObject{
         return field;
     }
 
+    public String getDate() { return date; }
+
+    public void setCurrentDate() {
+        this.date = new SimpleDateFormat("yyyy-dd-MM").format(new Date(System.currentTimeMillis()));
+    }
     /**
      * adds a LatLng to this damage for the polygon
      * @param point
