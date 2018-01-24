@@ -17,29 +17,23 @@ Und genau dafür ist unsere App da. Man kann mit der App sowohl mit Touch als au
 - Schadensfälle nach Versicherungsnehmer suchen
 -  Feld/ GPS mittels GPS-Koordinaten erstellen
 -  Schadensfälle auflisten
--  Felder auflisten
--  Login fenster
 -  Unterscheidung der Benutzer Gutachter / Landwirt
 -  Felder anzeigen
 -  Schäden anzeigen
 
 #### Additional Feature
 - Aktuelle Position ermitteln + Karte zentrieren
+-  Login fenster
+-  Felder auflisten
+-  Schäden nach Typ suchen
+-  Unterstützung Englisch und Deutsch
+-  Benutzer erstellen und speichern
+-  Anzeigen: MapStatus, Internetstatus, Eingeloggter Benutzer
+- Felder löschen
 
-## Noch nicht implementierte Features
-
-Hier ist aufgelistet, welche Features im nächsten Sprint implementiert werden
-
-### Datenaustausch
-
-Der Landwirt hat die Möglichkeit seine Schadensfälle zu exportieren, sodass der Gutachter diese in sein Handy einspielen kann. Durch diese Möglichkeit kann der Gutachter up-to-date bleiben und Änderungen dies der Versicherung melden.
-
-### Internationalität
-- Möglichkeit die App in verschiedenen Sprachen anzuzeigen
-### Zentrieren von Feldern/ Schadensfälle auf Karte
+## Noch Nicht implementierte Features
+- Datenaustausch
 - Möglichkeit die Karte auf ein bestimmtes Feld oder Schadensfall zentrieren
-### Neue Benutzer anlegen
-### bestehende Felder ändern
 - Man kann die Felder bearbeiten:
  - Größe, Art, Gutachter etc.
 ### Farben für Felder ändern
