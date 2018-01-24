@@ -34,16 +34,26 @@ public class MapActivity extends AppCompatActivity implements
     private static final int REQUEST_LOCATION_FINE = 100;
     private static final int REQUEST_LOCATION_COURSE = 101;
     private static final int REQUEST_LOCATION_HARDWARE = 103;
+    public static IDataService dataService = null;
+    private static MapActivity context;
     private MapFragment mapFragment;
     private ManageServiceFragment manageServiceFragment;
-    private static MapActivity context;
-
-    public static IDataService dataService = null;
     private boolean useReceiver = false;
+    private ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver();
+
     public static Context getInstance() {
         return context;
     }
-    private ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver();
+
+    /**
+     * sets the listener for networking listening
+     *
+     * @param listener
+     */
+    public static void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -51,11 +61,9 @@ public class MapActivity extends AppCompatActivity implements
         dataService.loadFields();
         dataService.loadDamages();
 
+        registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        setConnectivityListener(this);
 
-//        if(useReceiver) {
-  //          registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-    //        setConnectivityListener(this);
-      //  }
     }
 
     @Override
@@ -75,7 +83,6 @@ public class MapActivity extends AppCompatActivity implements
     public void onFragmentInteraction(Uri uri) {
 
     }
-
 
     @Override
     protected void onDestroy() {
@@ -138,10 +145,10 @@ public class MapActivity extends AppCompatActivity implements
         }
     }
 
-
     /**
      * saves a new Field
      * used from the button in the dialog
+     *
      * @param view
      */
     public void saveNewField(View view) {
@@ -152,19 +159,12 @@ public class MapActivity extends AppCompatActivity implements
     /**
      * saves a new damage
      * uses from the button in the dialog
+     *
      * @param view
      */
     public void saveNewDamage(View view) {
         mapFragment.saveDamage();
         manageServiceFragment.getSearchFragment().updateAdapter();
-    }
-
-    /**
-     * sets the listener for networking listening
-     * @param listener
-     */
-    public static void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
-        ConnectivityReceiver.connectivityReceiverListener = listener;
     }
 
     @Override
@@ -176,7 +176,7 @@ public class MapActivity extends AppCompatActivity implements
 
     }
 
-    public MapFragment mapFragment(){
+    public MapFragment mapFragment() {
         return mapFragment;
     }
 }
