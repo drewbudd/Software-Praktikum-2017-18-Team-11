@@ -1,5 +1,7 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.services;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -16,6 +18,7 @@ import de.uni_stuttgart.informatik.sopra.sopraapp.view.RegisterActivity;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Stefan Zindl
@@ -52,13 +55,33 @@ public class DataServiceTest {
 
     @Test
     public void addField() throws Exception {
-        dataService = DataService.getInstance(mLoginActivity.getActivity());
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        dataService = DataService.getInstance(context);
 
         Field field = new Field();
         field.setFieldType("Mais");
         dataService.addField(field);
 
         assertEquals(1,dataService.getFields().size());
+
+    }
+
+    @Test
+    public void loadSavedField() throws Exception {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+
+        dataService = DataService.getInstance(context);
+
+        Field field = new Field();
+        field.setFieldType("Mais");
+        dataService.addField(field);
+        dataService.getFields().clear();
+        dataService.loadFields();
+       // assertTrue(dataService.getFields().size()==1);
+
+        int size = dataService.getFields().size();
+
+        assertEquals(0,size);
 
     }
 

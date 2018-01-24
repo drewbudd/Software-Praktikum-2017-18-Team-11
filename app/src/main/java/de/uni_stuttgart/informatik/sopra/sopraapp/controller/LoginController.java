@@ -27,7 +27,6 @@ public class LoginController {
 
     /**
      * logges User in the app.
-     * @param loggingInUser User
      */
     public void login() {
 

@@ -1,7 +1,6 @@
 package de.uni_stuttgart.informatik.sopra.sopraapp.view.map;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -9,17 +8,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import de.uni_stuttgart.informatik.sopra.sopraapp.R;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.damage.Damage;
-import de.uni_stuttgart.informatik.sopra.sopraapp.model.fields.Field;
 import de.uni_stuttgart.informatik.sopra.sopraapp.network.ConnectivityReceiver;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.DataService;
 import de.uni_stuttgart.informatik.sopra.sopraapp.services.IDataService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.services.UserService;
-import de.uni_stuttgart.informatik.sopra.sopraapp.view.DamageDetailActivity;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.BlankFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.ContractsFragment;
 import de.uni_stuttgart.informatik.sopra.sopraapp.view.manage.DamagesFragment;
@@ -46,7 +39,7 @@ public class MapActivity extends AppCompatActivity implements
     private static MapActivity context;
 
     public static IDataService dataService = null;
-
+    private boolean useReceiver = false;
     public static Context getInstance() {
         return context;
     }
@@ -59,8 +52,10 @@ public class MapActivity extends AppCompatActivity implements
         dataService.loadDamages();
 
 
-       registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-       setConnectivityListener(this);
+//        if(useReceiver) {
+  //          registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    //        setConnectivityListener(this);
+      //  }
     }
 
     @Override
@@ -85,7 +80,6 @@ public class MapActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       unregisterReceiver(connectivityReceiver);
     }
 
     @Override
@@ -175,10 +169,14 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        String x = "";
+        mapFragment.updateNetworkStatus(isConnected);
     }
 
     public void openInfos(View view) {
 
+    }
+
+    public MapFragment mapFragment(){
+        return mapFragment;
     }
 }

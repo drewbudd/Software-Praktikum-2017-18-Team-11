@@ -6,11 +6,11 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -70,8 +70,7 @@ public class MapFragment extends Fragment implements
         OnMapReadyCallback,
         MapView.OnMapChangedListener,
         MapboxMap.OnMapClickListener,
-        LocationListener,
-        ConnectivityReceiver.ConnectivityReceiverListener {
+        LocationListener {
     private static final int REQUEST_LOCATION_COURSE = 42;
     private static final int REQUEST_LOCATION_FINE = 7;
     public static MapEditingStatus currentMapEditingStatus = MapEditingStatus.DEFAULT;
@@ -80,6 +79,7 @@ public class MapFragment extends Fragment implements
     AddDamageDialog addDamageDialogFragment;
     MapObject newMapObject;
     Field fieldFromDamage = null;
+    Field createdField = null;
     // variables related to the menu items
     private FloatingActionButton menuFAB;
     private FloatingActionButton fieldsFAB;
@@ -104,9 +104,10 @@ public class MapFragment extends Fragment implements
     private List<Marker> displayingMarkerOptions = new ArrayList<Marker>();
     private int foundFieldID = -1;
     private TextView statusText;
-
     private OfflineRegion[] offlineRegions = new OfflineRegion[10];
     private int fieldFromDamageID;
+    private TextView mapLoadedStatus;
+    private static final String mapLoadedPref = "map";
 
     public MapFragment() {
         mapFragment = this;
@@ -138,7 +139,7 @@ public class MapFragment extends Fragment implements
     /**
      * @param currentMapEditingStatus
      */
-    public static void setCurrentMapEditingStatus(MapEditingStatus currentMapEditingStatus) {
+    public void setCurrentMapEditingStatus(MapEditingStatus currentMapEditingStatus) {
         MapFragment.currentMapEditingStatus = currentMapEditingStatus;
     }
 
@@ -185,13 +186,14 @@ public class MapFragment extends Fragment implements
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
         defineMenuButtons();
         final TextView fabGPSLabel = rootView.findViewById(R.id.gps_button_label);
         setUpListeners();
 
+        mapLoadedStatus = (TextView)rootView.findViewById(R.id.mapStatus);
         statusText = rootView.findViewById(R.id.networkStatus);
 
+        handleMapLoadedStatus();
         return rootView;
     }
 
@@ -208,6 +210,40 @@ public class MapFragment extends Fragment implements
         fabsAndLabels.put(damagesFABLayout, -getResources().getDimension(R.dimen.standard_105));
         fabsAndLabels.put(settingsFABLayout, -getResources().getDimension(R.dimen.standard_155));
         isFABOpen = false;
+    }
+
+    private void handleMapLoadedStatus() {
+
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+        if (!sharedPref.contains("mapLoaded")) {
+            setTextMapNotLoaded();
+        } else if(sharedPref.contains("mapLoaded") && !ConnectivityReceiver.isConnected()) {
+            this.mapLoadedStatus.setText(getResources().getString(R.string.mapNotRefresh));
+            this.mapLoadedStatus.setBackgroundColor(Color.YELLOW);
+            this.mapLoadedStatus.setTextColor(Color.BLACK);
+        } else if(sharedPref.contains("mapLoaded") && ConnectivityReceiver.isConnected()) {
+            this.mapLoadedStatus.setText(getResources().getString(R.string.mapLoadedOnline));
+            this.mapLoadedStatus.setBackgroundColor(Color.GREEN);
+            this.mapLoadedStatus.setTextColor(Color.BLACK);
+        }
+    }
+    private void setTextMapNotLoaded(){
+        this.mapLoadedStatus.setText(getResources().getString(R.string.mapNotLoaded));
+        this.mapLoadedStatus.setBackgroundColor(Color.RED);
+        this.mapLoadedStatus.setTextColor(Color.BLACK);
+    }
+
+    private void saveMapLoadedStatus() {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = sharedPref.edit();
+        prefEditor.putString("mapLoaded", "Loaded");
+        prefEditor.apply();
+
+    }
+    private void setMapLoadedStatus(){
+        this.mapLoadedStatus.setText(getResources().getString(R.string.mapLoaded));
     }
 
     private void setUpListeners() {
@@ -362,29 +398,48 @@ public class MapFragment extends Fragment implements
     }
 
     public void saveField() {
-        // gui changes
-        releaseFocusFABLayout(fieldsFABLayout);
-        TextView label = rootView.findViewById(R.id.field_button_label);
-        label.setText(R.string.fab_add_field);
+        // TODO add gps button logic
 
         // status, variables and cleanup
         currentMapEditingStatus = MapEditingStatus.DEFAULT;
-        Field createdField = (Field) newMapObject;
-        createdField.draw();
-        createdField.setFieldType(addFieldDialogFragment.getFieldType());
+        createdField = (Field) newMapObject;
         createdField.setSize(createdField.calculateArea());
+        createdField.setFieldType(addFieldDialogFragment.getFieldType());
         createdField.setOwner(UserService.getInstance(this.getActivity()).getCurrentUser());
-        MapActivity.dataService.addField((Field) newMapObject);
+
+
+        saveFieldToStorage(createdField);
+        changeUISaveField();
+
+
+    }
+
+    public void setNewField(Field field) {
+        this.newMapObject = field;
+    }
+
+    public void saveFieldToStorage(Field field) {
+        MapActivity.dataService.addField(field);
         MapActivity.dataService.saveFields();
+    }
+
+    public void changeUISaveField() {
+        // gui changes
+        createdField.draw();
+        releaseFocusFABLayout(fieldsFABLayout);
+        TextView label = rootView.findViewById(R.id.field_button_label);
+        label.setText(R.string.fab_add_field);
         getAddFieldDialog().dismiss();
     }
 
-    public void saveDamage() {
+    public void changeUISaveDamage() {
         // gui changes
         releaseFocusFABLayout(damagesFABLayout);
         TextView label = rootView.findViewById(R.id.damages_button_label);
         label.setText(R.string.fab_report_damage);
+    }
 
+    public void saveDamage() {
         // status, variables and cleanup
         currentMapEditingStatus = MapEditingStatus.DEFAULT;
         Damage createdDamage = (Damage) newMapObject;
@@ -392,11 +447,28 @@ public class MapFragment extends Fragment implements
         createdDamage.setDamageType(addDamageDialogFragment.getDamageType());
         createdDamage.setSize(createdDamage.calculateArea());
         createdDamage.getFieldIds().add(fieldFromDamage.getCurrentId());
-        MapActivity.dataService.addDamage(createdDamage);
+        saveDamageToStorage(createdDamage);
+        fieldFromDamage = null;
+        changeUISaveDamage();
+        addDamageDialogFragment.dismiss();
+    }
+
+    public void saveDamageToStorage(Damage damage) {
+        MapActivity.dataService.addDamage(damage);
         MapActivity.dataService.saveDamages();
         MapActivity.dataService.saveFields();
-        fieldFromDamage = null;
-        addDamageDialogFragment.dismiss();
+    }
+
+    private void hideAndDisableGPSButton(FloatingActionButton fabGPS, TextView fabGPSLabel) {
+        fabGPS.animate().alpha(0.0f).setDuration(100);
+        fabGPS.setEnabled(false);
+        fabGPSLabel.animate().alpha(0.0f).setDuration(100);
+    }
+
+    private void showAndEnableGPSButton(FloatingActionButton fabGPS, TextView fabGPSLabel) {
+        fabGPS.animate().alpha(1.0f).setDuration(100);
+        fabGPS.setEnabled(true);
+        fabGPSLabel.animate().alpha(1.0f).setDuration(100);
     }
 
 
@@ -431,17 +503,102 @@ public class MapFragment extends Fragment implements
         mapboxMap.setOnMapClickListener(this);
 
         registerLocationListener();
-
+        String TAG = "";
 
          /* Campus coordinates*/
         mapboxMap.setCameraPosition(new CameraPosition.Builder()
                 .target(new LatLng(48.74641, 9.10623))
                 .zoom(15).build());
 
-        AsyncTask.execute(() ->
-        {
-            //  downloadMap();
-        });
+        /**
+        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String value = sharedPreferences.getString("map", null);
+        if (value == null) {
+
+            OfflineManager offlineManager = OfflineManager.getInstance(getActivity());
+
+            LatLngBounds latLngBounds = new LatLngBounds.Builder()
+                    .include(new LatLng(48.74641, 9.10623))
+                    .include(new LatLng(48.73641, 9.11623))
+
+                    .build();
+            OfflineTilePyramidRegionDefinition definition = new
+                    OfflineTilePyramidRegionDefinition(
+                    mapboxMap.getStyleUrl(),
+                    latLngBounds,
+                    10,
+                    20,
+                    getActivity().getResources().getDisplayMetrics().density);
+
+            // Implementation that uses JSON to store Yosemite National Park as the offline region name.
+            byte[] metadata;
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("REGION", "Campus Stuttgart");
+                String json = jsonObject.toString();
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor prefEditor = sharedPref.edit();
+                prefEditor.putString("map", json);
+                prefEditor.apply();
+                metadata = json.getBytes();
+            } catch (Exception exception) {
+                Log.e(TAG, "Failed to encode metadata: " + exception.getMessage());
+                metadata = null;
+            }
+
+            // Create the region asynchronously
+            offlineManager.createOfflineRegion(definition, metadata,
+                    new OfflineManager.CreateOfflineRegionCallback() {
+                        @Override
+                        public void onCreate(final OfflineRegion offlineRegion) {
+                            offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE);
+
+                            // Monitor the download progress using setObserver
+                            offlineRegion.setObserver(new OfflineRegion.OfflineRegionObserver() {
+                                @Override
+                                public void onStatusChanged(OfflineRegionStatus status) {
+
+                                    // Calculate the download percentage
+                                    double percentage = status.getRequiredResourceCount() >= 0
+                                            ? (100.0 * status.getCompletedResourceCount() / status.getRequiredResourceCount()) :
+                                            0.0;
+                                    saveMapLoadedStatus();
+                                    handleMapLoadedStatus();
+                                    if (status.isComplete()) {
+                                        offlineRegions[0] = offlineRegion;
+                                        // TODO: save to file and load
+                                        Snackbar.make(mapFragment.getView(), "Download done", Snackbar.LENGTH_LONG).show();
+                                        Log.d(TAG, "Region downloaded successfully.");
+                                    } else if (status.isRequiredResourceCountPrecise()) {
+                                        Log.d(TAG, "");
+                                    }
+                                }
+
+                                @Override
+                                public void onError(OfflineRegionError error) {
+                                    // If an error occurs, print to logcat
+                                    Log.e(TAG, "onError reason: " + error.getReason());
+                                    Log.e(TAG, "onError message: " + error.getMessage());
+                                }
+
+                                @Override
+                                public void mapboxTileCountLimitExceeded(long limit) {
+                                    // Notify if offline region exceeds maximum tile count
+                                    Log.e(TAG, "Mapbox tile count limit exceeded: " + limit);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            Log.e(TAG, "Error: " + error);
+                        }
+                    });
+
+
+
+        } */
+
 
         for (Field field : MapActivity.dataService.getFields()) {
             field.setContext(mapboxMapGlobal, mapView);
@@ -493,6 +650,15 @@ public class MapFragment extends Fragment implements
 
     }
 
+
+    public void setFieldFromDamage(Field damage){
+        this.fieldFromDamage = damage;
+    }
+
+    public void setNewMapObject(MapObject object){
+        this.newMapObject = object;
+    }
+
     private void addDamageCoordinate(@NonNull LatLng point) {
         if (fieldFromDamage == null) {
             for (Field field : MapActivity.dataService.getFields()) {
@@ -513,7 +679,11 @@ public class MapFragment extends Fragment implements
         }
     }
 
-    private void addFieldCoordinate(@NonNull LatLng point) {
+    public List<Marker> getDisplayingMarkerOptions() {
+        return this.displayingMarkerOptions;
+    }
+
+    public void addFieldCoordinate(@NonNull LatLng point) {
         Marker marker = new Marker(new MarkerOptions());
         marker.setPosition(point);
         if (newMapObject.addMarker(marker.getPosition(), currentMapEditingStatus)) {
@@ -523,6 +693,7 @@ public class MapFragment extends Fragment implements
             Snackbar.make(getView(), R.string.notify_outside_of_other_fields, Snackbar.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -577,8 +748,6 @@ public class MapFragment extends Fragment implements
         Mapbox.getInstance(getContext(), "pk.eyJ1IjoiemluZGxzbiIsImEiOiJjajlzbmY4aDg0NXF6MzNwZzBmNTBuN3MzIn0.jTKwbr6lki_d531dDpGI_w");
         mapView = getView().findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
-        mapView.addOnMapChangedListener(this);
-
         mapView.getMapAsync(this);
 
 
@@ -631,105 +800,17 @@ public class MapFragment extends Fragment implements
         mapView.onStop();
     }
 
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        updateNetworkStatus(isConnected);
-    }
-
-    private void updateNetworkStatus(boolean isConnected) {
+    public void updateNetworkStatus(boolean isConnected) {
         String status = "";
         if (isConnected) {
             status = getResources().getString(R.string.onlineStatusText);
             statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " " + status);
         } else {
-            status = getResources().getString(R.string.onlineStatusText);
+            status = getResources().getString(R.string.offlineStatusText);
             statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " " + status);
         }
-    }
 
-    private void downloadMap() {
-        String TAG = "Map";
-        OfflineManager offlineManager = OfflineManager.getInstance(getActivity());
-
-        LatLngBounds latLngBounds = new LatLngBounds.Builder()
-                .include(new LatLng(48.74241, 9.10623))
-                .include(new LatLng(48.74245, 9.10633))
-
-                .build();
-        mapboxMapGlobal.setStyle("Light");
-        OfflineTilePyramidRegionDefinition definition = new
-                OfflineTilePyramidRegionDefinition(
-                mapboxMapGlobal.getStyleUrl(),
-                latLngBounds,
-                10,
-                20,
-                getActivity().getResources().getDisplayMetrics().density);
-
-        // Implementation that uses JSON to store Yosemite National Park as the offline region name.
-        byte[] metadata;
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("REGION", "Yosemite National Park");
-            String json = jsonObject.toString();
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor prefEditor = sharedPref.edit();
-            prefEditor.putString("map", json);
-            prefEditor.apply();
-            metadata = json.getBytes();
-        } catch (Exception exception) {
-            Log.e(TAG, "Failed to encode metadata: " + exception.getMessage());
-            metadata = null;
-        }
-
-        // Create the region asynchronously
-        offlineManager.createOfflineRegion(definition, metadata,
-                new OfflineManager.CreateOfflineRegionCallback() {
-                    @Override
-                    public void onCreate(final OfflineRegion offlineRegion) {
-                        offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE);
-
-                        // Monitor the download progress using setObserver
-                        offlineRegion.setObserver(new OfflineRegion.OfflineRegionObserver() {
-                            @Override
-                            public void onStatusChanged(OfflineRegionStatus status) {
-
-                                // Calculate the download percentage
-                                double percentage = status.getRequiredResourceCount() >= 0
-                                        ? (100.0 * status.getCompletedResourceCount() / status.getRequiredResourceCount()) :
-                                        0.0;
-                                Snackbar.make(mapFragment.getView(), percentage + "", Snackbar.LENGTH_LONG).show();
-
-                                if (status.isComplete()) {
-                                    offlineRegions[0] = offlineRegion;
-                                    // TODO: save to file and load
-                                    Snackbar.make(mapFragment.getView(), "Download done", Snackbar.LENGTH_LONG).show();
-                                    Log.d(TAG, "Region downloaded successfully.");
-                                } else if (status.isRequiredResourceCountPrecise()) {
-                                    Log.d(TAG, "");
-                                }
-                            }
-
-                            @Override
-                            public void onError(OfflineRegionError error) {
-                                // If an error occurs, print to logcat
-                                Log.e(TAG, "onError reason: " + error.getReason());
-                                Log.e(TAG, "onError message: " + error.getMessage());
-                            }
-
-                            @Override
-                            public void mapboxTileCountLimitExceeded(long limit) {
-                                // Notify if offline region exceeds maximum tile count
-                                Log.e(TAG, "Mapbox tile count limit exceeded: " + limit);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(String error) {
-                        Log.e(TAG, "Error: " + error);
-                    }
-                });
-
+        handleMapLoadedStatus();
     }
 
     /**

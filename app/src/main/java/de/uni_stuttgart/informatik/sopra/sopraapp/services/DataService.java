@@ -44,11 +44,13 @@ public class DataService implements IDataService {
     @Override
     public void addField(Field field) {
         this.fields.add(field);
+        saveFields();
     }
 
     @Override
     public void addDamage(Damage damage) {
         this.damages.add(damage);
+        saveDamages();
     }
 
     @Override
@@ -72,10 +74,15 @@ public class DataService implements IDataService {
         if (damages != null) {
             this.damages = damages;
         }
+
         /*
         Damage damage = new Damage();
         damage.setDamageType("TestType");
         damage.setOwner(new User("bla", "blaaa"));
+
+        damage.addMarker(new LatLng(48.74641, 9.10623), MapEditingStatus.START_CREATE_DAMAGE_COORDINATES);
+        damage.addMarker(new LatLng(48.74651, 9.10623), MapEditingStatus.START_CREATE_DAMAGE_COORDINATES);
+        damage.addMarker(new LatLng(48.74641, 9.10653), MapEditingStatus.START_CREATE_DAMAGE_COORDINATES);
         this.damages.add(damage); */
     }
 
