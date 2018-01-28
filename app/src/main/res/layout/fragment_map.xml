@@ -61,7 +61,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:alpha="0.3"
             android:text="@string/action_settings" />
 
         <android.support.design.widget.FloatingActionButton
@@ -72,7 +71,6 @@
             android:layout_margin="@dimen/fab_sub_margin"
             android:layout_weight="1"
             app:fabSize="normal"
-            android:alpha="0.3"
             app:srcCompat="@android:drawable/ic_menu_manage" />
     </LinearLayout>
 
