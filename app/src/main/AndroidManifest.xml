@@ -24,7 +24,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="de.uni_stuttgart.informatik.sopra.sopraapp"
@@ -32,9 +31,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
-
 
         <activity
             android:name=".view.LoginActivity"
@@ -57,8 +55,6 @@
             </intent-filter>
         </receiver>
 
-
-
         <activity
             android:name=".view.RegisterActivity"
             android:label="@string/title_activity_register"
@@ -66,9 +62,8 @@
         <activity
             android:name=".view.DamageDetailActivity"
             android:label="@string/title_activity_damage_detail"
-            android:theme="@style/AppTheme"></activity>
-
-
+            android:theme="@style/AppTheme" />
+        <activity android:name=".view.map.MapSettings"></activity>
     </application>
 
 </manifest>
