@@ -295,9 +295,13 @@ public class MapFragment extends Fragment implements
             if ((Math.round(gpsLat) != 0 || Math.round(gpsLng) != 0)) {
                 switch (currentMapEditingStatus) {
                     case START_CREATE_FIELD_COORDINATES:
+                        mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder()
+                                .target(new LatLng(gpsLat, gpsLng)).build());
                         addFieldCoordinate(new LatLng(gpsLat, gpsLng));
                         break;
                     case START_CREATE_DAMAGE_COORDINATES:
+                        mapboxMapGlobal.setCameraPosition(new CameraPosition.Builder()
+                                .target(new LatLng(gpsLat, gpsLng)).build());
                         addDamageCoordinate(new LatLng(gpsLat, gpsLng));
                         break;
                     default:
@@ -347,11 +351,7 @@ public class MapFragment extends Fragment implements
                 fabAndLabel.animate().translationY(0).setDuration(300);
                 fabAndLabel.animate().alpha(0.0f).setDuration(300);
                 new android.os.Handler().postDelayed(
-                        new Runnable() {
-                            public void run() {
-                                fabAndLabel.setVisibility(View.GONE);
-                            }
-                        },
+                        () -> fabAndLabel.setVisibility(View.GONE),
                         300);
             }
             isFABOpen = false;
