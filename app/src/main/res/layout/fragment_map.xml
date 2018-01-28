@@ -165,7 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:layout_weight="1"
-            android:text="Add marker per GPS" />
+            android:text="@string/add_marker_per_gps" />
     </LinearLayout>
 
 </FrameLayout>

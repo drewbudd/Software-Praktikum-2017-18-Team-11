@@ -80,3 +80,8 @@ Die Benutzerverwaltung wurde vollständig implementiert, sodass die App untersch
 
 Testfälle sind unter doc/Testfälle.pdf zu finden
 [Testfälle](https://sopra.informatik.uni-stuttgart.de/sopra-ws1718/sopra-team-11/blob/master/doc/Testf%C3%A4lle.pdf)
+
+Begründung für die fehlende Testabdeckung:
+
+Bis zu diesem Sprint haben wir alle Critical Feature eingebaut, sodass sie funktionieren. Im nächsten Schritt 
+hätten wir den Code gerefactort, um mehr Geschäftslogik und GUI-Logik zu trennen, um eine höhere Testabdeckung erziehlen zu können.
