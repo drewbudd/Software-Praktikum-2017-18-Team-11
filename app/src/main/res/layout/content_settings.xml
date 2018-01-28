@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="de.uni_stuttgart.informatik.sopra.sopraapp.view.map.MapSettings"
+    tools:showIn="@layout/activity_map_settings"
+    android:orientation="vertical">
+
+    <Spinner
+        android:id="@+id/changeLang"
+        android:entries="@array/languages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Spinner>
+
+    <Button
+        android:text="Logout"
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
