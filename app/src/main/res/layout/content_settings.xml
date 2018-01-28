@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"></Spinner>
 
     <Button
-        android:text="Logout"
-        android:id="@+id/logout"
+        android:text="@string/logoutButton"
+        android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

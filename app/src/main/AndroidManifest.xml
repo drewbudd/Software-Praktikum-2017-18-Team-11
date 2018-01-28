@@ -63,7 +63,9 @@
             android:name=".view.DamageDetailActivity"
             android:label="@string/title_activity_damage_detail"
             android:theme="@style/AppTheme" />
-        <activity android:name=".view.map.MapSettings"></activity>
+        <activity
+            android:name=".view.map.MapSettings"
+            android:label="@string/title_activity_map_settings"></activity>
     </application>
 
 </manifest>

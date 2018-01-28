@@ -21,6 +21,7 @@
     <string name="saveUserButton">Save</string>
     <string name="registerUserButton">Register</string>
     <string name="loginButton">Login</string>
+    <string name="logoutButton">Logout</string>
 
     <!-- Strings related to tabs -->
     <string name="tab_fields">Fields</string>
@@ -63,6 +64,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_damage_detail">DamageDetailActivity</string>
     <string name="title_activity_map" translatable="false">MapActivity</string>
+    <string name="title_activity_map_settings" translatable="false">Settings</string>
 
     <!-- Strings related to status and notifications -->
     <string name="modeStatus">Offline</string>

@@ -30,6 +30,7 @@
     <string name="field_size">Größe</string>
     <string name="notify_add_marker">Eckpunkt hinzufügen</string>
     <string name="loginButton">EInloggen</string>
+    <string name="logoutButton">Ausloggen</string>
     <string name="registerUserButton">Anmelden</string>
     <string name="fab_add_field">Feld hinzufügen</string>
     <string name="fab_report_damage">Shaden melden</string>
