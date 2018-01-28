@@ -89,6 +89,7 @@ public class MapFragment extends Fragment implements
     private FloatingActionButton fieldsFAB;
     private FloatingActionButton damagesFAB;
     private FloatingActionButton settingsFAB;
+    private FloatingActionButton gpsFAB;
     private LinearLayout gpsFABLayout;
     private LinearLayout fieldsFABLayout;
     private LinearLayout damagesFABLayout;
@@ -195,7 +196,6 @@ public class MapFragment extends Fragment implements
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
         defineMenuButtons();
-        final TextView fabGPSLabel = rootView.findViewById(R.id.gps_button_label);
         setUpListeners();
 
         mapLoadedStatus = (TextView)rootView.findViewById(R.id.mapStatus);
@@ -214,6 +214,7 @@ public class MapFragment extends Fragment implements
         fieldsFAB = rootView.findViewById(R.id.field_button);
         damagesFAB = rootView.findViewById(R.id.damages_button);
         settingsFAB = rootView.findViewById(R.id.settings_button);
+        gpsFAB = rootView.findViewById(R.id.fab_gps);
         fabsAndLabels.put(fieldsFABLayout, -getResources().getDimension(R.dimen.standard_55));
         fabsAndLabels.put(damagesFABLayout, -getResources().getDimension(R.dimen.standard_105));
         fabsAndLabels.put(settingsFABLayout, -getResources().getDimension(R.dimen.standard_155));
@@ -256,73 +257,54 @@ public class MapFragment extends Fragment implements
 
     private void setUpListeners() {
         // set method to control collapsing menu
-        menuFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeFABMenuState();
-            }
-        });
+        menuFAB.setOnClickListener(view -> changeFABMenuState());
 
         // set up fields fab
-        fieldsFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (currentMapEditingStatus) {
-                    case DEFAULT:
-                        createField();
-                        break;
-                    case START_CREATE_FIELD_COORDINATES:
-                        FragmentManager fm = getActivity().getFragmentManager();
-                        addFieldDialogFragment = AddFieldDialog.newInstance("Add Field", newMapObject.calculateArea());
-                        addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
-                        break;
-                }
+        fieldsFAB.setOnClickListener(v -> {
+            switch (currentMapEditingStatus) {
+                case DEFAULT:
+                    createField();
+                    break;
+                case START_CREATE_FIELD_COORDINATES:
+                    FragmentManager fm = getActivity().getFragmentManager();
+                    addFieldDialogFragment = AddFieldDialog.newInstance("Add Field", newMapObject.calculateArea());
+                    addFieldDialogFragment.show(fm, "dialog_fragment_add_field");
+                    break;
             }
         });
 
         // set up damages fab
-        damagesFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (currentMapEditingStatus) {
-                    case DEFAULT:
-                        createDamage();
-                        break;
-                    case START_CREATE_DAMAGE_COORDINATES:
-                        FragmentManager fm = getActivity().getFragmentManager();
-                        addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage", newMapObject.calculateArea());
-                        addDamageDialogFragment.show(fm, "dialog_fragment_add_field");
-                        break;
-                }
+        damagesFAB.setOnClickListener(view -> {
+            switch (currentMapEditingStatus) {
+                case DEFAULT:
+                    createDamage();
+                    break;
+                case START_CREATE_DAMAGE_COORDINATES:
+                    FragmentManager fm = getActivity().getFragmentManager();
+                    addDamageDialogFragment = AddDamageDialog.newInstance("Add Damage", newMapObject.calculateArea());
+                    addDamageDialogFragment.show(fm, "dialog_fragment_add_field");
+                    break;
             }
         });
 
         // set up settings fab
-        settingsFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(rootView, "Placeholder button, not yet implemented", Snackbar.LENGTH_SHORT).show();
-            }
-        });
+        settingsFAB.setOnClickListener(view -> Snackbar.make(rootView, "Placeholder button, not yet implemented", Snackbar.LENGTH_SHORT).show());
 
         // set up gps fab
-        gpsFABLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if ((Math.round(gpsLat) != 0 || Math.round(gpsLng) != 0)) {
-                    switch (currentMapEditingStatus) {
-                        case START_CREATE_FIELD_COORDINATES:
-                            addFieldCoordinate(new LatLng(gpsLat, gpsLng));
-                            break;
-                        case START_CREATE_DAMAGE_COORDINATES:
-                            addDamageCoordinate(new LatLng(gpsLat, gpsLng));
-                            break;
-                        default:
-                            break;
-                    }
-                } else {
-                    Snackbar.make(rootView, R.string.error_no_gps_connection, Snackbar.LENGTH_SHORT).show();
+        gpsFAB.setOnClickListener(view -> {
+            if ((Math.round(gpsLat) != 0 || Math.round(gpsLng) != 0)) {
+                switch (currentMapEditingStatus) {
+                    case START_CREATE_FIELD_COORDINATES:
+                        addFieldCoordinate(new LatLng(gpsLat, gpsLng));
+                        break;
+                    case START_CREATE_DAMAGE_COORDINATES:
+                        addDamageCoordinate(new LatLng(gpsLat, gpsLng));
+                        break;
+                    default:
+                        break;
                 }
+            } else {
+                Snackbar.make(rootView, R.string.error_no_gps_connection, Snackbar.LENGTH_SHORT).show();
             }
         });
     }
@@ -341,13 +323,11 @@ public class MapFragment extends Fragment implements
     private void releaseFocusFABLayout(LinearLayout fabLayout) {
         fabLayout.animate().translationY(fabsAndLabels.get(fabLayout)).setDuration(100);
         new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        menuFAB.setVisibility(View.VISIBLE);
-                        gpsFABLayout.setVisibility(View.GONE);
-                        for (LinearLayout fabAndLabel : fabsAndLabels.keySet()) {
-                            fabAndLabel.setVisibility(View.VISIBLE);
-                        }
+                () -> {
+                    menuFAB.setVisibility(View.VISIBLE);
+                    gpsFABLayout.setVisibility(View.GONE);
+                    for (LinearLayout fabAndLabel : fabsAndLabels.keySet()) {
+                        fabAndLabel.setVisibility(View.VISIBLE);
                     }
                 },
                 100);
@@ -465,20 +445,6 @@ public class MapFragment extends Fragment implements
         MapActivity.dataService.saveFields();
     }
 
-    private void hideAndDisableGPSButton(FloatingActionButton fabGPS, TextView fabGPSLabel) {
-        fabGPS.animate().alpha(0.0f).setDuration(100);
-        fabGPS.setEnabled(false);
-        fabGPSLabel.animate().alpha(0.0f).setDuration(100);
-    }
-
-    private void showAndEnableGPSButton(FloatingActionButton fabGPS, TextView fabGPSLabel) {
-        fabGPS.animate().alpha(1.0f).setDuration(100);
-        fabGPS.setEnabled(true);
-        fabGPSLabel.animate().alpha(1.0f).setDuration(100);
-    }
-
-
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -527,9 +493,6 @@ public class MapFragment extends Fragment implements
         }
     }
 
-    private void uploadMapForOfflineMode() {
-
-    }
 
     @Override
     public void onMapChanged(int change) {
@@ -567,11 +530,6 @@ public class MapFragment extends Fragment implements
 
     }
 
-
-    public void setFieldFromDamage(Field damage){
-        this.fieldFromDamage = damage;
-    }
-
     public void setNewMapObject(MapObject object){
         this.newMapObject = object;
     }
@@ -585,13 +543,15 @@ public class MapFragment extends Fragment implements
                 }
             }
         }
-        Snackbar.make(getView(), "Marker outside of a field", Snackbar.LENGTH_SHORT).show();
+
         if (fieldFromDamage == null) {
             Snackbar.make(getView(), R.string.notify_inside_of_field, Snackbar.LENGTH_SHORT).show();
         } else {
             if (fieldFromDamage.contains(point)) {
                 newMapObject.addMarker(point, currentMapEditingStatus);
                 newMapObject.drawMarker(point);
+            } else {
+                Snackbar.make(getView(), R.string.notify_same_field, Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -722,10 +682,10 @@ public class MapFragment extends Fragment implements
         String status = "";
         if (isConnected) {
             status = getResources().getString(R.string.onlineStatusText);
-            statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " " + status);
+            statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " : " + status);
         } else {
             status = getResources().getString(R.string.offlineStatusText);
-            statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " " + status);
+            statusText.setText(UserService.getInstance(LoginActivity.getCurrentContext()).getCurrentUser().getName() + " : " + status);
         }
 
         handleMapLoadedStatus();

@@ -167,6 +167,8 @@
     <string name="mapLoaded">mapLoaded!</string>
     <string name="mapLoadedOnline">you are online, will all be refreshed</string>
     <string name="mapNotRefresh">map Loaded, but doesnt refresh without internet</string>
+    <string name="notify_same_field">Marker must be in the same field</string>
+    <string name="add_marker_per_gps">Add marker per GPS</string>
 
 
 </resources>
