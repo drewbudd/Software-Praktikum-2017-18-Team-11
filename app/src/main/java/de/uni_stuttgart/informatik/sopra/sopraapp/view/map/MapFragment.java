@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -301,7 +302,8 @@ public class MapFragment extends Fragment implements
         settingsFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(rootView, "Placeholder button, not yet implemented", Snackbar.LENGTH_SHORT).show();
+                Intent settings = new Intent(view.getContext(), MapSettings.class);
+                startActivity(settings);
             }
         });
 
